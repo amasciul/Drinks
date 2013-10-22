@@ -1,17 +1,17 @@
-package fr.masciulli.drinks;
+package fr.masciulli.drinks.adapter;
 
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.model.Drink;
 
 public class DrinksListAdapter extends BaseAdapter {
     private List<Drink> mDrinks = new ArrayList();

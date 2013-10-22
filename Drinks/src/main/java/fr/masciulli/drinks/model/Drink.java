@@ -1,4 +1,4 @@
-package fr.masciulli.drinks;
+package fr.masciulli.drinks.model;
 
 /**
  * Created by Alexandre on 22/10/13.

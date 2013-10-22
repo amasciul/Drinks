@@ -1,4 +1,4 @@
-package fr.masciulli.drinks;
+package fr.masciulli.drinks.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import fr.masciulli.drinks.adapter.DrinksListAdapter;
+import fr.masciulli.drinks.R;
 
 public class DrinksFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ListView mListView;

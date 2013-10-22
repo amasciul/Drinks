@@ -1,4 +1,4 @@
-package fr.masciulli.drinks;
+package fr.masciulli.drinks.activity;
 
 import java.util.Locale;
 
@@ -10,6 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+
+import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.fragment.DrinksFragment;
+import fr.masciulli.drinks.fragment.IngredientsFragment;
 
 public class MainActivity extends FragmentActivity {
 
