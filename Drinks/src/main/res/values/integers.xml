@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="position_fragment_drinks">0</integer>
+    <integer name="position_fragment_ingredients">1</integer>
+</resources>
