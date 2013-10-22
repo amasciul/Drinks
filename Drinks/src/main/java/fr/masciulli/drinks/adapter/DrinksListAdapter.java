@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 
@@ -42,9 +43,14 @@ public class DrinksListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View root, ViewGroup parent) {
-        root = LayoutInflater.from(mContext).inflate(R.layout.item_drink, parent, false);
 
-        ((TextView) root.findViewById(R.id.name)).setText(getItem(i).getName());
+        if (root == null) {
+            root = LayoutInflater.from(mContext).inflate(R.layout.item_drink, parent, false);
+        }
+
+        final TextView nameView = Holder.get(root, R.id.name);
+
+        nameView.setText(getItem(i).getName());
 
         return root;
     }
