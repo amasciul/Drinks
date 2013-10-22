@@ -14,7 +14,7 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 
 public class DrinksListAdapter extends BaseAdapter {
-    private List<Drink> mDrinks = new ArrayList();
+    private List<Drink> mDrinks = new ArrayList<Drink>();
     private Context mContext;
 
 
