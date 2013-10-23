@@ -1,8 +1,10 @@
-package fr.masciulli.drinks;
+package fr.masciulli.drinks.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import fr.masciulli.drinks.R;
 
 public class DrinkView extends ImageView {
     public DrinkView(Context context) {
