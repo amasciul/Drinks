@@ -1,6 +1,7 @@
 package fr.masciulli.drinks.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,9 @@ public class DrinksListAdapter extends BaseAdapter {
     public DrinksListAdapter(Context context) {
         mContext = context;
         for (int i = 0; i < 100; i++) {
-            mDrinks.add(new Drink("Amaretto Frost", "http://thumbs.ifood.tv/files/images/amaretto%202.jpg"));
+            mDrinks.add(new Drink("Amaretto Frost", "http://www.smallscreennetwork.com/videos/cocktail_spirit/morgenthaler-method-amaretto-sour.jpg"));
+            mDrinks.add(new Drink("Americano", "http://www.ganzomag.com/wp-content/uploads/2012/05/americano-cocktail1.jpg"));
+            mDrinks.add(new Drink("Tom Collins", "http://www.theginblog.co.uk/home/wp-content/uploads/tom-collins-drink.jpg"));
         }
     }
 
@@ -51,12 +54,10 @@ public class DrinksListAdapter extends BaseAdapter {
             root = LayoutInflater.from(mContext).inflate(R.layout.item_drink, parent, false);
         }
 
-        final TextView nameView = Holder.get(root, R.id.name);
         final ImageView imageView = Holder.get(root, R.id.image);
 
         final Drink drink = getItem(i);
 
-        nameView.setText(drink.getName());
         Picasso.with(mContext).load(drink.getImageURL()).into(imageView);
 
         return root;
