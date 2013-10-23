@@ -55,9 +55,11 @@ public class DrinksListAdapter extends BaseAdapter {
         }
 
         final ImageView imageView = Holder.get(root, R.id.image);
+        final TextView nameView = Holder.get(root, R.id.name);
 
         final Drink drink = getItem(i);
 
+        nameView.setText(drink.getName());
         Picasso.with(mContext).load(drink.getImageURL()).into(imageView);
 
         return root;
