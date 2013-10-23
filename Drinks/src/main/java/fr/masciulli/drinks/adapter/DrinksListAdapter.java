@@ -29,6 +29,8 @@ public class DrinksListAdapter extends BaseAdapter {
             mDrinks.add(new Drink("Amaretto Frost", "http://www.smallscreennetwork.com/videos/cocktail_spirit/morgenthaler-method-amaretto-sour.jpg"));
             mDrinks.add(new Drink("Americano", "http://www.ganzomag.com/wp-content/uploads/2012/05/americano-cocktail1.jpg"));
             mDrinks.add(new Drink("Tom Collins", "http://www.theginblog.co.uk/home/wp-content/uploads/tom-collins-drink.jpg"));
+            mDrinks.add(new Drink("Mojito", "http://2eat2drink.files.wordpress.com/2011/04/mojito-final2.jpg"));
+            mDrinks.add(new Drink("Dry Martini", "http://www.cocktailrendezvous.com/images.php?f=files/recipes/images/martini.jpg&w=616&h=347&c=1"));
         }
     }
 
