@@ -1,13 +1,12 @@
 package fr.masciulli.drinks.model;
 
-/**
- * Created by Alexandre on 22/10/13.
- */
 public class Drink {
     private String mName;
+    private String mImageURL;
 
-    public Drink(String name) {
+    public Drink(String name, String imageURL) {
         mName = name;
+        mImageURL = imageURL;
     }
 
     public String getName() {
@@ -16,5 +15,13 @@ public class Drink {
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public String getImageURL() {
+        return mImageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        mImageURL = imageURL;
     }
 }

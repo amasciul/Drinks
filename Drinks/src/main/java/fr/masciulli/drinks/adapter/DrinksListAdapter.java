@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 
+import com.squareup.picasso.Picasso;
+
 public class DrinksListAdapter extends BaseAdapter {
     private List<Drink> mDrinks = new ArrayList<Drink>();
     private Context mContext;
@@ -22,7 +25,7 @@ public class DrinksListAdapter extends BaseAdapter {
     public DrinksListAdapter(Context context) {
         mContext = context;
         for (int i = 0; i < 100; i++) {
-            mDrinks.add(new Drink("Amaretto Frost"));
+            mDrinks.add(new Drink("Amaretto Frost", "http://thumbs.ifood.tv/files/images/amaretto%202.jpg"));
         }
     }
 
@@ -49,8 +52,12 @@ public class DrinksListAdapter extends BaseAdapter {
         }
 
         final TextView nameView = Holder.get(root, R.id.name);
+        final ImageView imageView = Holder.get(root, R.id.image);
 
-        nameView.setText(getItem(i).getName());
+        final Drink drink = getItem(i);
+
+        nameView.setText(drink.getName());
+        Picasso.with(mContext).load(drink.getImageURL()).into(imageView);
 
         return root;
     }
