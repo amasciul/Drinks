@@ -15,6 +15,6 @@ public class DrinkView extends ImageView {
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), getResources().getInteger(R.integer.drink_image_height));
+        setMeasuredDimension(getMeasuredWidth(), getResources().getDimensionPixelSize(R.dimen.drink_image_height));
     }
 }
