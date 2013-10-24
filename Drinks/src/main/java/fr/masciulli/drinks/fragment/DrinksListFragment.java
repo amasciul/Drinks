@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import fr.masciulli.drinks.activity.DrinkActivity;
+import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.R;
 
-public class DrinksFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ListView mListView;
     private DrinksListAdapter mListAdapter;
 
@@ -31,7 +31,7 @@ public class DrinksFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(getActivity(), DrinkActivity.class);
+        Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
         intent.putExtra("drink_name", mListAdapter.getItem(i).getName());
         startActivity(intent);
     }

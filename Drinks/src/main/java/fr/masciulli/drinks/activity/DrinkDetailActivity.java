@@ -6,12 +6,10 @@ import android.widget.TextView;
 
 import fr.masciulli.drinks.R;
 
-public class DrinkActivity extends Activity {
+public class DrinkDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink);
-
-        ((TextView)findViewById(R.id.name)).setText(getIntent().getStringExtra("drink_name"));
     }
 }

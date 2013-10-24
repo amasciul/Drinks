@@ -12,7 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.fragment.DrinksFragment;
+import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.IngredientsFragment;
 
 public class MainActivity extends FragmentActivity {
@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity {
             final int ingredients = getResources().getInteger(R.integer.position_fragment_ingredients);
 
             if (position == drinks) {
-                return new DrinksFragment();
+                return new DrinksListFragment();
             } else if (position == ingredients) {
                 return new IngredientsFragment();
             }
