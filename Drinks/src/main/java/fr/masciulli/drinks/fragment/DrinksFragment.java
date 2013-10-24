@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import fr.masciulli.drinks.activity.DrinkActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.R;
 
@@ -29,6 +31,8 @@ public class DrinksFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        Intent intent = new Intent(getActivity(), DrinkActivity.class);
+        intent.putExtra("drink_name", mListAdapter.getItem(i).getName());
+        startActivity(intent);
     }
 }
