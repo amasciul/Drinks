@@ -12,6 +12,7 @@ import android.widget.ListView;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.model.Drink;
 
 public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ListView mListView;
@@ -31,8 +32,11 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Drink drink = mListAdapter.getItem(i);
+
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
-        intent.putExtra("drink_name", mListAdapter.getItem(i).getName());
+        intent.putExtra("drink_name", drink.getName());
+        intent.putExtra("drink_imageurl", drink.getImageURL());
         startActivity(intent);
     }
 }
