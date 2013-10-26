@@ -17,17 +17,10 @@
         android:textSize="28sp"
         android:fontFamily="sans-serif-light"/>
 
-    <ScrollView
+    <ListView
         android:layout_below="@id/name"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:id="@+id/scroll">
-
-        <TextView
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:id="@+id/text"
-            />
-    </ScrollView>
+        android:id="@+id/list" />
 
 </RelativeLayout>
