@@ -17,7 +17,7 @@
         android:layout_margin="1dp"
         android:layout_alignRight="@+id/image"
         android:layout_alignBottom="@+id/image"
-        android:textSize="28dp"
+        android:textSize="28sp"
         android:fontFamily="sans-serif-light"
         />
 </RelativeLayout>
