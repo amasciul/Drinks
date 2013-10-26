@@ -3,25 +3,25 @@ package fr.masciulli.drinks.fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.view.ObservableScrollView;
+import fr.masciulli.drinks.view.ScrollViewListener;
 
-public class DrinkDetailFragment extends Fragment implements AbsListView.OnScrollListener {
+public class DrinkDetailFragment extends Fragment implements ScrollViewListener {
 
     private ImageView mImageView;
     private TextView mRecipeView;
     private TextView mNameView;
-    private ListView mListView;
+    private ObservableScrollView mScrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class DrinkDetailFragment extends Fragment implements AbsListView.OnScrol
 
         mNameView = (TextView)root.findViewById(R.id.name);
         mImageView = (ImageView)root.findViewById(R.id.image);
-        mRecipeView = (TextView)inflater.inflate(R.layout.recipe, null);
-        mListView = (ListView)root.findViewById(R.id.list);
+        mRecipeView = (TextView)root.findViewById(R.id.recipe);
+        mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
 
         Intent intent = getActivity().getIntent();
         String name = intent.getStringExtra("drink_name");
@@ -42,26 +42,15 @@ public class DrinkDetailFragment extends Fragment implements AbsListView.OnScrol
             mRecipeView.setText(mRecipeView.getText() + getResources().getString(R.string.loremipsum) + "\n\n");
         }
 
-        mListView.addHeaderView(mRecipeView);
+        mScrollView.setScrollViewListener(this);
 
-        String[] names = new String[] { "Amaretto" };
-
-        // WARNING : always call setAdapter after addHeaderView
-        mListView.setAdapter(new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_single_choice,
-                android.R.id.text1, names));
-        mListView.setOnScrollListener(this);
 
         return root;
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        mImageView.setTop((0-y)/2);
     }
 
-    @Override
-    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        mImageView.setTop(mRecipeView.getTop()/2);
-    }
 }
