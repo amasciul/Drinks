@@ -21,6 +21,7 @@ public class DrinkDetailFragment extends Fragment {
 
         TextView nameView = (TextView)root.findViewById(R.id.name);
         ImageView imageView = (ImageView)root.findViewById(R.id.image);
+        TextView textView = (TextView)root.findViewById(R.id.text);
 
         Intent intent = getActivity().getIntent();
         String name = intent.getStringExtra("drink_name");
@@ -28,6 +29,10 @@ public class DrinkDetailFragment extends Fragment {
 
         nameView.setText(name);
         Picasso.with(getActivity()).load(imageUrl).into(imageView);
+        for (int i=0; i< 10; i++) {
+            textView.setText(textView.getText() + getResources().getString(R.string.loremipsum) + "\n\n");
+        }
+
         return root;
     }
 }
