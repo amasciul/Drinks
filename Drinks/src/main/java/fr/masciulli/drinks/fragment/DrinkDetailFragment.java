@@ -29,7 +29,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
         mNameView = (TextView)root.findViewById(R.id.name);
         mImageView = (ImageView)root.findViewById(R.id.image);
-        mRecipeView = (TextView)root.findViewById(R.id.recipe);
+        mRecipeView = (TextView)root.findViewById(R.id.history);
         mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
 
         Intent intent = getActivity().getIntent();

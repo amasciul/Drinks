@@ -25,13 +25,26 @@
 
         <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_marginTop="@dimen/drink_detail_recipe_margin"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:id="@+id/recipe" />
+                android:id="@+id/history" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/ingredients" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/instructions" />
 
         </LinearLayout>
 
