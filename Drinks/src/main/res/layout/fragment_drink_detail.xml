@@ -24,6 +24,7 @@
         android:id="@+id/scroll" >
 
         <TextView
+            android:layout_marginTop="@dimen/drink_detail_recipe_margin"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/recipe"/>
