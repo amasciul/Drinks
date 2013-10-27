@@ -7,8 +7,8 @@ public class Drink {
     private String mName;
     private String mImageURL;
     private String mHistory;
+    private String mInstructions;
     private List<String> mIngredients = new LinkedList<String>();
-    private List<String> mInstructions = new LinkedList<String>();
 
     public Drink(String name, String imageURL) {
         mName = name;
@@ -47,11 +47,11 @@ public class Drink {
         return mIngredients;
     }
 
-    public void addIntruction(String instruction) {
-        mInstructions.add(instruction);
+    public void setIntructions(String instruction) {
+        mInstructions = instruction;
     }
 
-    public List<String> getInstructions() {
+    public String getInstructions() {
         return mInstructions;
     }
 }
