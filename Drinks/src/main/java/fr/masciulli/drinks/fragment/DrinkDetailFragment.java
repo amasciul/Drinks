@@ -3,11 +3,11 @@ package fr.masciulli.drinks.fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -23,7 +23,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private TextView mHistoryView;
     private TextView mNameView;
     private ObservableScrollView mScrollView;
-    private LinearLayout mIngredientsLayout;
+    private TextView mIngredientsView;
     private TextView mInstructionsView;
 
     @Override
@@ -33,7 +33,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         mNameView = (TextView)root.findViewById(R.id.name);
         mImageView = (ImageView)root.findViewById(R.id.image);
         mHistoryView = (TextView)root.findViewById(R.id.history);
-        mIngredientsLayout = (LinearLayout)root.findViewById(R.id.ingredients);
+        mIngredientsView = (TextView)root.findViewById(R.id.ingredients);
         mInstructionsView = (TextView)root.findViewById(R.id.instructions);
         mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
 
@@ -50,14 +50,22 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         mojito.addIngredient("Soda water");
         mojito.setIntructions("Mint sprigs muddled with sugar and lime juice. Rum added and topped with soda water. Garnished with sprig of mint leaves. Served with a straw.");
 
+        getActivity().setTitle(mojito.getName());
 
         mNameView.setText(name);
         mHistoryView.setText(mojito.getHistory());
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
+        String htmlString = "";
+        int i = 0;
         for (String ingredient : mojito.getIngredients()) {
-            //TODO inflate TextView for each ingredient
+            if (++i == mojito.getIngredients().size()) {
+                htmlString += "&#8226; " + ingredient;
+            } else {
+                htmlString += "&#8226; " + ingredient + "<br>";
+            }
         }
+        mIngredientsView.setText(Html.fromHtml(htmlString));
 
         mInstructionsView.setText(mojito.getInstructions());
 

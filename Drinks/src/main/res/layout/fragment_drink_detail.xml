@@ -36,11 +36,11 @@
                 android:id="@+id/history"
                 android:textSize="18sp" />
 
-            <LinearLayout
-                android:orientation="vertical"
+            <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/ingredients" />
+                android:id="@+id/ingredients"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_height="wrap_content"
