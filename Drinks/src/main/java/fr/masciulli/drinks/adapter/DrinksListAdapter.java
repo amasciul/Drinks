@@ -14,23 +14,20 @@ import java.util.List;
 
 import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.data.DrinksListProvider;
 import fr.masciulli.drinks.model.Drink;
 
 import com.squareup.picasso.Picasso;
 
 public class DrinksListAdapter extends BaseAdapter {
-    private List<Drink> mDrinks = new ArrayList<Drink>();
+    private List<Drink> mDrinks;
     private Context mContext;
 
 
     public DrinksListAdapter(Context context) {
         mContext = context;
         for (int i = 0; i < 100; i++) {
-            mDrinks.add(new Drink("Amaretto Frost", "http://www.smallscreennetwork.com/videos/cocktail_spirit/morgenthaler-method-amaretto-sour.jpg"));
-            mDrinks.add(new Drink("Americano", "http://www.ganzomag.com/wp-content/uploads/2012/05/americano-cocktail1.jpg"));
-            mDrinks.add(new Drink("Tom Collins", "http://www.vinumimporting.com/wp-content/uploads/2012/06/tom-collins.jpg"));
-            mDrinks.add(new Drink("Mojito", "http://2eat2drink.files.wordpress.com/2011/04/mojito-final2.jpg"));
-            mDrinks.add(new Drink("Dry Martini", "http://www.cocktailrendezvous.com/images.php?f=files/recipes/images/martini.jpg&w=616&h=347&c=1"));
+            mDrinks = DrinksListProvider.getDrinks();
         }
     }
 
