@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <fr.masciulli.drinks.view.TopCenterImageView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/image"
-        android:scaleType="centerCrop"/>
+        />
 
     <fr.masciulli.drinks.view.ObservableScrollView
         android:layout_height="match_parent"
