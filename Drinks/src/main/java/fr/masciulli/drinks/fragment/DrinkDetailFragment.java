@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.data.DrinkProvider;
 import fr.masciulli.drinks.model.DrinkDetailItem;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
@@ -38,17 +40,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         Intent intent = getActivity().getIntent();
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
+        String id = intent.getStringExtra("drink_id");
 
         //TODO retrieve drink from provider with given name
-        DrinkDetailItem mojito = new DrinkDetailItem();
-        mojito.setName("Mojito");
-        mojito.setImageURL("http://2eat2drink.files.wordpress.com/2011/04/mojito-final2.jpg");
-        mojito.setHistory("The mojito is one of the most famous rum-based highballs. There are several versions of the mojito.");
-        mojito.addIngredient("3 cl lime juice");
-        mojito.addIngredient("6 leaves  of mint");
-        mojito.addIngredient("2 teaspoons sugar");
-        mojito.addIngredient("Soda water");
-        mojito.setIntructions("Mint sprigs muddled with sugar and lime juice. Rum added and topped with soda water. Garnished with sprig of mint leaves. Served with a straw.");
+        DrinkDetailItem mojito = DrinkProvider.getDrink(id);
+        Toast.makeText(getActivity(), "Retrieving drink with id : " + id, Toast.LENGTH_LONG).show();
 
         getActivity().setTitle(mojito.getName());
         mHistoryView.setText(mojito.getHistory());

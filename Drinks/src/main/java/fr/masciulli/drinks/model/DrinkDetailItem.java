@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DrinkDetailItem {
+    private String mId;
     private String mName;
     private String mImageURL;
     private String mHistory;
@@ -51,5 +52,13 @@ public class DrinkDetailItem {
 
     public String getInstructions() {
         return mInstructions;
+    }
+
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String id) {
+        mId = id;
     }
 }
