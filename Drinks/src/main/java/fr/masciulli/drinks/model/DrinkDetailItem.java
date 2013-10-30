@@ -3,14 +3,14 @@ package fr.masciulli.drinks.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DrinksDetailItem {
+public class DrinkDetailItem {
     private String mName;
     private String mImageURL;
     private String mHistory;
     private String mInstructions;
     private List<String> mIngredients = new LinkedList<String>();
 
-    public DrinksDetailItem() {
+    public DrinkDetailItem() {
     }
 
     public String getName() {
