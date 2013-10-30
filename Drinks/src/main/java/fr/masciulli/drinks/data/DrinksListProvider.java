@@ -30,11 +30,16 @@ public class DrinksListProvider {
         dryMartini.setName("Dry Martini");
         dryMartini.setImageURL("http://www.cocktailrendezvous.com/images.php?f=files/recipes/images/martini.jpg&w=616&h=347&c=1");
 
+        DrinksListItem blueLagoon = new DrinksListItem();
+        blueLagoon.setName("Blue Lagoon");
+        blueLagoon.setImageURL("http://www.youman.dp.ua/images/stories/Nastmygchina/gurman/cocktails/laguna/Blue_Lagoon_Cocktail_Photo.gif");
+
         drinks.add(amarettoFrost);
         drinks.add(americano);
         drinks.add(tomCollins);
         drinks.add(mojito);
         drinks.add(dryMartini);
+        drinks.add(blueLagoon);
 
         return drinks;
     }
