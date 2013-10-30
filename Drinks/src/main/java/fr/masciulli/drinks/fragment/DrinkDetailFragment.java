@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.model.DrinksDetailItem;
+import fr.masciulli.drinks.model.DrinksListItem;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
 
@@ -40,7 +41,9 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
         //TODO retrieve drink from provider with given name
-        Drink mojito = new Drink("Mojito", "http://2eat2drink.files.wordpress.com/2011/04/mojito-final2.jpg");
+        DrinksDetailItem mojito = new DrinksDetailItem();
+        mojito.setName("Mojito");
+        mojito.setImageURL("http://2eat2drink.files.wordpress.com/2011/04/mojito-final2.jpg");
         mojito.setHistory("The mojito is one of the most famous rum-based highballs. There are several versions of the mojito.");
         mojito.addIngredient("3 cl lime juice");
         mojito.addIngredient("6 leaves  of mint");
