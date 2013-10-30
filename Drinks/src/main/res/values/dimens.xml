@@ -3,5 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="drink_image_height">200dp</dimen>
-    <dimen name="drink_detail_recipe_margin">400dp</dimen>
+    <dimen name="drink_detail_recipe_margin">300dp</dimen>
 </resources>

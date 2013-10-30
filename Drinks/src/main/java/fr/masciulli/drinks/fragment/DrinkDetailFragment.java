@@ -21,7 +21,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
     private ImageView mImageView;
     private TextView mHistoryView;
-    private TextView mNameView;
     private ObservableScrollView mScrollView;
     private TextView mIngredientsView;
     private TextView mInstructionsView;
@@ -30,7 +29,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
 
-        mNameView = (TextView)root.findViewById(R.id.name);
         mImageView = (ImageView)root.findViewById(R.id.image);
         mHistoryView = (TextView)root.findViewById(R.id.history);
         mIngredientsView = (TextView)root.findViewById(R.id.ingredients);
@@ -51,8 +49,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         mojito.setIntructions("Mint sprigs muddled with sugar and lime juice. Rum added and topped with soda water. Garnished with sprig of mint leaves. Served with a straw.");
 
         getActivity().setTitle(mojito.getName());
-
-        mNameView.setText(name);
         mHistoryView.setText(mojito.getHistory());
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
