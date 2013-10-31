@@ -1,6 +1,7 @@
 package fr.masciulli.drinks.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.List;
 
 import fr.masciulli.drinks.Holder;
@@ -24,8 +26,10 @@ public class DrinksListAdapter extends BaseAdapter {
 
     public DrinksListAdapter(Context context) {
         mContext = context;
-        for (int i = 0; i < 100; i++) {
+        try {
             mDrinks = DrinksListProvider.getDrinks();
+        } catch (IOException e) {
+            Log.e(getClass().getName(), "Drink list fetching has failed");
         }
     }
 
