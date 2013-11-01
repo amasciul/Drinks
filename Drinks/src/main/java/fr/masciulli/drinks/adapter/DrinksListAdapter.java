@@ -14,22 +14,17 @@ import java.util.List;
 
 import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.DrinksListItem;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 import com.squareup.picasso.Picasso;
 
-public class DrinksListAdapter extends BaseAdapter implements Callback<List<DrinksListItem>> {
+public class DrinksListAdapter extends BaseAdapter {
     private List<DrinksListItem> mDrinks = new ArrayList<DrinksListItem>();
     private Context mContext;
 
 
     public DrinksListAdapter(Context context) {
         mContext = context;
-        DrinksProvider.getDrinksList(this);
     }
 
     @Override
@@ -65,15 +60,8 @@ public class DrinksListAdapter extends BaseAdapter implements Callback<List<Drin
         return root;
     }
 
-    @Override
-    public void success(List<DrinksListItem> drinksListItems, Response response) {
-        Log.d(this.getClass().getName(), "Drinks list loading has succeeded");
-        mDrinks = drinksListItems;
+    public void update(List<DrinksListItem> drinks) {
+        mDrinks = drinks;
         notifyDataSetChanged();
-    }
-
-    @Override
-    public void failure(RetrofitError retrofitError) {
-        Log.e(this.getClass().getName(), "Drinks list loading has failed");
     }
 }

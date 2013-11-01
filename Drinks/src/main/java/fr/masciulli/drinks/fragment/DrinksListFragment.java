@@ -3,18 +3,25 @@ package fr.masciulli.drinks.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.List;
+
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.DrinksListItem;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
-public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<DrinksListItem>> {
     private ListView mListView;
     private DrinksListAdapter mListAdapter;
 
@@ -26,7 +33,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
         mListView.setOnItemClickListener(this);
         mListAdapter = new DrinksListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
-
+        DrinksProvider.getDrinksList(this);
         return root;
     }
 
@@ -39,5 +46,16 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
         intent.putExtra("drink_imageurl", drink.imageURL);
         intent.putExtra("drink_id", drink.id);
         startActivity(intent);
+    }
+
+    @Override
+    public void success(List<DrinksListItem> drinks, Response response) {
+        Log.d(this.getClass().getName(), "Drinks list loading has succeeded");
+        mListAdapter.update(drinks);
+    }
+
+    @Override
+    public void failure(RetrofitError retrofitError) {
+        Log.e(this.getClass().getName(), "Drinks list loading has failed");
     }
 }
