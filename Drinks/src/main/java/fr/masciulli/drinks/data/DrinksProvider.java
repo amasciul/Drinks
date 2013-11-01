@@ -14,7 +14,7 @@ public class DrinksProvider {
             .build();
     private static DrinksService mService = mRestAdapter.create(DrinksService.class);
 
-    public static void getDrinks(Callback<List<DrinksListItem>> callback) {
+    public static void getDrinksList(Callback<List<DrinksListItem>> callback) {
         mService.listDrinks(callback);
     }
 

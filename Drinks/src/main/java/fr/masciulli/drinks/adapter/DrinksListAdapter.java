@@ -29,7 +29,7 @@ public class DrinksListAdapter extends BaseAdapter implements Callback<List<Drin
 
     public DrinksListAdapter(Context context) {
         mContext = context;
-        DrinksProvider.getDrinks(this);
+        DrinksProvider.getDrinksList(this);
     }
 
     @Override
