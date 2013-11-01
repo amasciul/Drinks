@@ -9,28 +9,27 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksListProvider;
 import fr.masciulli.drinks.model.DrinksListItem;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import com.squareup.picasso.Picasso;
 
-public class DrinksListAdapter extends BaseAdapter {
-    private List<DrinksListItem> mDrinks;
+public class DrinksListAdapter extends BaseAdapter implements Callback<List<DrinksListItem>> {
+    private List<DrinksListItem> mDrinks = new ArrayList<DrinksListItem>();
     private Context mContext;
 
 
     public DrinksListAdapter(Context context) {
         mContext = context;
-        try {
-            mDrinks = DrinksListProvider.getDrinks();
-        } catch (IOException e) {
-            Log.e(getClass().getName(), "Drink list fetching has failed");
-        }
+        DrinksListProvider.getDrinks(this);
     }
 
     @Override
@@ -64,5 +63,17 @@ public class DrinksListAdapter extends BaseAdapter {
         Picasso.with(mContext).load(drink.getImageURL()).into(imageView);
 
         return root;
+    }
+
+    @Override
+    public void success(List<DrinksListItem> drinksListItems, Response response) {
+        Log.d(this.getClass().getName(), "Drinks list loading has succeeded");
+        mDrinks = drinksListItems;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void failure(RetrofitError retrofitError) {
+        Log.e(this.getClass().getName(), "Drinks list loading has failed");
     }
 }

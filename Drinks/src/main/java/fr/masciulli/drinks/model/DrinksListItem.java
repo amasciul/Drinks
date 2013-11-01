@@ -1,34 +1,35 @@
 package fr.masciulli.drinks.model;
 
 public class DrinksListItem {
-    private String mId;
-    private String mName;
-    private String mImageURL;
+    public String id;
+    public String name;
+    public String imageURL;
 
     public DrinksListItem() {
     }
 
+    // TODO remove getters/setters (fields are now public because of Retrofit)
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        mName = name;
+        this.name = name;
     }
 
     public String getImageURL() {
-        return mImageURL;
+        return imageURL;
     }
 
     public void setImageURL(String imageURL) {
-        mImageURL = imageURL;
+        this.imageURL = imageURL;
     }
 
     public String getId() {
-        return mId;
+        return id;
     }
 
     public void setId(String id) {
-        mId = id;
+        this.id = id;
     }
 }
