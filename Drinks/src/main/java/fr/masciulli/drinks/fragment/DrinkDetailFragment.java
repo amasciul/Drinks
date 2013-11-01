@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.data.DrinkProvider;
+import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.DrinkDetailItem;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
@@ -43,7 +43,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         String id = intent.getStringExtra("drink_id");
 
         //TODO retrieve drink from provider with given name
-        DrinkDetailItem mojito = DrinkProvider.getDrink(id);
+        DrinkDetailItem mojito = DrinksProvider.getDrink(id);
         Toast.makeText(getActivity(), "Retrieving drink with id : " + id, Toast.LENGTH_LONG).show();
 
         getActivity().setTitle(mojito.getName());
