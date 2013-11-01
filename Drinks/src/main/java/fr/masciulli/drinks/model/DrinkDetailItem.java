@@ -4,61 +4,63 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DrinkDetailItem {
-    private String mId;
-    private String mName;
-    private String mImageURL;
-    private String mHistory;
-    private String mInstructions;
-    private List<String> mIngredients = new LinkedList<String>();
+    public String id;
+    public String name;
+    public String imageURL;
+    public String history;
+    public String instructions;
+    public List<String> ingredients = new LinkedList<String>();
 
     public DrinkDetailItem() {
     }
 
+    //TODO remove getters and setters
+
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        mName = name;
+        this.name = name;
     }
 
     public String getImageURL() {
-        return mImageURL;
+        return imageURL;
     }
 
     public void setImageURL(String imageURL) {
-        mImageURL = imageURL;
+        this.imageURL = imageURL;
     }
 
     public String getHistory() {
-        return mHistory;
+        return history;
     }
 
     public void setHistory(String history) {
-        mHistory = history;
+        this.history = history;
     }
 
     public void addIngredient(String ingredient) {
-        mIngredients.add(ingredient);
+        ingredients.add(ingredient);
     }
 
     public List<String> getIngredients() {
-        return mIngredients;
+        return ingredients;
     }
 
     public void setIntructions(String instruction) {
-        mInstructions = instruction;
+        instructions = instruction;
     }
 
     public String getInstructions() {
-        return mInstructions;
+        return instructions;
     }
 
-    public String getmId() {
-        return mId;
+    public String getId() {
+        return id;
     }
 
-    public void setmId(String id) {
-        mId = id;
+    public void setId(String id) {
+        this.id = id;
     }
 }
