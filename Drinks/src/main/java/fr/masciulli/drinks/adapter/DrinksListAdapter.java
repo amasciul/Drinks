@@ -14,7 +14,7 @@ import java.util.List;
 
 import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.data.DrinksListProvider;
+import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.DrinksListItem;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -29,7 +29,7 @@ public class DrinksListAdapter extends BaseAdapter implements Callback<List<Drin
 
     public DrinksListAdapter(Context context) {
         mContext = context;
-        DrinksListProvider.getDrinks(this);
+        DrinksProvider.getDrinks(this);
     }
 
     @Override
@@ -59,8 +59,8 @@ public class DrinksListAdapter extends BaseAdapter implements Callback<List<Drin
 
         final DrinksListItem drink = getItem(i);
 
-        nameView.setText(drink.getName());
-        Picasso.with(mContext).load(drink.getImageURL()).into(imageView);
+        nameView.setText(drink.name);
+        Picasso.with(mContext).load(drink.imageURL).into(imageView);
 
         return root;
     }

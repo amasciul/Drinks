@@ -35,9 +35,9 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
         DrinksListItem drink = mListAdapter.getItem(i);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
-        intent.putExtra("drink_name", drink.getName());
-        intent.putExtra("drink_imageurl", drink.getImageURL());
-        intent.putExtra("drink_id", drink.getId());
+        intent.putExtra("drink_name", drink.name);
+        intent.putExtra("drink_imageurl", drink.imageURL);
+        intent.putExtra("drink_id", drink.id);
         startActivity(intent);
     }
 }

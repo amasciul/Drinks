@@ -6,7 +6,7 @@ import java.util.List;
 import fr.masciulli.drinks.model.DrinksListItem;
 import retrofit.Callback;
 import retrofit.RestAdapter;
-public class DrinksListProvider {
+public class DrinksProvider {
 
     private static RestAdapter mRestAdapter = new RestAdapter.Builder()
             .setServer("http://masciulli.fr/drinks")
