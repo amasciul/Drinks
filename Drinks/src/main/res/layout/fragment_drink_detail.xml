@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <fr.masciulli.drinks.view.TopCenterImageView
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/drink_detail_recipe_margin"
         android:layout_width="match_parent"
         android:id="@+id/image"
         />
