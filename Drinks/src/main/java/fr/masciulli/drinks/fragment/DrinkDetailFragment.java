@@ -29,6 +29,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private ObservableScrollView mScrollView;
     private TextView mIngredientsView;
     private TextView mInstructionsView;
+    private int mImageViewHeight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
+        mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
 
         return root;
@@ -57,6 +59,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         mImageView.setTop((0-y)/2);
+        mImageView.setBottom(mImageViewHeight-y);
     }
 
     @Override
