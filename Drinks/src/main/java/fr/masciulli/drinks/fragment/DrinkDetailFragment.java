@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -29,6 +30,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private ObservableScrollView mScrollView;
     private TextView mIngredientsView;
     private TextView mInstructionsView;
+    private ProgressBar mProgressBar;
+
     private int mImageViewHeight;
 
     @Override
@@ -40,6 +43,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mIngredientsView = (TextView)root.findViewById(R.id.ingredients);
         mInstructionsView = (TextView)root.findViewById(R.id.instructions);
         mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
+        mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
 
         Intent intent = getActivity().getIntent();
         String name = intent.getStringExtra("drink_name");
@@ -59,12 +63,14 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         mImageView.setTop((0-y)/2);
-        mImageView.setBottom(mImageViewHeight-y);
+        mImageView.setBottom(mImageViewHeight - y);
     }
 
     @Override
     public void success(DrinkDetailItem drink, Response response) {
         Log.d(this.getClass().getName(), "Drink detail loading has succeeded");
+
+        mProgressBar.setVisibility(View.GONE);
         mScrollView.setVisibility(View.VISIBLE);
 
         getActivity().setTitle(drink.getName());
