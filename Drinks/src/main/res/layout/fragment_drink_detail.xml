@@ -13,7 +13,8 @@
     <fr.masciulli.drinks.view.ObservableScrollView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:id="@+id/scroll" >
+        android:id="@+id/scroll"
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_height="wrap_content"

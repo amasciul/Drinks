@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -47,7 +46,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         String id = intent.getStringExtra("drink_id");
 
         DrinksProvider.getDrink(id, this);
-        Toast.makeText(getActivity(), "Retrieving drink with id : " + id, Toast.LENGTH_LONG).show();
 
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
@@ -64,6 +62,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     @Override
     public void success(DrinkDetailItem drink, Response response) {
         Log.d(this.getClass().getName(), "Drink detail loading has succeeded");
+        mScrollView.setVisibility(View.VISIBLE);
 
         getActivity().setTitle(drink.getName());
         Picasso.with(getActivity()).load(drink.getImageURL()).into(mImageView);
