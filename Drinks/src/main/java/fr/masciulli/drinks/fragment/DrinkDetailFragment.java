@@ -93,7 +93,14 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     }
 
     @Override
-    public void failure(RetrofitError retrofitError) {
-        Log.e(this.getClass().getName(), "Drink detail loading has failed");
+    public void failure(RetrofitError error) {
+        Response resp = error.getResponse();
+        String message;
+        if(resp != null) {
+            message = "response status : " + resp.getStatus();
+        } else {
+            message = "no response";
+        }
+        Log.e(this.getClass().getName(), "Drink detail loading has failed : " + message);
     }
 }
