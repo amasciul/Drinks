@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -94,6 +95,10 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void failure(RetrofitError error) {
+        mProgressBar.setVisibility(View.GONE);
+        //TODO replace ugly Toast by proper user feedback
+        Toast.makeText(getActivity(), "Error during loading", Toast.LENGTH_SHORT).show();
+        
         Response resp = error.getResponse();
         String message;
         if(resp != null) {
