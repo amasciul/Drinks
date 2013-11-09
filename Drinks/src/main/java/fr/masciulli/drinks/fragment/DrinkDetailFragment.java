@@ -19,6 +19,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.DrinkDetailItem;
+import fr.masciulli.drinks.util.ConnectionUtils;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
 import retrofit.Callback;
@@ -52,7 +53,13 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         String imageUrl = intent.getStringExtra("drink_imageurl");
         String id = intent.getStringExtra("drink_id");
 
-        DrinksProvider.getDrink(id, this);
+        if (ConnectionUtils.isOnline(getActivity())) {
+            DrinksProvider.getDrink(id, this);
+        } else {
+            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
+        }
+
+
 
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
@@ -96,7 +103,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void failure(RetrofitError error) {
-        Crouton.makeText(getActivity(), "Error during loading", Style.ALERT).show();
+        Crouton.makeText(getActivity(), R.string.detail_loading_failed, Style.ALERT).show();
         
         Response resp = error.getResponse();
         String message;
