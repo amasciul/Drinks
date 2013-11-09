@@ -25,6 +25,5 @@ android {
 dependencies {
 	compile 'com.android.support:appcompat-v7:18.0.0'
     compile 'com.squareup.picasso:picasso:2.1.1'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
     compile 'com.squareup.retrofit:retrofit:1.2.2'
 }
