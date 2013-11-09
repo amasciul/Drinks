@@ -56,11 +56,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         if (ConnectionUtils.isOnline(getActivity())) {
             DrinksProvider.getDrink(id, this);
         } else {
+            mProgressBar.setVisibility(View.GONE);
             Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
         }
 
-
-
+        getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
         mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
@@ -104,6 +104,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     @Override
     public void failure(RetrofitError error) {
         Crouton.makeText(getActivity(), R.string.detail_loading_failed, Style.ALERT).show();
+        mProgressBar.setVisibility(View.GONE);
         
         Response resp = error.getResponse();
         String message;
