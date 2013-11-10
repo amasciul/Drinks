@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private TextView mIngredientsView;
     private TextView mInstructionsView;
     private ProgressBar mProgressBar;
+    private Button mRefreshButton;
 
     private int mImageViewHeight;
 
@@ -47,6 +49,9 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mInstructionsView = (TextView)root.findViewById(R.id.instructions);
         mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
         mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
+        mRefreshButton = (Button)root.findViewById(R.id.refresh);
+
+        //TODO implement button behaviour
 
         Intent intent = getActivity().getIntent();
         String name = intent.getStringExtra("drink_name");
@@ -57,6 +62,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
             DrinksProvider.getDrink(id, this);
         } else {
             mProgressBar.setVisibility(View.GONE);
+            mRefreshButton.setVisibility(View.VISIBLE);
             Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
         }
 
@@ -105,6 +111,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     public void failure(RetrofitError error) {
         Crouton.makeText(getActivity(), R.string.detail_loading_failed, Style.ALERT).show();
         mProgressBar.setVisibility(View.GONE);
+        mRefreshButton.setVisibility(View.VISIBLE);
         
         Response resp = error.getResponse();
         String message;
