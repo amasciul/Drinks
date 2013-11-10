@@ -27,7 +27,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<DrinkDetailItem> {
+public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<DrinkDetailItem>, View.OnClickListener {
 
     private ImageView mImageView;
     private TextView mHistoryView;
@@ -38,6 +38,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private Button mRefreshButton;
 
     private int mImageViewHeight;
+
+    private String mDrinkId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,28 +53,34 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
         mRefreshButton = (Button)root.findViewById(R.id.refresh);
 
-        //TODO implement button behaviour
-
         Intent intent = getActivity().getIntent();
+        mDrinkId = intent.getStringExtra("drink_id");
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
-        String id = intent.getStringExtra("drink_id");
 
-        if (ConnectionUtils.isOnline(getActivity())) {
-            DrinksProvider.getDrink(id, this);
-        } else {
-            mProgressBar.setVisibility(View.GONE);
-            mRefreshButton.setVisibility(View.VISIBLE);
-            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-        }
+        loadIfNetwork();
 
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
         mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
+        mRefreshButton.setOnClickListener(this);
 
         return root;
+    }
+
+    private void loadIfNetwork() {
+        if (ConnectionUtils.isOnline(getActivity())) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mRefreshButton.setVisibility(View.GONE);
+            DrinksProvider.getDrink(mDrinkId, this);
+        } else {
+            Log.d(getTag(), "no network");
+            mProgressBar.setVisibility(View.GONE);
+            mRefreshButton.setVisibility(View.VISIBLE);
+            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
+        }
     }
 
     @Override
@@ -121,5 +129,10 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
             message = "no response";
         }
         Log.e(this.getClass().getName(), "Drink detail loading has failed : " + message);
+    }
+
+    @Override
+    public void onClick(View view) {
+        loadIfNetwork();
     }
 }
