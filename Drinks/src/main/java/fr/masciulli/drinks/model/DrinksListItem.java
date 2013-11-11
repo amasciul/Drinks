@@ -1,7 +1,7 @@
 package fr.masciulli.drinks.model;
 
 public class DrinksListItem {
-    public String id;
+    public int id;
     public String name;
     public String imageURL;
 

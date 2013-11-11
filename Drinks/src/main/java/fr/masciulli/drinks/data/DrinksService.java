@@ -12,5 +12,5 @@ public interface DrinksService {
     @GET("/list.json")
     public void listDrinks(Callback<List<DrinksListItem>> callback);
     @GET("/detail/{drinkid}.json")
-    public void detailDrink(@Path("drinkid") String drinkId, Callback<DrinkDetailItem> callback);
+    public void detailDrink(@Path("drinkid") int drinkId, Callback<DrinkDetailItem> callback);
 }

@@ -42,7 +42,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     private int mImageViewHeight;
 
-    private String mDrinkId;
+    private int mDrinkId;
     private Transformation mTransformation;
 
     @Override
@@ -59,7 +59,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mRefreshButton = (Button)root.findViewById(R.id.refresh);
 
         Intent intent = getActivity().getIntent();
-        mDrinkId = intent.getStringExtra("drink_id");
+        mDrinkId = intent.getIntExtra("drink_id", 0);
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
@@ -112,18 +112,18 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mProgressBar.setVisibility(View.GONE);
         mScrollView.setVisibility(View.VISIBLE);
 
-        getActivity().setTitle(drink.getName());
+        getActivity().setTitle(drink.name);
 
-        Picasso.with(getActivity()).load(drink.getImageURL()).into(mImageView);
-        Picasso.with(getActivity()).load(drink.getImageURL()).transform(mTransformation).into(mBlurredImageView);
+        Picasso.with(getActivity()).load(drink.imageURL).into(mImageView);
+        Picasso.with(getActivity()).load(drink.imageURL).transform(mTransformation).into(mBlurredImageView);
 
-        mHistoryView.setText(drink.getHistory());
+        mHistoryView.setText(drink.history);
 
 
         String htmlString = "";
         int i = 0;
-        for (String ingredient : drink.getIngredients()) {
-            if (++i == drink.getIngredients().size()) {
+        for (String ingredient : drink.ingredients) {
+            if (++i == drink.ingredients.size()) {
                 htmlString += "&#8226; " + ingredient;
             } else {
                 htmlString += "&#8226; " + ingredient + "<br>";
@@ -131,7 +131,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         }
         mIngredientsView.setText(Html.fromHtml(htmlString));
 
-        mInstructionsView.setText(drink.getInstructions());
+        mInstructionsView.setText(drink.instructions);
     }
 
     @Override
