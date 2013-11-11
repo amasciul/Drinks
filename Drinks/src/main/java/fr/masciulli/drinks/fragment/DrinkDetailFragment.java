@@ -92,7 +92,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        //TODO better alpha calculation (blur not visible enough)
         float alpha = 2 * (float) y / (float) mImageViewHeight;
         if (alpha > 1) {
             alpha = 1;
