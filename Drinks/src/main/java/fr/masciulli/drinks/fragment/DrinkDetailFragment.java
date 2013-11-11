@@ -43,6 +43,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private int mImageViewHeight;
 
     private String mDrinkId;
+    private Transformation mTransformation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,8 +68,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
-        Transformation transformation = new BlurTransformation(getActivity());
-        Picasso.with(getActivity()).load(imageUrl).transform(transformation).into(mBlurredImageView);
+        mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
+        Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
@@ -112,7 +113,10 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mScrollView.setVisibility(View.VISIBLE);
 
         getActivity().setTitle(drink.getName());
-        // TODO reload image and reblur if different from the one given in the list
+
+        Picasso.with(getActivity()).load(drink.getImageURL()).into(mImageView);
+        Picasso.with(getActivity()).load(drink.getImageURL()).transform(mTransformation).into(mBlurredImageView);
+
         mHistoryView.setText(drink.getHistory());
 
 

@@ -9,14 +9,16 @@ import fr.masciulli.drinks.util.Blur;
 
 public class BlurTransformation implements Transformation {
     private Context mContext;
+    private int mRadius;
 
-    public BlurTransformation(Context context) {
+    public BlurTransformation(Context context, int radius) {
         mContext = context;
+        mRadius = radius;
     }
 
     @Override
     public Bitmap transform(Bitmap bitmap) {
-        Bitmap blurred = Blur.fastblur(mContext, bitmap, 12);
+        Bitmap blurred = Blur.fastblur(mContext, bitmap, mRadius);
         bitmap.recycle();
         return blurred;
     }
