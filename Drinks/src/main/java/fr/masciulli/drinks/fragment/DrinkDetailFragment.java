@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -21,6 +22,7 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.DrinkDetailItem;
 import fr.masciulli.drinks.util.ConnectionUtils;
+import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
 import retrofit.Callback;
@@ -30,6 +32,7 @@ import retrofit.client.Response;
 public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<DrinkDetailItem>, View.OnClickListener {
 
     private ImageView mImageView;
+    private ImageView mBlurredImageView;
     private TextView mHistoryView;
     private ObservableScrollView mScrollView;
     private TextView mIngredientsView;
@@ -46,6 +49,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
 
         mImageView = (ImageView)root.findViewById(R.id.image);
+        mBlurredImageView = (ImageView)root.findViewById(R.id.image_blurred);
         mHistoryView = (TextView)root.findViewById(R.id.history);
         mIngredientsView = (TextView)root.findViewById(R.id.ingredients);
         mInstructionsView = (TextView)root.findViewById(R.id.instructions);
@@ -62,6 +66,9 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
+
+        Transformation transformation = new BlurTransformation(getActivity());
+        Picasso.with(getActivity()).load(imageUrl).transform(transformation).into(mBlurredImageView);
 
         mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
@@ -85,8 +92,17 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        //TODO better alpha calculation (blur not visible enough)
+        float alpha = (float) y / (float) mImageViewHeight;
+        if (alpha > 1) {
+            alpha = 1;
+        }
+        mBlurredImageView.setAlpha(alpha);
+
         mImageView.setTop((0-y)/2);
         mImageView.setBottom(mImageViewHeight - y);
+        mBlurredImageView.setTop((0-y)/2);
+        mBlurredImageView.setBottom(mImageViewHeight - y);
     }
 
     @Override
@@ -97,7 +113,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mScrollView.setVisibility(View.VISIBLE);
 
         getActivity().setTitle(drink.getName());
-        Picasso.with(getActivity()).load(drink.getImageURL()).into(mImageView);
+        // TODO reload image and reblur if different from the one given in the list
         mHistoryView.setText(drink.getHistory());
 
 

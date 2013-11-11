@@ -10,6 +10,12 @@
         android:id="@+id/image"
         />
 
+    <fr.masciulli.drinks.view.TopCenterImageView
+        android:layout_height="@dimen/drink_detail_recipe_margin"
+        android:layout_width="match_parent"
+        android:alpha="0"
+        android:id="@+id/image_blurred" />
+
     <ProgressBar
         android:layout_below="@+id/image"
         android:layout_height="match_parent"
