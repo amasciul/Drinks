@@ -6,7 +6,7 @@ import java.util.List;
 public class DrinkDetailItem {
     public int id;
     public String name;
-    public String imageURL;
+    public String imageUrl;
     public String history;
     public String instructions;
     public List<String> ingredients = new LinkedList<String>();

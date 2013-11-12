@@ -51,7 +51,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
         intent.putExtra("drink_name", drink.name);
-        intent.putExtra("drink_imageurl", drink.imageURL);
+        intent.putExtra("drink_imageurl", drink.imageUrl);
         intent.putExtra("drink_id", drink.id);
         startActivity(intent);
     }
@@ -64,7 +64,9 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void failure(RetrofitError retrofitError) {
-        Log.e(this.getClass().getName(), "Drinks list loading has failed");
+        Log.e(this.getClass().getName(), "Drinks list loading has failed : " + retrofitError.getResponse().getStatus());
+
+        //TODO check if is attached (isAdded())
         Crouton.makeText(getActivity(), getString(R.string.list_loading_failed), Style.ALERT).show();
     }
 }

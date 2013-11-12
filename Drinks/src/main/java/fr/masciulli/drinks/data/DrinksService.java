@@ -9,8 +9,8 @@ import retrofit.http.GET;
 import retrofit.http.Path;
 
 public interface DrinksService {
-    @GET("/list.json")
+    @GET("/Drinks")
     public void listDrinks(Callback<List<DrinksListItem>> callback);
-    @GET("/detail/{drinkid}.json")
+    @GET("/Drinks/{drinkid}")
     public void detailDrink(@Path("drinkid") int drinkId, Callback<DrinkDetailItem> callback);
 }

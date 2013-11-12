@@ -1,7 +1,6 @@
 package fr.masciulli.drinks.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class DrinksListAdapter extends BaseAdapter {
         final DrinksListItem drink = getItem(i);
 
         nameView.setText(drink.name);
-        Picasso.with(mContext).load(drink.imageURL).into(imageView);
+        Picasso.with(mContext).load(drink.imageUrl).into(imageView);
 
         return root;
     }

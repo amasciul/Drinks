@@ -59,7 +59,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mRefreshButton = (Button)root.findViewById(R.id.refresh);
 
         Intent intent = getActivity().getIntent();
-        mDrinkId = intent.getIntExtra("drink_id", 0);
+        mDrinkId = intent.getIntExtra("drink_id", 1);
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
@@ -114,8 +114,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
         getActivity().setTitle(drink.name);
 
-        Picasso.with(getActivity()).load(drink.imageURL).into(mImageView);
-        Picasso.with(getActivity()).load(drink.imageURL).transform(mTransformation).into(mBlurredImageView);
+        Picasso.with(getActivity()).load(drink.imageUrl).into(mImageView);
+        Picasso.with(getActivity()).load(drink.imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mHistoryView.setText(drink.history);
 

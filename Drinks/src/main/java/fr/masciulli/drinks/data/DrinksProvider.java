@@ -10,7 +10,7 @@ import retrofit.RestAdapter;
 public class DrinksProvider {
 
     private static RestAdapter mRestAdapter = new RestAdapter.Builder()
-            .setServer("http://masciulli.fr/drinks")
+            .setServer("http://192.168.1.12/api")
             .build();
     private static DrinksService mService = mRestAdapter.create(DrinksService.class);
 
@@ -18,7 +18,7 @@ public class DrinksProvider {
         mService.listDrinks(callback);
     }
 
-    public static void getDrink(String drinkId, Callback<DrinkDetailItem> callback) {
+    public static void getDrink(int drinkId, Callback<DrinkDetailItem> callback) {
         mService.detailDrink(drinkId, callback);
     }
 
