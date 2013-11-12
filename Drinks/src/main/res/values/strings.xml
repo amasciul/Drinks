@@ -12,5 +12,6 @@
     <string name="detail_loading_failed">Drink loading has failed. Please give it another try.</string>
     <string name="retry">Retry</string>
     <string name="list_loading_failed">List loading has failed. Please give it another try.</string>
+    <string name="pref_apiendpoint_title">API endpoint</string>
 
 </resources>
