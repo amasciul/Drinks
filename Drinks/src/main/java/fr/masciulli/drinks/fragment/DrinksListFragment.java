@@ -64,9 +64,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void failure(RetrofitError retrofitError) {
-        Log.e(this.getClass().getName(), "Drinks list loading has failed : " + retrofitError.getResponse().getStatus());
-
-        //TODO check if is attached (isAdded())
-        Crouton.makeText(getActivity(), getString(R.string.list_loading_failed), Style.ALERT).show();
+        Log.e(this.getClass().getName(), "Drinks list loading has failed");
+        if (isAdded()) Crouton.makeText(getActivity(), getString(R.string.list_loading_failed), Style.ALERT).show();
     }
 }

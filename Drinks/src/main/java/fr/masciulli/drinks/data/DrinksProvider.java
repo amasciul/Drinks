@@ -10,7 +10,7 @@ import retrofit.RestAdapter;
 public class DrinksProvider {
 
     private static RestAdapter mRestAdapter = new RestAdapter.Builder()
-            .setServer("http://192.168.1.12/api")
+            .setServer("http://192.168.1.54/api")
             .build();
     private static DrinksService mService = mRestAdapter.create(DrinksService.class);
 
