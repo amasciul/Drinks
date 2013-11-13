@@ -1,5 +1,7 @@
 package fr.masciulli.drinks.data;
 
+import android.util.Log;
+
 import java.util.List;
 
 
@@ -10,7 +12,7 @@ import retrofit.RestAdapter;
 public class DrinksProvider {
 
     private static RestAdapter mRestAdapter = new RestAdapter.Builder()
-            .setServer("http://192.168.1.54/api")
+            .setServer("http://drinkstest.elasticbeanstalk.com/api")
             .build();
     private static DrinksService mService = mRestAdapter.create(DrinksService.class);
 
@@ -20,6 +22,13 @@ public class DrinksProvider {
 
     public static void getDrink(int drinkId, Callback<DrinkDetailItem> callback) {
         mService.detailDrink(drinkId, callback);
+    }
+
+    public static void updateServer(String server) {
+        mRestAdapter = new RestAdapter.Builder()
+                .setServer(server)
+                .build();
+        mService = mRestAdapter.create(DrinksService.class);
     }
 
 }
