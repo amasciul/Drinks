@@ -70,7 +70,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void success(List<Drink> drinks, Response response) {
-        Log.d(this.getClass().getName(), "Drinks list loading has succeeded");
+        Log.d(getTag(), "Drinks list loading has succeeded");
         mListView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mListAdapter.update(drinks);
