@@ -13,12 +13,12 @@ import java.util.List;
 
 import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.DrinksListItem;
+import fr.masciulli.drinks.model.Drink;
 
 import com.squareup.picasso.Picasso;
 
 public class DrinksListAdapter extends BaseAdapter {
-    private List<DrinksListItem> mDrinks = new ArrayList<DrinksListItem>();
+    private List<Drink> mDrinks = new ArrayList<Drink>();
     private Context mContext;
 
 
@@ -32,7 +32,7 @@ public class DrinksListAdapter extends BaseAdapter {
     }
 
     @Override
-    public DrinksListItem getItem(int i) {
+    public Drink getItem(int i) {
         return mDrinks.get(i);
     }
 
@@ -51,7 +51,7 @@ public class DrinksListAdapter extends BaseAdapter {
         final ImageView imageView = Holder.get(root, R.id.image);
         final TextView nameView = Holder.get(root, R.id.name);
 
-        final DrinksListItem drink = getItem(i);
+        final Drink drink = getItem(i);
 
         nameView.setText(drink.name);
         Picasso.with(mContext).load(drink.imageUrl).into(imageView);
@@ -59,7 +59,7 @@ public class DrinksListAdapter extends BaseAdapter {
         return root;
     }
 
-    public void update(List<DrinksListItem> drinks) {
+    public void update(List<Drink> drinks) {
         mDrinks = drinks;
         notifyDataSetChanged();
     }

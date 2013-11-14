@@ -20,13 +20,12 @@ import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
-import fr.masciulli.drinks.model.DrinksListItem;
-import fr.masciulli.drinks.util.ConnectionUtils;
+import fr.masciulli.drinks.model.Drink;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<DrinksListItem>>, View.OnClickListener {
+public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, View.OnClickListener {
     private ListView mListView;
     private ProgressBar mProgressBar;
 
@@ -60,7 +59,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        DrinksListItem drink = mListAdapter.getItem(i);
+        Drink drink = mListAdapter.getItem(i);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
         intent.putExtra("drink_name", drink.name);
@@ -70,7 +69,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
     }
 
     @Override
-    public void success(List<DrinksListItem> drinks, Response response) {
+    public void success(List<Drink> drinks, Response response) {
         Log.d(this.getClass().getName(), "Drinks list loading has succeeded");
         mListView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);

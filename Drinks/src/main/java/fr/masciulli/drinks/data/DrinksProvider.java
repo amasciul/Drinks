@@ -3,7 +3,7 @@ package fr.masciulli.drinks.data;
 import java.util.List;
 
 
-import fr.masciulli.drinks.model.DrinksListItem;
+import fr.masciulli.drinks.model.Drink;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 public class DrinksProvider {
@@ -13,11 +13,11 @@ public class DrinksProvider {
             .build();
     private static DrinksService mService = mRestAdapter.create(DrinksService.class);
 
-    public static void getDrinksList(Callback<List<DrinksListItem>> callback) {
+    public static void getDrinksList(Callback<List<Drink>> callback) {
         mService.listDrinks(callback);
     }
 
-    public static void getDrink(int drinkId, Callback<DrinksListItem> callback) {
+    public static void getDrink(int drinkId, Callback<Drink> callback) {
         mService.detailDrink(drinkId, callback);
     }
 

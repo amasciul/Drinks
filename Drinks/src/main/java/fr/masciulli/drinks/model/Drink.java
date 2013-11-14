@@ -3,7 +3,7 @@ package fr.masciulli.drinks.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DrinksListItem {
+public class Drink {
     public int id;
     public String name;
     public String imageUrl;
@@ -11,6 +11,6 @@ public class DrinksListItem {
     public String instructions;
     public List<String> ingredients = new LinkedList<String>();
 
-    public DrinksListItem() {
+    public Drink() {
     }
 }

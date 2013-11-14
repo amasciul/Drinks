@@ -20,7 +20,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
-import fr.masciulli.drinks.model.DrinksListItem;
+import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
@@ -28,7 +28,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<DrinksListItem>, View.OnClickListener {
+public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<Drink>, View.OnClickListener {
 
     private ImageView mImageView;
     private ImageView mBlurredImageView;
@@ -98,7 +98,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     }
 
     @Override
-    public void success(DrinksListItem drink, Response response) {
+    public void success(Drink drink, Response response) {
         Log.d(this.getClass().getName(), "Drink detail loading has succeeded");
 
         mProgressBar.setVisibility(View.GONE);
