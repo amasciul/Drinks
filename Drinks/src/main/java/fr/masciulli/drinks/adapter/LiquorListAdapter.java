@@ -12,28 +12,30 @@ import java.util.List;
 
 import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Ingredient;
+import fr.masciulli.drinks.model.Liquor;
 
-public class IngredientsListAdapter extends BaseAdapter {
-    private List<Ingredient> mIngredients = new ArrayList<Ingredient>();
+public class LiquorListAdapter extends BaseAdapter {
+    private List<Liquor> mLiquors = new ArrayList<Liquor>();
     private Context mContext;
 
-    public IngredientsListAdapter(Context context) {
+    public LiquorListAdapter(Context context) {
         mContext = context;
         for (int i=0; i<50; i++) {
-            mIngredients.add(new Ingredient("Amaretto"));
+            Liquor amaretto = new Liquor();
+            amaretto.name = "Amaretto";
+            mLiquors.add(amaretto);
         }
 
     }
 
     @Override
     public int getCount() {
-        return mIngredients.size();
+        return mLiquors.size();
     }
 
     @Override
-    public Ingredient getItem(int i) {
-        return mIngredients.get(i);
+    public Liquor getItem(int i) {
+        return mLiquors.get(i);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class IngredientsListAdapter extends BaseAdapter {
         }
 
         final TextView nameView = Holder.get(root, R.id.name);
-        nameView.setText(getItem(i).getName());
+        nameView.setText(getItem(i).name);
 
         return root;
     }

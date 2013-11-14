@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
-import fr.masciulli.drinks.fragment.IngredientsFragment;
+import fr.masciulli.drinks.fragment.LiquorsFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -78,7 +78,7 @@ public class MainActivity extends FragmentActivity {
             if (position == drinks) {
                 return new DrinksListFragment();
             } else if (position == ingredients) {
-                return new IngredientsFragment();
+                return new LiquorsFragment();
             }
 
             return null;

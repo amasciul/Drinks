@@ -9,19 +9,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.adapter.IngredientsListAdapter;
+import fr.masciulli.drinks.adapter.LiquorListAdapter;
 
-public class IngredientsFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class LiquorsFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ListView mListView;
-    private IngredientsListAdapter mListAdapter;
+    private LiquorListAdapter mListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.fragment_ingredients, container, false);
+        final View root = inflater.inflate(R.layout.fragment_liquors, container, false);
 
         mListView = (ListView) root.findViewById(R.id.list);
         mListView.setOnItemClickListener(this);
-        mListAdapter = new IngredientsListAdapter(getActivity());
+        mListAdapter = new LiquorListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
 
         return root;
