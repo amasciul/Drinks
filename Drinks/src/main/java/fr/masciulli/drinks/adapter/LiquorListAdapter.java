@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +46,13 @@ public class LiquorListAdapter extends BaseAdapter {
             root = LayoutInflater.from(mContext).inflate(R.layout.item_liquor, parent, false);
         }
 
+        final Liquor liquor = getItem(i);
+
         final TextView nameView = Holder.get(root, R.id.name);
-        nameView.setText(getItem(i).name);
+        final ImageView imageView = Holder.get(root, R.id.image);
+
+        nameView.setText(liquor.name);
+        Picasso.with(mContext).load(liquor.imageUrl).into(imageView);
 
         return root;
     }
