@@ -63,7 +63,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
-        loadIfNetwork();
+        load();
 
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
@@ -78,17 +78,10 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         return root;
     }
 
-    private void loadIfNetwork() {
-        if (ConnectionUtils.isOnline(getActivity())) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mRefreshButton.setVisibility(View.GONE);
-            DrinksProvider.getDrink(mDrinkId, this);
-        } else {
-            Log.d(getTag(), "no network");
-            mProgressBar.setVisibility(View.GONE);
-            mRefreshButton.setVisibility(View.VISIBLE);
-            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-        }
+    private void load() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRefreshButton.setVisibility(View.GONE);
+        DrinksProvider.getDrink(mDrinkId, this);
     }
 
     @Override
@@ -136,10 +129,15 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void failure(RetrofitError error) {
-        Crouton.makeText(getActivity(), R.string.detail_loading_failed, Style.ALERT).show();
         mProgressBar.setVisibility(View.GONE);
         mRefreshButton.setVisibility(View.VISIBLE);
-        
+
+        if (error.isNetworkError()) {
+            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
+        } else {
+            Crouton.makeText(getActivity(), R.string.detail_loading_failed, Style.ALERT).show();
+        }
+
         Response resp = error.getResponse();
         String message;
         if(resp != null) {
@@ -152,6 +150,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void onClick(View view) {
-        loadIfNetwork();
+        load();
     }
 }
