@@ -80,7 +80,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
     public void failure(RetrofitError retrofitError) {
         mProgressBar.setVisibility(View.GONE);
         mRefreshButton.setVisibility(View.VISIBLE);
-        Log.e(this.getClass().getName(), "Drinks list loading has failed");
+        Log.e(getTag(), "Drinks list loading has failed");
         if (isAdded()) {
             if (retrofitError.isNetworkError()) {
                 Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
