@@ -1,11 +1,8 @@
 package fr.masciulli.drinks.data;
 
-import android.util.Log;
-
 import java.util.List;
 
 
-import fr.masciulli.drinks.model.DrinkDetailItem;
 import fr.masciulli.drinks.model.DrinksListItem;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -20,7 +17,7 @@ public class DrinksProvider {
         mService.listDrinks(callback);
     }
 
-    public static void getDrink(int drinkId, Callback<DrinkDetailItem> callback) {
+    public static void getDrink(int drinkId, Callback<DrinksListItem> callback) {
         mService.detailDrink(drinkId, callback);
     }
 
