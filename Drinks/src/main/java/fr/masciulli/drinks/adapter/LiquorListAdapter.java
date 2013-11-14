@@ -20,12 +20,6 @@ public class LiquorListAdapter extends BaseAdapter {
 
     public LiquorListAdapter(Context context) {
         mContext = context;
-        for (int i=0; i<50; i++) {
-            Liquor amaretto = new Liquor();
-            amaretto.name = "Amaretto";
-            mLiquors.add(amaretto);
-        }
-
     }
 
     @Override
@@ -53,5 +47,10 @@ public class LiquorListAdapter extends BaseAdapter {
         nameView.setText(getItem(i).name);
 
         return root;
+    }
+
+    public void update(List<Liquor> liquors) {
+        mLiquors = liquors;
+        notifyDataSetChanged();
     }
 }
