@@ -40,7 +40,7 @@ public class LiquorListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View root, ViewGroup parent) {
         if (root == null) {
-            root = LayoutInflater.from(mContext).inflate(R.layout.item_ingredient, parent, false);
+            root = LayoutInflater.from(mContext).inflate(R.layout.item_liquor, parent, false);
         }
 
         final TextView nameView = Holder.get(root, R.id.name);
