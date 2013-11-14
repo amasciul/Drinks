@@ -10,6 +10,7 @@ public class Drink {
     public String history;
     public String instructions;
     public List<String> ingredients = new LinkedList<String>();
+    public String wikipedia;
 
     public Drink() {
     }
