@@ -44,6 +44,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private int mDrinkId;
     private Transformation mTransformation;
 
+    private Drink mDrink;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
@@ -62,8 +64,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
-        load();
-
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
@@ -74,6 +74,18 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mScrollView.setScrollViewListener(this);
         mRefreshButton.setOnClickListener(this);
 
+        if (savedInstanceState != null) {
+            Drink drink = savedInstanceState.getParcelable("drink");
+            if (drink != null) {
+                success(drink, null);
+            }
+            else {
+                load();
+            }
+        } else {
+            load();
+        }
+
         return root;
     }
 
@@ -81,6 +93,16 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mProgressBar.setVisibility(View.VISIBLE);
         mRefreshButton.setVisibility(View.GONE);
         DrinksProvider.getDrink(mDrinkId, this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mDrink != null) {
+            outState.putParcelable("drink", mDrink);
+            Log.d(getTag(), "Instance state saved");
+        }
     }
 
     @Override
@@ -100,6 +122,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     @Override
     public void success(Drink drink, Response response) {
         Log.d(this.getClass().getName(), "Drink detail loading has succeeded");
+
+        mDrink = drink;
 
         mProgressBar.setVisibility(View.GONE);
         mScrollView.setVisibility(View.VISIBLE);
