@@ -101,6 +101,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
+            //TODO repace 0 and 1 by values in resources
             switch (position) {
                 case 0:
                     return getString(R.string.title_drinks).toUpperCase(l);
