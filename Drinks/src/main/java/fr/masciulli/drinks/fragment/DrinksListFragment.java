@@ -112,8 +112,8 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
             int screenWidth = itemRoot.getWidth();
             int textWidth = nameView.getWidth();
 
-            nameView.setRight((int)(screenWidth + positionOffset * textWidth));
-            nameView.setLeft((int)(screenWidth - textWidth + positionOffset * textWidth));
+            nameView.setRight(Math.round(screenWidth + positionOffset * textWidth));
+            nameView.setLeft(Math.round(screenWidth - textWidth + positionOffset * textWidth));
         }
 
     }
