@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.LiquorListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Liquor;
@@ -26,6 +28,8 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
     private ListView mListView;
     private LiquorListAdapter mListAdapter;
 
+    private ProgressBar mProgressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_liquors, container, false);
@@ -35,7 +39,9 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
         mListAdapter = new LiquorListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
 
-        DrinksProvider.getLiquorsList(this);
+        mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
+
+        refresh();
 
         return root;
     }
@@ -48,12 +54,14 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
     @Override
     public void success(List<Liquor> liquors, Response response) {
         Log.d(getTag(), "Liquors list loading has succeeded");
+        mProgressBar.setVisibility(View.GONE);
         mListAdapter.update(liquors);
     }
 
     @Override
     public void failure(RetrofitError retrofitError) {
-
+        mProgressBar.setVisibility(View.GONE);
+        Log.e(getTag(), "Liquor list loading has failed");
     }
 
     @Override
@@ -78,6 +86,8 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
 
     @Override
     public void refresh() {
-        Toast.makeText(getActivity(), "refreshing liquor list", Toast.LENGTH_SHORT).show();
+        mProgressBar.setVisibility(View.VISIBLE);
+        ((MainActivity)getActivity()).setRefreshActionVisible(false);
+        DrinksProvider.getLiquorsList(this);
     }
 }
