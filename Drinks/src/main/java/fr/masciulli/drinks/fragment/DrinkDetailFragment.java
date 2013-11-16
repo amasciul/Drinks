@@ -38,6 +38,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private TextView mInstructionsView;
     private ProgressBar mProgressBar;
     private Button mRefreshButton;
+    private Button mWikipediaButton;
 
     private int mImageViewHeight;
 
@@ -58,6 +59,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
         mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
         mRefreshButton = (Button)root.findViewById(R.id.refresh);
+        mWikipediaButton = (Button)root.findViewById(R.id.wikipedia);
 
         Intent intent = getActivity().getIntent();
         mDrinkId = intent.getIntExtra("drink_id", 1);
@@ -148,6 +150,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mIngredientsView.setText(Html.fromHtml(htmlString));
 
         mInstructionsView.setText(drink.instructions);
+        mWikipediaButton.setText(String.format(getString(R.string.detail_wikipedia), drink.name));
     }
 
     @Override

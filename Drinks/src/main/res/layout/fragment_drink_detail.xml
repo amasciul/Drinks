@@ -85,6 +85,14 @@
                 android:id="@+id/instructions"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-light" />
+            <Button
+                android:id="@+id/wikipedia"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_drinks"
+                android:textColor="@color/holo_blue_dark"/>
 
         </LinearLayout>
 
