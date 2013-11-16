@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsFragment;
+import fr.masciulli.drinks.view.ViewPagerScrollListener;
 
 public class MainActivity extends FragmentActivity {
 
@@ -47,6 +48,7 @@ public class MainActivity extends FragmentActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
 
     }
 
@@ -62,7 +64,10 @@ public class MainActivity extends FragmentActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
+
+        private ViewPagerScrollListener mDrinksFragment;
+        private ViewPagerScrollListener mLiquorsFragment;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -76,9 +81,13 @@ public class MainActivity extends FragmentActivity {
             final int ingredients = getResources().getInteger(R.integer.position_fragment_ingredients);
 
             if (position == drinks) {
-                return new DrinksListFragment();
+                DrinksListFragment fragment = new DrinksListFragment();
+                mDrinksFragment = fragment;
+                return fragment;
             } else if (position == ingredients) {
-                return new LiquorsFragment();
+                LiquorsFragment fragment = new LiquorsFragment();
+                mLiquorsFragment = fragment;
+                return fragment;
             }
 
             return null;
@@ -99,6 +108,22 @@ public class MainActivity extends FragmentActivity {
                     return getString(R.string.title_ingredients).toUpperCase(l);
             }
             return null;
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            mDrinksFragment.onScroll(position, positionOffset, positionOffsetPixels);
+            mLiquorsFragment.onScroll(position, positionOffset, positionOffsetPixels);
+        }
+
+        @Override
+        public void onPageSelected(int i) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
         }
     }
 

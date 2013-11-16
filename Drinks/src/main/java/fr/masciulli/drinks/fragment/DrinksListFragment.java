@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,11 +22,12 @@ import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, View.OnClickListener {
+public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, View.OnClickListener, ViewPagerScrollListener {
     private ListView mListView;
     private ProgressBar mProgressBar;
 
@@ -93,5 +95,10 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void onClick(View view) {
         load();
+    }
+
+    @Override
+    public void onScroll(int position, float positionOffset, int positionOffsetPixels) {
+
     }
 }

@@ -16,11 +16,12 @@ import fr.masciulli.drinks.adapter.LiquorListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.data.DrinksService;
 import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorsFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>> {
+public class LiquorsFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>,ViewPagerScrollListener {
     private ListView mListView;
     private LiquorListAdapter mListAdapter;
 
@@ -52,5 +53,10 @@ public class LiquorsFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void failure(RetrofitError retrofitError) {
 
+    }
+
+    @Override
+    public void onScroll(int position, float positionOffset, int positionOffsetPixels) {
+        
     }
 }
