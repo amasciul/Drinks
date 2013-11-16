@@ -3,4 +3,9 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item android:id="@+id/retry"
+        android:title="@string/retry"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_menu_refresh"
+        android:visible="false"/>
 </menu>

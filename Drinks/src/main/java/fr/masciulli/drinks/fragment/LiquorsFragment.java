@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorsFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>,ViewPagerScrollListener {
+public class LiquorsFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>,ViewPagerScrollListener {
     private ListView mListView;
     private LiquorListAdapter mListAdapter;
 
@@ -73,5 +74,10 @@ public class LiquorsFragment extends Fragment implements AdapterView.OnItemClick
             nameView.setRight(Math.round(textWidth - (1 - positionOffset) * textWidth));
             nameView.setLeft(Math.round(- (1 - positionOffset) * textWidth));
         }
+    }
+
+    @Override
+    public void refresh() {
+        Toast.makeText(getActivity(), "refreshing liquor list", Toast.LENGTH_SHORT).show();
     }
 }

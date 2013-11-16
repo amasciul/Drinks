@@ -2,7 +2,6 @@ package fr.masciulli.drinks.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import java.util.List;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
+import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
@@ -27,7 +27,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, View.OnClickListener, ViewPagerScrollListener {
+public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, View.OnClickListener, ViewPagerScrollListener {
     private ListView mListView;
     private ProgressBar mProgressBar;
 
@@ -48,15 +48,9 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
         mListAdapter = new DrinksListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
 
-        load();
+        refresh();
 
         return root;
-    }
-
-    private void load() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mRefreshButton.setVisibility(View.GONE);
-        DrinksProvider.getDrinksList(this);
     }
 
     @Override
@@ -82,6 +76,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
     public void failure(RetrofitError retrofitError) {
         mProgressBar.setVisibility(View.GONE);
         mRefreshButton.setVisibility(View.VISIBLE);
+        ((MainActivity)getActivity()).setRefreshActionVisible(true);
         Log.e(getTag(), "Drinks list loading has failed");
         if (isAdded()) {
             if (retrofitError.isNetworkError()) {
@@ -94,7 +89,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onClick(View view) {
-        load();
+        refresh();
     }
 
     @Override
@@ -116,5 +111,13 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
             nameView.setLeft(Math.round(screenWidth - textWidth + positionOffset * textWidth));
         }
 
+    }
+
+    @Override
+    public void refresh() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRefreshButton.setVisibility(View.GONE);
+        ((MainActivity)getActivity()).setRefreshActionVisible(false);
+        DrinksProvider.getDrinksList(this);
     }
 }

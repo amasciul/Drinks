@@ -16,9 +16,11 @@ import android.view.MenuItem;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsFragment;
-import fr.masciulli.drinks.view.ViewPagerScrollListener;
 
 public class MainActivity extends FragmentActivity {
+
+    private DrinksListFragment mDrinksFragment;
+    private LiquorsFragment mLiquorsFragment;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -34,6 +36,7 @@ public class MainActivity extends FragmentActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    private MenuItem mRetryAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class MainActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        mRetryAction = menu.findItem(R.id.retry);
         return true;
     }
 
@@ -65,9 +69,6 @@ public class MainActivity extends FragmentActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
-
-        private ViewPagerScrollListener mDrinksFragment;
-        private ViewPagerScrollListener mLiquorsFragment;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -130,8 +131,22 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        startActivity(new Intent(this, SettingsActivity.class));
-        return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings :
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.retry :
+                if(mDrinksFragment != null) mDrinksFragment.refresh();
+                if(mLiquorsFragment != null) mLiquorsFragment.refresh();
+                return true;
+        }
+        return false;
+    }
+
+    public void setRefreshActionVisible(boolean visibility) {
+        if(mRetryAction != null) {
+            mRetryAction.setVisible(visibility);
+        }
     }
 
 }
