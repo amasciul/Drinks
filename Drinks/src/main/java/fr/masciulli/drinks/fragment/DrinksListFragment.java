@@ -99,6 +99,22 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onScroll(int position, float positionOffset, int positionOffsetPixels) {
+        int first = mListView.getFirstVisiblePosition();
+        int last = mListView.getLastVisiblePosition();
+
+        for (int i = 0; i <= last - first; i++) {
+            View itemRoot = mListView.getChildAt(i);
+            if (itemRoot == null) continue;
+
+            TextView nameView = (TextView)itemRoot.findViewById(R.id.name);
+
+            // TODO get screenWidth somewhere else (always the same)
+            int screenWidth = itemRoot.getWidth();
+            int textWidth = nameView.getWidth();
+
+            nameView.setRight((int)(screenWidth + positionOffset * textWidth));
+            nameView.setLeft((int)(screenWidth - textWidth + positionOffset * textWidth));
+        }
 
     }
 }
