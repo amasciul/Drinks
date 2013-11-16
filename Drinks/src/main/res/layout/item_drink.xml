@@ -14,7 +14,6 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="1dp"
         android:layout_gravity="bottom|right"
         android:textSize="28sp"
         android:fontFamily="sans-serif-light"
