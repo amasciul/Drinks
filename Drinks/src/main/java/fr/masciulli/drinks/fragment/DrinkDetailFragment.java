@@ -2,6 +2,7 @@ package fr.masciulli.drinks.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -75,6 +76,13 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
         mRefreshButton.setOnClickListener(this);
+        mWikipediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mDrink == null) return;
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDrink.wikipedia)));
+            }
+        });
 
         if (savedInstanceState != null) {
             Drink drink = savedInstanceState.getParcelable("drink");
