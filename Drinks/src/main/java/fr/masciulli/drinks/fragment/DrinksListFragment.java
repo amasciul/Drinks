@@ -32,7 +32,6 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     private ProgressBar mProgressBar;
 
     private DrinksListAdapter mListAdapter;
-    private Button mRefreshButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,9 +39,6 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
 
         mListView = (ListView) root.findViewById(R.id.list);
         mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
-        mRefreshButton = (Button)root.findViewById(R.id.refresh);
-
-        mRefreshButton.setOnClickListener(this);
 
         mListView.setOnItemClickListener(this);
         mListAdapter = new DrinksListAdapter(getActivity());
@@ -75,7 +71,6 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     @Override
     public void failure(RetrofitError retrofitError) {
         mProgressBar.setVisibility(View.GONE);
-        mRefreshButton.setVisibility(View.VISIBLE);
         ((MainActivity)getActivity()).setRefreshActionVisible(true);
         Log.e(getTag(), "Drinks list loading has failed");
         if (isAdded()) {
@@ -116,7 +111,6 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     @Override
     public void refresh() {
         mProgressBar.setVisibility(View.VISIBLE);
-        mRefreshButton.setVisibility(View.GONE);
         ((MainActivity)getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getDrinksList(this);
     }
