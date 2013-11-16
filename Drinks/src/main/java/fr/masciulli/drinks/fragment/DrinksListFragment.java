@@ -27,7 +27,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, View.OnClickListener, ViewPagerScrollListener {
+public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>,  ViewPagerScrollListener {
     private ListView mListView;
     private ProgressBar mProgressBar;
 
@@ -80,11 +80,6 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
                 Crouton.makeText(getActivity(), getString(R.string.list_loading_failed), Style.ALERT).show();
             }
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-        refresh();
     }
 
     @Override
