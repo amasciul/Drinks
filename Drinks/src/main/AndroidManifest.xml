@@ -27,7 +27,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.DrinkDetailActivity"></activity>
-        <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".activity.SettingsActivity" android:label="@string/title_settings"></activity>
+        <activity android:name=".activity.LicensesActivity" android:label="@string/title_licenses"></activity>
     </application>
 
 </manifest>

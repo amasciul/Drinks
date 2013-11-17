@@ -135,6 +135,9 @@ public class MainActivity extends FragmentActivity {
             case R.id.action_settings :
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            case R.id.licenses :
+                startActivity(new Intent(this, LicensesActivity.class));
+                return true;
             case R.id.retry :
                 if(mDrinksFragment != null) mDrinksFragment.refresh();
                 if(mLiquorsFragment != null) mLiquorsFragment.refresh();
