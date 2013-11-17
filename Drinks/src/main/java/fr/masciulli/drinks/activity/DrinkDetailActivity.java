@@ -1,13 +1,13 @@
 package fr.masciulli.drinks.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import fr.masciulli.drinks.R;
 
-public class DrinkDetailActivity extends Activity {
+public class DrinkDetailActivity extends FragmentActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +22,6 @@ public class DrinkDetailActivity extends Activity {
                 finish();
                 return true;
         }
-        return false;
+        return super.onMenuItemSelected(featureId, item);
     }
 }

@@ -1,12 +1,14 @@
 package fr.masciulli.drinks.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,7 +31,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<Drink>, View.OnClickListener {
+public class DrinkDetailFragment extends RefreshableFragment implements ScrollViewListener, Callback<Drink> {
 
     private ImageView mImageView;
     private ImageView mBlurredImageView;
@@ -38,8 +40,9 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private TextView mIngredientsView;
     private TextView mInstructionsView;
     private ProgressBar mProgressBar;
-    private Button mRefreshButton;
     private Button mWikipediaButton;
+
+    private MenuItem mRetryAction;
 
     private int mImageViewHeight;
 
@@ -52,6 +55,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
 
+        setHasOptionsMenu(true);
+
         mImageView = (ImageView)root.findViewById(R.id.image);
         mBlurredImageView = (ImageView)root.findViewById(R.id.image_blurred);
         mHistoryView = (TextView)root.findViewById(R.id.history);
@@ -59,7 +64,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mInstructionsView = (TextView)root.findViewById(R.id.instructions);
         mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
         mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
-        mRefreshButton = (Button)root.findViewById(R.id.refresh);
         mWikipediaButton = (Button)root.findViewById(R.id.wikipedia);
 
         Intent intent = getActivity().getIntent();
@@ -75,7 +79,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
         mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
-        mRefreshButton.setOnClickListener(this);
         mWikipediaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,19 +93,13 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 success(drink, null);
             }
             else {
-                load();
+                refresh();
             }
         } else {
-            load();
+            refresh();
         }
 
         return root;
-    }
-
-    private void load() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mRefreshButton.setVisibility(View.GONE);
-        DrinksProvider.getDrink(mDrinkId, this);
     }
 
     @Override
@@ -131,7 +128,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void success(Drink drink, Response response) {
-        Log.d(this.getClass().getName(), "Drink detail loading has succeeded");
+        Log.d(getTag(), "Drink detail loading has succeeded");
 
         mDrink = drink;
 
@@ -164,8 +161,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     @Override
     public void failure(RetrofitError error) {
         mProgressBar.setVisibility(View.GONE);
-        mRefreshButton.setVisibility(View.VISIBLE);
-
+        if (mRetryAction != null) mRetryAction.setVisible(true);
         if (error.isNetworkError()) {
             Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
         } else {
@@ -179,11 +175,29 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         } else {
             message = "no response";
         }
-        Log.e(this.getClass().getName(), "Drink detail loading has failed : " + message);
+        Log.e(getTag(), "Drink detail loading has failed : " + message);
     }
 
     @Override
-    public void onClick(View view) {
-        load();
+    public void refresh() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        if (mRetryAction != null) mRetryAction.setVisible(false);
+        DrinksProvider.getDrink(mDrinkId, this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.drink_detail, menu);
+        mRetryAction = menu.findItem(R.id.retry);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.retry:
+                refresh();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
