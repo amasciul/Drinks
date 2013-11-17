@@ -5,6 +5,9 @@
     <item android:id="@+id/licenses"
         android:title="@string/licenses"
         android:showAsAction="never" />
+    <item android:id="@+id/about"
+        android:title="@string/about"
+        android:showAsAction="never" />
     <item android:id="@+id/retry"
         android:title="@string/retry"
         android:showAsAction="always"

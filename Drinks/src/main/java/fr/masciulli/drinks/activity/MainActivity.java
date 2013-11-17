@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsFragment;
 
@@ -137,6 +138,9 @@ public class MainActivity extends FragmentActivity {
                 return true;
             case R.id.licenses :
                 startActivity(new Intent(this, LicensesActivity.class));
+                return true;
+            case R.id.about :
+                (new AboutDialogFragment()).show(getSupportFragmentManager(), "dialog_about");
                 return true;
             case R.id.retry :
                 if(mDrinksFragment != null) mDrinksFragment.refresh();

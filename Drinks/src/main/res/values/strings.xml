@@ -20,5 +20,11 @@
     <string name="licenses">Content and licenses</string>
     <string name="title_licenses">Content and Licenses</string>
     <string name="title_settings">Settings</string>
+    <string name="about">About</string>
+    <string name="about_title">About Drinks</string>
+    <string name="about_ok">OK</string>
+    <string name="about_drinks">Drinks</string>
+    <string name="about_description">An Android app for making cocktails.</string>
+    <string name="about_madeinfrance">Made in France by Alexandre Masciulli</string>
 
 </resources>
