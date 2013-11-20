@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
@@ -62,8 +61,7 @@ public class MainActivity extends FragmentActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         mRetryAction = menu.findItem(R.id.retry);
-        ((SearchView)menu.findItem(R.id.search).getActionView()).setQueryHint(getString(R.string.search_hint));
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
 

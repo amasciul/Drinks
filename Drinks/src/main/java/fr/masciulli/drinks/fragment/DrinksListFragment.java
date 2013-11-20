@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,7 +30,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>,  ViewPagerScrollListener {
+public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>,  ViewPagerScrollListener, SearchView.OnQueryTextListener {
     private ListView mListView;
     private ProgressBar mProgressBar;
 
@@ -34,6 +38,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         final View root = inflater.inflate(R.layout.fragment_drinks, container, false);
 
         mListView = (ListView) root.findViewById(R.id.list);
@@ -107,5 +112,32 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
         mProgressBar.setVisibility(View.VISIBLE);
         ((MainActivity)getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getDrinksList(this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.drink_list, menu);
+
+        // SearchView configuration
+        final MenuItem searchMenuItem = menu.findItem(R.id.search);
+
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        if (mListView != null) {
+            mListAdapter.getFilter().filter(s);
+        }
+        return true;
     }
 }
