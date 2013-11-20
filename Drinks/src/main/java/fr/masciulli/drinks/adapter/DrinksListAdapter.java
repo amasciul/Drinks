@@ -38,14 +38,23 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
 
             final String query = charSequence.toString().toLowerCase();
 
+            final List<Drink> ingredientMatchDrinks = new ArrayList<Drink>();
+
             for (Drink drink : mSavedDrinks) {
                 if(drink.name.toLowerCase().contains(query)) {
-                    Log.d("adapter","found matching drink : " + drink.name);
                     mFilteredDrinks.add(drink);
                 } else {
-                    Log.d("adapter", drink.name.toLowerCase() + "does not match");
+                    // drink name does not match, we check the ingredients
+                    for (String ingredient : drink.ingredients) {
+                        if (ingredient.toLowerCase().contains(query)) {
+                            ingredientMatchDrinks.add(drink);
+                            break;
+                        }
+                    }
                 }
             }
+
+            mFilteredDrinks.addAll(ingredientMatchDrinks);
 
             results.count = mFilteredDrinks.size();
             results.values = mFilteredDrinks;
