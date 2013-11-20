@@ -108,7 +108,7 @@ public class MainActivity extends FragmentActivity {
                 case 0:
                     return getString(R.string.title_drinks).toUpperCase(l);
                 case 1:
-                    return getString(R.string.title_ingredients).toUpperCase(l);
+                    return getString(R.string.title_liquors).toUpperCase(l);
             }
             return null;
         }
