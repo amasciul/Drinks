@@ -115,8 +115,12 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            mDrinksFragment.onScroll(position, positionOffset, positionOffsetPixels);
-            mLiquorsFragment.onScroll(position, positionOffset, positionOffsetPixels);
+            if (mDrinksFragment != null) {
+                mDrinksFragment.onScroll(position, positionOffset, positionOffsetPixels);
+            }
+            if (mLiquorsFragment != null) {
+                mLiquorsFragment.onScroll(position, positionOffset, positionOffsetPixels);
+            }
         }
 
         @Override
