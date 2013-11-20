@@ -27,6 +27,6 @@
     <string name="about_description">An Android app for making cocktails.</string>
     <string name="about_madeinfrance">Made in France by Alexandre Masciulli</string>
     <string name="search_title">Search a drink</string>
-    <string name="search_hint">Search a drink</string>
+    <string name="search_hint">Search by name, ingredient...</string>
 
 </resources>
