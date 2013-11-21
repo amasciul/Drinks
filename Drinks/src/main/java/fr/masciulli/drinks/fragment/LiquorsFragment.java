@@ -35,6 +35,7 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
         final View root = inflater.inflate(R.layout.fragment_liquors, container, false);
 
         mListView = (ListView) root.findViewById(R.id.list);
+        mListView.setEmptyView(root.findViewById(android.R.id.empty));
         mListView.setOnItemClickListener(this);
         mListAdapter = new LiquorListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
@@ -55,13 +56,15 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
     public void success(List<Liquor> liquors, Response response) {
         Log.d(getTag(), "Liquors list loading has succeeded");
         mProgressBar.setVisibility(View.GONE);
+        mListView.getEmptyView().setVisibility(View.VISIBLE);
         mListAdapter.update(liquors);
     }
 
     @Override
     public void failure(RetrofitError retrofitError) {
-        mProgressBar.setVisibility(View.GONE);
         Log.e(getTag(), "Liquor list loading has failed");
+        mProgressBar.setVisibility(View.GONE);
+        mListView.getEmptyView().setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -86,7 +89,8 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
 
     @Override
     public void refresh() {
-        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+        mListView.getEmptyView().setVisibility(View.VISIBLE);
         ((MainActivity)getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getLiquorsList(this);
     }

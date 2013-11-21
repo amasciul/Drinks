@@ -29,5 +29,6 @@
     <string name="search_title">Search a drink</string>
     <string name="search_hint">Search by name, ingredient&#8230;</string>
     <string name="drinks_empty">No drinks found.</string>
+    <string name="liquors_empty">No liquors found</string>
 
 </resources>
