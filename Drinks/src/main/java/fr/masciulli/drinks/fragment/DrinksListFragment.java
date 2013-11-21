@@ -44,6 +44,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
         mListView = (ListView) root.findViewById(R.id.list);
         mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
 
+        mListView.setEmptyView(root.findViewById(android.R.id.empty));
         mListView.setOnItemClickListener(this);
         mListAdapter = new DrinksListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
