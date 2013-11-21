@@ -69,6 +69,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     public void success(List<Drink> drinks, Response response) {
         Log.d(getTag(), "Drinks list loading has succeeded");
         mListView.setVisibility(View.VISIBLE);
+        mListView.getEmptyView().setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mListAdapter.update(drinks);
     }
@@ -76,6 +77,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     @Override
     public void failure(RetrofitError retrofitError) {
         mProgressBar.setVisibility(View.GONE);
+        mListView.getEmptyView().setVisibility(View.VISIBLE);
         ((MainActivity)getActivity()).setRefreshActionVisible(true);
         Log.e(getTag(), "Drinks list loading has failed");
         if (isAdded()) {
@@ -111,6 +113,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     @Override
     public void refresh() {
         mProgressBar.setVisibility(View.VISIBLE);
+        mListView.getEmptyView().setVisibility(View.GONE);
         ((MainActivity)getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getDrinksList(this);
     }
