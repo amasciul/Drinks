@@ -11,11 +11,19 @@
         android:scaleType="centerCrop"
         android:id="@+id/image" />
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="28sp"
-        android:fontFamily="sans-serif-light"
-        />
+        android:background="@drawable/item_liquor_name">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:fontFamily="sans-serif-light"
+            />
+
+        </FrameLayout>
+
 </FrameLayout>
