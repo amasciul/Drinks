@@ -64,6 +64,14 @@ public class MainActivity extends FragmentActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        if (fragment.getClass() == DrinksListFragment.class) {
+            mDrinksFragment = (DrinksListFragment)fragment;
+        } else if (fragment.getClass() == LiquorsFragment.class) {
+            mLiquorsFragment = (LiquorsFragment)fragment;
+        }
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -83,13 +91,9 @@ public class MainActivity extends FragmentActivity {
             final int ingredients = getResources().getInteger(R.integer.position_fragment_ingredients);
 
             if (position == drinks) {
-                DrinksListFragment fragment = new DrinksListFragment();
-                mDrinksFragment = fragment;
-                return fragment;
+                return new DrinksListFragment();
             } else if (position == ingredients) {
-                LiquorsFragment fragment = new LiquorsFragment();
-                mLiquorsFragment = fragment;
-                return fragment;
+                return new LiquorsFragment();
             }
 
             return null;
