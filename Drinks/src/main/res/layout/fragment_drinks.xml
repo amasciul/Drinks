@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@android:id/empty"
-        android:layout="@layout/empty_view_uv_list" />
+        android:layout="@layout/empty_view_drinks" />
 
     <ListView
         android:layout_width="match_parent"
