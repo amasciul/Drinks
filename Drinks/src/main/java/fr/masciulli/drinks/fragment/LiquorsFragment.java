@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,8 +32,11 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
 
     private ProgressBar mProgressBar;
 
+    private boolean mLoadingError = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         final View root = inflater.inflate(R.layout.fragment_liquors, container, false);
 
         mListView = (ListView) root.findViewById(R.id.list);
@@ -55,6 +60,7 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
     @Override
     public void success(List<Liquor> liquors, Response response) {
         Log.d(getTag(), "Liquors list loading has succeeded");
+        mLoadingError = false;
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
         mListAdapter.update(liquors);
@@ -63,6 +69,7 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
     @Override
     public void failure(RetrofitError retrofitError) {
         Log.e(getTag(), "Liquor list loading has failed");
+        mLoadingError = true;
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
     }
@@ -93,5 +100,15 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
         mListView.getEmptyView().setVisibility(View.VISIBLE);
         ((MainActivity)getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getLiquorsList(this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        if (mLoadingError) {
+            Log.d(getTag(), "loading error");
+            ((MainActivity)getActivity()).setRefreshActionVisible(true);
+        }
     }
 }

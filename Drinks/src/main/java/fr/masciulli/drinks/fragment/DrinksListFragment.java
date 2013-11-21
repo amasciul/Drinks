@@ -36,6 +36,8 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
 
     private DrinksListAdapter mListAdapter;
 
+    private boolean mLoadingError = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -67,6 +69,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
 
     @Override
     public void success(List<Drink> drinks, Response response) {
+        mLoadingError = false;
         Log.d(getTag(), "Drinks list loading has succeeded");
         mListView.setVisibility(View.VISIBLE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
@@ -76,6 +79,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
 
     @Override
     public void failure(RetrofitError retrofitError) {
+        mLoadingError = true;
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
         ((MainActivity)getActivity()).setRefreshActionVisible(true);
@@ -126,6 +130,10 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
 
         // SearchView configuration
         final MenuItem searchMenuItem = menu.findItem(R.id.search);
+
+        if(mLoadingError) {
+            ((MainActivity)getActivity()).setRefreshActionVisible(true);
+        }
 
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
         searchView.setQueryHint(getString(R.string.search_hint));
