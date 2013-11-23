@@ -4,4 +4,4 @@
     android:name="fr.masciulli.drinks.fragment.DrinkDetailFragment"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/fragment_drinks" />
+    android:id="@+id/fragment_drink" />
