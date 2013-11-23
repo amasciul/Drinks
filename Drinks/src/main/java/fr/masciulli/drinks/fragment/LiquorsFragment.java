@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.activity.LiquorDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.LiquorListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
@@ -54,7 +56,7 @@ public class LiquorsFragment extends RefreshableFragment implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        startActivity(new Intent(getActivity(), LiquorDetailActivity.class));
     }
 
     @Override

@@ -29,6 +29,7 @@
         <activity android:name=".activity.DrinkDetailActivity"></activity>
         <activity android:name=".activity.SettingsActivity" android:label="@string/title_settings"></activity>
         <activity android:name=".activity.LicensesActivity" android:label="@string/title_licenses"></activity>
+        <activity android:name=".activity.LiquorDetailActivity"></activity>
     </application>
 
 </manifest>
