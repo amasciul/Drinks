@@ -24,4 +24,10 @@
         android:background="@drawable/button_drinks"
         android:textColor="@color/holo_blue_dark" />
 
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/drinks_title"
+        android:textSize="24sp"/>
+
 </LinearLayout>

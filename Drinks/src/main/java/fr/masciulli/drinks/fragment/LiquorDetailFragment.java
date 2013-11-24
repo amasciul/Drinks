@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.squareup.picasso.Transformation;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.adapter.LiquorDetailAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.view.BlurTransformation;
@@ -40,6 +42,9 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     private ProgressBar mProgressBar;
     private Button mWikipediaButton;
     private View mHeaderView;
+    private TextView mDrinksTitleView;
+
+    private LiquorDetailAdapter mDrinkAdapter;
 
     private MenuItem mRetryAction;
 
@@ -63,8 +68,10 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mHistoryView = (TextView)mHeaderView.findViewById(R.id.history);
         mWikipediaButton = (Button)mHeaderView.findViewById(R.id.wikipedia);
+        mDrinksTitleView = (TextView)mHeaderView.findViewById(R.id.drinks_title);
 
-        mListView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, new String[]{}));
+        mDrinkAdapter = new LiquorDetailAdapter(getActivity());
+        mListView.setAdapter(mDrinkAdapter);
 
         Intent intent = getActivity().getIntent();
         mLiquorId = intent.getIntExtra("liquor_id", 1);
@@ -124,7 +131,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         Picasso.with(getActivity()).load(liquor.imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mHistoryView.setText(liquor.history);
-        mWikipediaButton.setText(String.format(String.format(getString(R.string.liquor_detail_wikipedia), liquor.name)));
+        mWikipediaButton.setText(String.format(getString(R.string.liquor_detail_wikipedia), liquor.name));
+        mDrinksTitleView.setText(String.format(getString(R.string.liquor_detail_drinks), liquor.name));
     }
 
     @Override

@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:id="@+id/scroll"
         android:headerDividersEnabled="false"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:divider="@null" />
 
 </RelativeLayout>
