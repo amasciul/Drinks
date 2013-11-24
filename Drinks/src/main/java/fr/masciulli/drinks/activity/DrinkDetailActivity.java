@@ -11,7 +11,7 @@ public class DrinkDetailActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drink);
+        setContentView(R.layout.activity_drink_detail);
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

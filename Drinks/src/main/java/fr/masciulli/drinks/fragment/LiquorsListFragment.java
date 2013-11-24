@@ -2,7 +2,6 @@ package fr.masciulli.drinks.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        final View root = inflater.inflate(R.layout.fragment_liquors, container, false);
+        final View root = inflater.inflate(R.layout.fragment_liquors_list, container, false);
 
         mListView = (ListView) root.findViewById(R.id.list);
         mListView.setEmptyView(root.findViewById(android.R.id.empty));

@@ -41,7 +41,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        final View root = inflater.inflate(R.layout.fragment_drinks, container, false);
+        final View root = inflater.inflate(R.layout.fragment_drinks_list, container, false);
 
         mListView = (ListView) root.findViewById(R.id.list);
         mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
@@ -126,7 +126,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.drink_list, menu);
+        inflater.inflate(R.menu.drinks_list, menu);
 
         // SearchView configuration
         final MenuItem searchMenuItem = menu.findItem(R.id.search);

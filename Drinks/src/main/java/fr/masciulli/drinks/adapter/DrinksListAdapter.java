@@ -92,7 +92,7 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
     public View getView(int i, View root, ViewGroup parent) {
 
         if (root == null) {
-            root = LayoutInflater.from(mContext).inflate(R.layout.item_drink, parent, false);
+            root = LayoutInflater.from(mContext).inflate(R.layout.item_drinks_list, parent, false);
         }
 
         final ImageView imageView = Holder.get(root, R.id.image);
