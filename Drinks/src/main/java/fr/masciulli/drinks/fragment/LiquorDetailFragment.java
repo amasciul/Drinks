@@ -26,11 +26,12 @@ import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
+import fr.masciulli.drinks.view.ScrollViewListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorDetailFragment extends Fragment implements Callback<Liquor> {
+public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, ScrollViewListener {
     private ImageView mImageView;
     private ImageView mBlurredImageView;
     private TextView mHistoryView;
@@ -44,6 +45,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor> {
     private Transformation mTransformation;
     private Liquor mLiquor;
 
+    private int mImageViewHeight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,13 +69,14 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor> {
         mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
         Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
 
-        //mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
-        //mScrollView.setScrollViewListener(this);
+        mImageViewHeight = (int)getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
+        mScrollView.setScrollViewListener(this);
+
         mWikipediaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mLiquor == null) return;
-                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
             }
         });
 
@@ -88,14 +91,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor> {
         } else {
             refresh();
         }
-
-        mWikipediaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mLiquor == null) return;
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
-            }
-        });
 
         return root;
     }
@@ -159,5 +154,19 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor> {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        float alpha = 2 * (float) y / (float) mImageViewHeight;
+        if (alpha > 1) {
+            alpha = 1;
+        }
+        mBlurredImageView.setAlpha(alpha);
+
+        mImageView.setTop((0-y)/2);
+        mImageView.setBottom(mImageViewHeight - y);
+        mBlurredImageView.setTop((0-y)/2);
+        mBlurredImageView.setBottom(mImageViewHeight - y);
     }
 }
