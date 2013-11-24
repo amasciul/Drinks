@@ -54,7 +54,13 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(getActivity(), LiquorDetailActivity.class));
+        Liquor liquor = mListAdapter.getItem(i);
+
+        Intent intent = new Intent(getActivity(), LiquorDetailActivity.class);
+        intent.putExtra("liquor_name", liquor.name);
+        intent.putExtra("liquor_imageurl", liquor.imageUrl);
+        intent.putExtra("liquor_id", liquor.id);
+        startActivity(intent);
     }
 
     @Override

@@ -9,7 +9,8 @@
     <string name="detail_ingredients">Ingredients</string>
     <string name="detail_recipe">Recipe</string>
     <string name="network_error">Seems like there is no internet connection</string>
-    <string name="detail_loading_failed">Drink loading has failed. Please give it another try.</string>
+    <string name="drink_detail_loading_failed">Drink loading has failed. Please give it another try.</string>
+    <string name="liquor_detail_loading_failed">Liquor loading has failed. Please give it another try.</string>
     <string name="retry">Retry</string>
     <string name="list_loading_failed">List loading has failed. Please give it another try.</string>
     <string name="pref_apiendpoint_title">API endpoint</string>

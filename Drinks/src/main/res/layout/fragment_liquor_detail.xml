@@ -1,11 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Liquor detail here"/>
 
-</FrameLayout>
+    <fr.masciulli.drinks.view.TopCenterImageView
+        android:layout_height="@dimen/drink_detail_recipe_margin"
+        android:layout_width="match_parent"
+        android:id="@+id/image"
+        />
+
+    <fr.masciulli.drinks.view.TopCenterImageView
+        android:layout_height="@dimen/drink_detail_recipe_margin"
+        android:layout_width="match_parent"
+        android:alpha="0"
+        android:id="@+id/image_blurred" />
+
+    <ProgressBar
+        android:layout_below="@+id/image"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressbar"/>
+
+
+    <fr.masciulli.drinks.view.ObservableScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/scroll"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_marginTop="@dimen/drink_detail_recipe_margin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/history"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light" />
+
+            <Button
+                android:id="@+id/wikipedia"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_drinks"
+                android:textColor="@color/holo_blue_dark"/>
+
+        </LinearLayout>
+
+    </fr.masciulli.drinks.view.ObservableScrollView>
+
+</RelativeLayout>

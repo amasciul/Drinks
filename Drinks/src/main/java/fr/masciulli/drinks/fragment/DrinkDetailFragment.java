@@ -165,7 +165,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         if (error.isNetworkError()) {
             Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
         } else {
-            Crouton.makeText(getActivity(), R.string.detail_loading_failed, Style.ALERT).show();
+            Crouton.makeText(getActivity(), R.string.drink_detail_loading_failed, Style.ALERT).show();
         }
 
         Response resp = error.getResponse();
