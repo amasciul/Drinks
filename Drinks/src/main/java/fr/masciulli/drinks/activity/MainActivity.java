@@ -16,12 +16,12 @@ import android.view.MenuItem;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
-import fr.masciulli.drinks.fragment.LiquorsFragment;
+import fr.masciulli.drinks.fragment.LiquorsListFragment;
 
 public class MainActivity extends FragmentActivity {
 
     private DrinksListFragment mDrinksFragment;
-    private LiquorsFragment mLiquorsFragment;
+    private LiquorsListFragment mLiquorsFragment;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -68,8 +68,8 @@ public class MainActivity extends FragmentActivity {
     public void onAttachFragment(Fragment fragment) {
         if (fragment.getClass() == DrinksListFragment.class) {
             mDrinksFragment = (DrinksListFragment)fragment;
-        } else if (fragment.getClass() == LiquorsFragment.class) {
-            mLiquorsFragment = (LiquorsFragment)fragment;
+        } else if (fragment.getClass() == LiquorsListFragment.class) {
+            mLiquorsFragment = (LiquorsListFragment)fragment;
         }
     }
 
@@ -93,7 +93,7 @@ public class MainActivity extends FragmentActivity {
             if (position == drinks) {
                 return new DrinksListFragment();
             } else if (position == ingredients) {
-                return new LiquorsFragment();
+                return new LiquorsListFragment();
             }
 
             return null;

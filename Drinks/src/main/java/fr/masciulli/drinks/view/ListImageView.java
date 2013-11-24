@@ -6,12 +6,12 @@ import android.widget.ImageView;
 
 import fr.masciulli.drinks.R;
 
-public class DrinkView extends ImageView {
-    public DrinkView(Context context) {
+public class ListImageView extends ImageView {
+    public ListImageView(Context context) {
         super(context);
     }
 
-    public DrinkView(Context context, AttributeSet attrs) {
+    public ListImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

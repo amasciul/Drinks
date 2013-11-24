@@ -28,7 +28,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorsFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>,ViewPagerScrollListener {
+public class LiquorsListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>,ViewPagerScrollListener {
     private ListView mListView;
     private LiquorListAdapter mListAdapter;
 

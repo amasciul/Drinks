@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     >
 
-    <fr.masciulli.drinks.view.DrinkView
+    <fr.masciulli.drinks.view.ListImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
