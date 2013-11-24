@@ -11,8 +11,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,19 +28,18 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.view.BlurTransformation;
-import fr.masciulli.drinks.view.ObservableScrollView;
-import fr.masciulli.drinks.view.ScrollViewListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, ScrollViewListener {
+public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener {
     private ImageView mImageView;
     private ImageView mBlurredImageView;
     private TextView mHistoryView;
-    private ObservableScrollView mScrollView;
+    private ListView mListView;
     private ProgressBar mProgressBar;
     private Button mWikipediaButton;
+    private View mHeaderView;
 
     private MenuItem mRetryAction;
 
@@ -53,10 +55,16 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mImageView = (ImageView)root.findViewById(R.id.image);
         mBlurredImageView = (ImageView)root.findViewById(R.id.image_blurred);
-        mHistoryView = (TextView)root.findViewById(R.id.history);
-        mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
+        mListView = (ListView)root.findViewById(R.id.scroll);
         mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
-        mWikipediaButton = (Button)root.findViewById(R.id.wikipedia);
+
+        mHeaderView = inflater.inflate(R.layout.header_liquor_detail, null);
+        mListView.addHeaderView(mHeaderView);
+
+        mHistoryView = (TextView)mHeaderView.findViewById(R.id.history);
+        mWikipediaButton = (Button)mHeaderView.findViewById(R.id.wikipedia);
+
+        mListView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, new String[]{}));
 
         Intent intent = getActivity().getIntent();
         mLiquorId = intent.getIntExtra("liquor_id", 1);
@@ -70,7 +78,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mImageViewHeight = (int)getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
-        mScrollView.setScrollViewListener(this);
+        mListView.setOnScrollListener(this);
 
         mWikipediaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +116,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mLiquor = liquor;
 
         mProgressBar.setVisibility(View.GONE);
-        mScrollView.setVisibility(View.VISIBLE);
+        mListView.setVisibility(View.VISIBLE);
 
         getActivity().setTitle(liquor.name);
 
@@ -157,16 +165,20 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     }
 
     @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        float alpha = 2 * (float) y / (float) mImageViewHeight;
+    public void onScrollStateChanged(AbsListView listView, int state) {
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        float alpha = 2 * (float) -mHeaderView.getTop() / (float) mImageViewHeight;
         if (alpha > 1) {
             alpha = 1;
         }
         mBlurredImageView.setAlpha(alpha);
 
-        mImageView.setTop((0-y)/2);
-        mImageView.setBottom(mImageViewHeight - y);
-        mBlurredImageView.setTop((0-y)/2);
-        mBlurredImageView.setBottom(mImageViewHeight - y);
+        mImageView.setTop(mHeaderView.getTop()/2);
+        mImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
+        mBlurredImageView.setTop(mHeaderView.getTop()/2);
+        mBlurredImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
     }
 }

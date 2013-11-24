@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_marginTop="@dimen/liquor_detail_recipe_margin"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/history"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif-light" />
+
+    <Button
+        android:id="@+id/wikipedia"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_drinks"
+        android:textColor="@color/holo_blue_dark" />
+
+</LinearLayout>
