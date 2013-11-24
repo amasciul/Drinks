@@ -2,6 +2,7 @@ package fr.masciulli.drinks.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -88,6 +89,14 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor> {
             refresh();
         }
 
+        mWikipediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mLiquor == null) return;
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
+            }
+        });
+
         return root;
     }
 
@@ -110,6 +119,9 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor> {
 
         Picasso.with(getActivity()).load(liquor.imageUrl).into(mImageView);
         Picasso.with(getActivity()).load(liquor.imageUrl).transform(mTransformation).into(mBlurredImageView);
+
+        mHistoryView.setText(liquor.history);
+        mWikipediaButton.setText(String.format(String.format(getString(R.string.liquor_detail_wikipedia), liquor.name)));
     }
 
     @Override

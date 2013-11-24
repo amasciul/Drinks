@@ -155,7 +155,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         mIngredientsView.setText(Html.fromHtml(htmlString));
 
         mInstructionsView.setText(drink.instructions);
-        mWikipediaButton.setText(String.format(getString(R.string.detail_wikipedia), drink.name));
+        mWikipediaButton.setText(String.format(getString(R.string.drink_detail_wikipedia), drink.name));
     }
 
     @Override

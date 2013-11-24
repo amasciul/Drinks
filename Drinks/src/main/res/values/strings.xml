@@ -17,7 +17,8 @@
     <string name="pref_apiendpoint_key">pref_apiendpoint</string>
     <string name="pref_apiendpoint_default">http://drinkstest.elasticbeanstalk.com/api</string>
     <string name="server_updated">Server updated. Please reload list.</string>
-    <string name="detail_wikipedia">See %1$s on Wikipedia</string>
+    <string name="drink_detail_wikipedia">See %1$s on Wikipedia</string>
+    <string name="liquor_detail_wikipedia">See %1$s on Wikipedia</string>
     <string name="licenses">Content and licenses</string>
     <string name="title_licenses">Content and Licenses</string>
     <string name="title_settings">Settings</string>
