@@ -66,9 +66,10 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public void onAttachFragment(Fragment fragment) {
-        if (fragment.getClass() == DrinksListFragment.class) {
+        // TODO uncast to object once Android Studio bug fixed
+        if (((Object)fragment).getClass() == DrinksListFragment.class) {
             mDrinksFragment = (DrinksListFragment)fragment;
-        } else if (fragment.getClass() == LiquorsListFragment.class) {
+        } else if (((Object)fragment).getClass() == LiquorsListFragment.class) {
             mLiquorsFragment = (LiquorsListFragment)fragment;
         }
     }
