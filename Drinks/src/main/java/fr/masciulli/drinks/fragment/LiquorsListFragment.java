@@ -105,7 +105,7 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
         ((MainActivity)getActivity()).setRefreshActionVisible(false);
-        DrinksProvider.getLiquorsList(this);
+        DrinksProvider.getAllLiquors(this);
     }
 
     @Override

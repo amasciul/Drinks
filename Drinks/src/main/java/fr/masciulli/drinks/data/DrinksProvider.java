@@ -14,24 +14,24 @@ public class DrinksProvider {
             .build();
     private static DrinksService mService = mRestAdapter.create(DrinksService.class);
 
-    public static void getDrinksList(Callback<List<Drink>> callback) {
-        mService.listDrinks(callback);
+    public static void getAllDrinks(Callback<List<Drink>> callback) {
+        mService.getAllDrinks(callback);
     }
 
     public static void getDrinksByIngredient(String ingredient, Callback<List<Drink>> callback) {
-        mService.listDrinksByIngredient(ingredient, callback);
+        mService.getDrinksByIngredient(ingredient, callback);
     }
 
     public static void getDrink(int drinkId, Callback<Drink> callback) {
-        mService.detailDrink(drinkId, callback);
+        mService.getDrink(drinkId, callback);
     }
 
-    public static void getLiquorsList(Callback<List<Liquor>> callback) {
-        mService.listLiquors(callback);
+    public static void getAllLiquors(Callback<List<Liquor>> callback) {
+        mService.getAllLiquors(callback);
     }
 
     public static void getLiquor(int liquorId, Callback<Liquor> callback){
-        mService.detailLiquor(liquorId, callback);
+        mService.getLiquor(liquorId, callback);
     }
 
     public static void updateServer(String server) {

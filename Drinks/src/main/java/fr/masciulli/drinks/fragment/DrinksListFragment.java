@@ -119,7 +119,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
         mProgressBar.setVisibility(View.VISIBLE);
         mListView.getEmptyView().setVisibility(View.GONE);
         ((MainActivity)getActivity()).setRefreshActionVisible(false);
-        DrinksProvider.getDrinksList(this);
+        DrinksProvider.getAllDrinks(this);
     }
 
     @Override
