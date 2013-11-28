@@ -12,8 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,18 +22,24 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.List;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.adapter.LiquorDetailAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
+import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.view.BlurTransformation;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener {
+public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
+    private static final int HEADERVIEWS_COUNT = 1;
+
     private ImageView mImageView;
     private ImageView mBlurredImageView;
     private TextView mHistoryView;
@@ -53,6 +58,21 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     private Liquor mLiquor;
 
     private int mImageViewHeight;
+    private Callback<List<Drink>> mDrinksCallback = new Callback<List<Drink>>() {
+        @Override
+        public void success(List<Drink> drinks, Response response) {
+            mDrinkAdapter.update(drinks);
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            if (error.isNetworkError()) {
+                Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
+            } else {
+                Crouton.makeText(getActivity(), R.string.liquor_detail_drinks_loading_failed, Style.ALERT).show();
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +92,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mDrinkAdapter = new LiquorDetailAdapter(getActivity());
         mListView.setAdapter(mDrinkAdapter);
+        mListView.setOnItemClickListener(this);
 
         Intent intent = getActivity().getIntent();
         mLiquorId = intent.getIntExtra("liquor_id", 1);
@@ -121,6 +142,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         Log.d(getTag(), "Liquor detail loading has succeeded");
 
         mLiquor = liquor;
+
+        DrinksProvider.getDrinksByIngredient(liquor.name, mDrinksCallback);
 
         mProgressBar.setVisibility(View.GONE);
         mListView.setVisibility(View.VISIBLE);
@@ -188,5 +211,15 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
         mBlurredImageView.setTop(mHeaderView.getTop()/2);
         mBlurredImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Drink drink = mDrinkAdapter.getItem(position - HEADERVIEWS_COUNT);
+        Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
+        intent.putExtra("drink_name", drink.name);
+        intent.putExtra("drink_imageurl", drink.imageUrl);
+        intent.putExtra("drink_id", drink.id);
+        startActivity(intent);
     }
 }

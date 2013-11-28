@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +53,18 @@ public class LiquorDetailAdapter extends BaseAdapter {
         }
 
         final TextView nameView = Holder.get(root, R.id.name);
+        final ImageView imageView = Holder.get(root, R.id.image);
 
         final Drink drink = getItem(i);
 
         nameView.setText(drink.name);
+        Picasso.with(mContext).load(drink.imageUrl).into(imageView);
 
         return root;
+    }
+
+    public void update(List<Drink> drinks) {
+        mDrinks = drinks;
+        notifyDataSetChanged();
     }
 }
