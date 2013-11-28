@@ -18,6 +18,10 @@ public class DrinksProvider {
         mService.listDrinks(callback);
     }
 
+    public static void getDrinksByIngredient(String ingredient, Callback<List<Drink>> callback) {
+        mService.listDrinksByIngredient(ingredient, callback);
+    }
+
     public static void getDrink(int drinkId, Callback<Drink> callback) {
         mService.detailDrink(drinkId, callback);
     }
