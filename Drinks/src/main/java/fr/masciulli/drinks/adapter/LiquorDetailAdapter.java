@@ -23,13 +23,8 @@ public class LiquorDetailAdapter extends BaseAdapter {
 
     public LiquorDetailAdapter(Context context) {
         mContext = context;
-
-        for (int i = 0; i < 4; i++) {
-            Drink drink = new Drink();
-            drink.name = "Mojito";
-            mDrinks.add(drink);
-        }
     }
+    
     @Override
     public int getCount() {
         return mDrinks.size();
