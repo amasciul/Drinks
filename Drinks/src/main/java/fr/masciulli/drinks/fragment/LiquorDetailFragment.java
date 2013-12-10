@@ -143,6 +143,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mLiquor = liquor;
 
+        if(getActivity() == null) return;
+
         DrinksProvider.getDrinksByIngredient(liquor.name, mDrinksCallback);
 
         mProgressBar.setVisibility(View.GONE);
@@ -160,14 +162,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     @Override
     public void failure(RetrofitError error) {
-        mProgressBar.setVisibility(View.GONE);
-        if (mRetryAction != null) mRetryAction.setVisible(true);
-        if (error.isNetworkError()) {
-            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-        } else {
-            Crouton.makeText(getActivity(), R.string.liquor_detail_loading_failed, Style.ALERT).show();
-        }
-
         Response resp = error.getResponse();
         String message;
         if(resp != null) {
@@ -176,6 +170,16 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
             message = "no response";
         }
         Log.e(getTag(), "Liquor detail loading has failed : " + message);
+
+        if(getActivity() == null) return;
+
+        mProgressBar.setVisibility(View.GONE);
+        if (mRetryAction != null) mRetryAction.setVisible(true);
+        if (error.isNetworkError()) {
+            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
+        } else {
+            Crouton.makeText(getActivity(), R.string.liquor_detail_loading_failed, Style.ALERT).show();
+        }
 
     }
 
