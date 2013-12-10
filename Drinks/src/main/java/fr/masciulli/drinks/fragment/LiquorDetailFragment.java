@@ -61,11 +61,27 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     private Callback<List<Drink>> mDrinksCallback = new Callback<List<Drink>>() {
         @Override
         public void success(List<Drink> drinks, Response response) {
+            Log.d(getTag(), "Liquor detail related drinks loading has succeeded");
+
+            if(getActivity() == null) return;
+
             mDrinkAdapter.update(drinks);
         }
 
         @Override
         public void failure(RetrofitError error) {
+
+            Response resp = error.getResponse();
+            String message;
+            if(resp != null) {
+                message = "response status : " + resp.getStatus();
+            } else {
+                message = "no response";
+            }
+            Log.e(getTag(), "Liquor detail related drinks loading has failed : " + message);
+
+            if(getActivity() == null) return;
+
             if (error.isNetworkError()) {
                 Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
             } else {
