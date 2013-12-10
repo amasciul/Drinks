@@ -71,6 +71,9 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     public void success(List<Drink> drinks, Response response) {
         mLoadingError = false;
         Log.d(getTag(), "Drinks list loading has succeeded");
+
+        if (getActivity() == null) return;
+
         mListView.setVisibility(View.VISIBLE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
@@ -80,16 +83,18 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     @Override
     public void failure(RetrofitError retrofitError) {
         mLoadingError = true;
+        Log.e(getTag(), "Drinks list loading has failed");
+
+        if (getActivity() == null) return;
+
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
         ((MainActivity)getActivity()).setRefreshActionVisible(true);
-        Log.e(getTag(), "Drinks list loading has failed");
-        if (isAdded()) {
-            if (retrofitError.isNetworkError()) {
-                Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-            } else {
-                Crouton.makeText(getActivity(), getString(R.string.list_loading_failed), Style.ALERT).show();
-            }
+
+        if (retrofitError.isNetworkError()) {
+            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
+        } else {
+            Crouton.makeText(getActivity(), getString(R.string.list_loading_failed), Style.ALERT).show();
         }
     }
 
