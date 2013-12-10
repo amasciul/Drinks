@@ -132,6 +132,8 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
         mDrink = drink;
 
+        if(getActivity() == null) return;
+
         mProgressBar.setVisibility(View.GONE);
         mScrollView.setVisibility(View.VISIBLE);
 
@@ -141,7 +143,6 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         Picasso.with(getActivity()).load(drink.imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mHistoryView.setText(drink.history);
-
 
         String htmlString = "";
         int i = 0;
@@ -160,13 +161,6 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
     @Override
     public void failure(RetrofitError error) {
-        mProgressBar.setVisibility(View.GONE);
-        if (mRetryAction != null) mRetryAction.setVisible(true);
-        if (error.isNetworkError()) {
-            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-        } else {
-            Crouton.makeText(getActivity(), R.string.drink_detail_loading_failed, Style.ALERT).show();
-        }
 
         Response resp = error.getResponse();
         String message;
@@ -176,6 +170,17 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
             message = "no response";
         }
         Log.e(getTag(), "Drink detail loading has failed : " + message);
+
+        if(getActivity() == null) return;
+
+        mProgressBar.setVisibility(View.GONE);
+        if (mRetryAction != null) mRetryAction.setVisible(true);
+        if (error.isNetworkError()) {
+            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
+        } else {
+            Crouton.makeText(getActivity(), R.string.drink_detail_loading_failed, Style.ALERT).show();
+        }
+
     }
 
     @Override
