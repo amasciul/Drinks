@@ -67,6 +67,9 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
     public void success(List<Liquor> liquors, Response response) {
         Log.d(getTag(), "Liquors list loading has succeeded");
         mLoadingError = false;
+
+        if (getActivity() == null) return;
+
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
         mListAdapter.update(liquors);
@@ -76,6 +79,9 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
     public void failure(RetrofitError retrofitError) {
         Log.e(getTag(), "Liquor list loading has failed");
         mLoadingError = true;
+
+        if (getActivity() == null) return;
+
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
     }
