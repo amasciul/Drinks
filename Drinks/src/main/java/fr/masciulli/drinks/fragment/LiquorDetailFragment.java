@@ -86,6 +86,12 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 }
             }
 
+            if (filteredDrinks.size() > 0) {
+                mDrinksTitleView.setVisibility(View.VISIBLE);
+            } else {
+                mDrinksTitleView.setVisibility(View.GONE);
+            }
+
             mDrinkAdapter.update(filteredDrinks);
         }
 
