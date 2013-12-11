@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -63,11 +64,22 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         public void success(List<Drink> drinks, Response response) {
             Log.d(getTag(), "Liquor detail related drinks loading has succeeded");
 
-            if(getActivity() == null) return;
+            if (getActivity() == null) return;
 
-            //TODO implement client side filtering
+            List<Drink> filteredDrinks = new ArrayList<Drink>();
 
-            mDrinkAdapter.update(drinks);
+            for (Drink drink : drinks) {
+                for (String ingredient : drink.ingredients) {
+                    if (ingredient.toLowerCase().contains(mLiquor.name.toLowerCase())) {
+                        filteredDrinks.add(drink);
+                        break;
+                    }
+
+                    // TODO implement other names and check if match
+                }
+            }
+
+            mDrinkAdapter.update(filteredDrinks);
         }
 
         @Override
@@ -153,7 +165,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mProgressBar.setVisibility(View.VISIBLE);
         if (mRetryAction != null) mRetryAction.setVisible(false);
         DrinksProvider.getLiquor(mLiquorId, this);
-        DrinksProvider.getAllDrinks(mDrinksCallback);
     }
 
     @Override
@@ -163,6 +174,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mLiquor = liquor;
 
         if(getActivity() == null) return;
+
+        DrinksProvider.getAllDrinks(mDrinksCallback);
 
         mProgressBar.setVisibility(View.GONE);
         mListView.setVisibility(View.VISIBLE);
