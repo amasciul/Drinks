@@ -3,12 +3,15 @@ package fr.masciulli.drinks.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 public class Liquor implements Parcelable {
     public int id;
     public String name;
     public String imageUrl;
     public String history;
     public String wikipedia;
+    public List<String> otherNames;
 
     @Override
     public int describeContents() {
@@ -22,5 +25,6 @@ public class Liquor implements Parcelable {
         parcel.writeString(imageUrl);
         parcel.writeString(history);
         parcel.writeString(wikipedia);
+        parcel.writeStringList(otherNames);
     }
 }

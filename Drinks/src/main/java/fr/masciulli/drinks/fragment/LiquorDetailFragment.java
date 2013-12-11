@@ -75,7 +75,14 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                         break;
                     }
 
-                    // TODO implement other names and check if match
+                    //At this point, we know main name does not match
+                    for (String otherName : mLiquor.otherNames) {
+                        if (ingredient.toLowerCase().contains(otherName.toLowerCase())) {
+                            filteredDrinks.add(drink);
+                            break;
+                        }
+                    }
+
                 }
             }
 
