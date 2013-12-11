@@ -12,8 +12,6 @@ import retrofit.http.Query;
 public interface DrinksService {
     @GET("/Drinks")
     public void getAllDrinks(Callback<List<Drink>> callback);
-    @GET("/Drinks")
-    public void getDrinksByIngredient(@Query("ingredient") String ingredient, Callback<List<Drink>> callback);
     @GET("/Drinks/{drinkid}")
     public void getDrink(@Path("drinkid") int drinkId, Callback<Drink> callback);
     @GET("/Liquors")

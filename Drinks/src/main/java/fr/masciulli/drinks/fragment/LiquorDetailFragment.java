@@ -65,6 +65,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
             if(getActivity() == null) return;
 
+            //TODO implement client side filtering
+
             mDrinkAdapter.update(drinks);
         }
 
@@ -151,6 +153,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mProgressBar.setVisibility(View.VISIBLE);
         if (mRetryAction != null) mRetryAction.setVisible(false);
         DrinksProvider.getLiquor(mLiquorId, this);
+        DrinksProvider.getAllDrinks(mDrinksCallback);
     }
 
     @Override
@@ -160,8 +163,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mLiquor = liquor;
 
         if(getActivity() == null) return;
-
-        DrinksProvider.getDrinksByIngredient(liquor.name, mDrinksCallback);
 
         mProgressBar.setVisibility(View.GONE);
         mListView.setVisibility(View.VISIBLE);
