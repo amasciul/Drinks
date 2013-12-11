@@ -6,6 +6,5 @@
         android:title="@string/retry"
         android:showAsAction="always"
         android:icon="@drawable/ic_menu_refresh"
-        android:visible="false"
-        />
+        android:visible="false" />
 </menu>

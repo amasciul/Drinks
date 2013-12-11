@@ -2,8 +2,7 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <fr.masciulli.drinks.view.ListImageView
         android:layout_width="match_parent"
@@ -21,9 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="28sp"
-            android:fontFamily="sans-serif-light"
-            />
+            android:fontFamily="sans-serif-light" />
 
-        </FrameLayout>
+    </FrameLayout>
 
 </FrameLayout>

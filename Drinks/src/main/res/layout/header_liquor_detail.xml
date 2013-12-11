@@ -28,6 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/drinks_title"
-        android:textSize="24sp"/>
+        android:textSize="24sp" />
 
 </LinearLayout>

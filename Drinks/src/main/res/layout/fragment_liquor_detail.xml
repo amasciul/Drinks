@@ -7,8 +7,7 @@
     <fr.masciulli.drinks.view.TopCenterImageView
         android:layout_height="@dimen/drink_detail_recipe_margin"
         android:layout_width="match_parent"
-        android:id="@+id/image"
-        />
+        android:id="@+id/image" />
 
     <fr.masciulli.drinks.view.TopCenterImageView
         android:layout_height="@dimen/drink_detail_recipe_margin"
@@ -21,7 +20,7 @@
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/progressbar"/>
+        android:id="@+id/progressbar" />
 
     <ListView
         android:layout_height="match_parent"

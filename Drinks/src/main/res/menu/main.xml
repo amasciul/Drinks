@@ -1,16 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_settings"
+    <item
+        android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:showAsAction="never" />
-    <item android:id="@+id/licenses"
+    <item
+        android:id="@+id/licenses"
         android:title="@string/licenses"
         android:showAsAction="never" />
-    <item android:id="@+id/about"
+    <item
+        android:id="@+id/about"
         android:title="@string/about"
         android:showAsAction="never" />
-    <item android:id="@+id/retry"
+    <item
+        android:id="@+id/retry"
         android:title="@string/retry"
         android:showAsAction="always"
         android:icon="@drawable/ic_menu_refresh"
-        android:visible="false"/>
+        android:visible="false" />
 </menu>

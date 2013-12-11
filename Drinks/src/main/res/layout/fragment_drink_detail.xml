@@ -7,8 +7,7 @@
     <fr.masciulli.drinks.view.TopCenterImageView
         android:layout_height="@dimen/drink_detail_recipe_margin"
         android:layout_width="match_parent"
-        android:id="@+id/image"
-        />
+        android:id="@+id/image" />
 
     <fr.masciulli.drinks.view.TopCenterImageView
         android:layout_height="@dimen/drink_detail_recipe_margin"
@@ -21,7 +20,7 @@
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/progressbar"/>
+        android:id="@+id/progressbar" />
 
 
     <fr.masciulli.drinks.view.ObservableScrollView
@@ -49,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="@string/detail_ingredients"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_height="wrap_content"
@@ -63,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="@string/detail_recipe"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_height="wrap_content"
@@ -71,6 +70,7 @@
                 android:id="@+id/instructions"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-light" />
+
             <Button
                 android:id="@+id/wikipedia"
                 android:layout_marginTop="16dp"
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_drinks"
-                android:textColor="@color/holo_blue_dark"/>
+                android:textColor="@color/holo_blue_dark" />
 
         </LinearLayout>
 
