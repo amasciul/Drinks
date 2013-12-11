@@ -26,7 +26,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorsListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>,ViewPagerScrollListener {
+public class LiquorsListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>, ViewPagerScrollListener {
     private ListView mListView;
     private LiquorListAdapter mListAdapter;
 
@@ -45,7 +45,7 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
         mListAdapter = new LiquorListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
 
-        mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
         refresh();
 
@@ -97,12 +97,12 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
             View itemRoot = mListView.getChildAt(i);
             if (itemRoot == null) continue;
 
-            TextView nameView = (TextView)itemRoot.findViewById(R.id.name);
+            TextView nameView = (TextView) itemRoot.findViewById(R.id.name);
 
             int textWidth = nameView.getWidth();
 
             nameView.setRight(Math.round(textWidth - (1 - positionOffset) * textWidth));
-            nameView.setLeft(Math.round(- (1 - positionOffset) * textWidth));
+            nameView.setLeft(Math.round(-(1 - positionOffset) * textWidth));
         }
     }
 
@@ -110,7 +110,7 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
     public void refresh() {
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
-        ((MainActivity)getActivity()).setRefreshActionVisible(false);
+        ((MainActivity) getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getAllLiquors(this);
     }
 
@@ -120,7 +120,7 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
 
         if (mLoadingError) {
             Log.d(getTag(), "loading error");
-            ((MainActivity)getActivity()).setRefreshActionVisible(true);
+            ((MainActivity) getActivity()).setRefreshActionVisible(true);
         }
     }
 }

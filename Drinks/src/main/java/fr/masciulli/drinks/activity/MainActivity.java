@@ -67,10 +67,10 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onAttachFragment(Fragment fragment) {
         // TODO uncast to object once Android Studio bug fixed
-        if (((Object)fragment).getClass() == DrinksListFragment.class) {
-            mDrinksFragment = (DrinksListFragment)fragment;
-        } else if (((Object)fragment).getClass() == LiquorsListFragment.class) {
-            mLiquorsFragment = (LiquorsListFragment)fragment;
+        if (((Object) fragment).getClass() == DrinksListFragment.class) {
+            mDrinksFragment = (DrinksListFragment) fragment;
+        } else if (((Object) fragment).getClass() == LiquorsListFragment.class) {
+            mLiquorsFragment = (LiquorsListFragment) fragment;
         }
     }
 
@@ -142,25 +142,25 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings :
+            case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
-            case R.id.licenses :
+            case R.id.licenses:
                 startActivity(new Intent(this, LicensesActivity.class));
                 return true;
-            case R.id.about :
+            case R.id.about:
                 (new AboutDialogFragment()).show(getSupportFragmentManager(), "dialog_about");
                 return true;
-            case R.id.retry :
-                if(mDrinksFragment != null) mDrinksFragment.refresh();
-                if(mLiquorsFragment != null) mLiquorsFragment.refresh();
+            case R.id.retry:
+                if (mDrinksFragment != null) mDrinksFragment.refresh();
+                if (mLiquorsFragment != null) mLiquorsFragment.refresh();
                 return true;
         }
         return false;
     }
 
     public void setRefreshActionVisible(boolean visibility) {
-        if(mRetryAction != null) {
+        if (mRetryAction != null) {
             mRetryAction.setVisible(visibility);
         }
     }

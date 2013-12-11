@@ -18,7 +18,7 @@ public class DrinkDetailActivity extends FragmentActivity {
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home :
+            case android.R.id.home:
                 finish();
                 return true;
         }

@@ -15,7 +15,8 @@ public class ListImageView extends ImageView {
         super(context, attrs);
     }
 
-    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(getMeasuredWidth(), getResources().getDimensionPixelSize(R.dimen.drink_image_height));
     }

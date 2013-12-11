@@ -94,14 +94,14 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
             Response resp = error.getResponse();
             String message;
-            if(resp != null) {
+            if (resp != null) {
                 message = "response status : " + resp.getStatus();
             } else {
                 message = "no response";
             }
             Log.e(getTag(), "Liquor detail related drinks loading has failed : " + message);
 
-            if(getActivity() == null) return;
+            if (getActivity() == null) return;
 
             if (error.isNetworkError()) {
                 Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
@@ -115,17 +115,17 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_liquor_detail, container, false);
 
-        mImageView = (ImageView)root.findViewById(R.id.image);
-        mBlurredImageView = (ImageView)root.findViewById(R.id.image_blurred);
-        mListView = (ListView)root.findViewById(R.id.scroll);
-        mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
+        mImageView = (ImageView) root.findViewById(R.id.image);
+        mBlurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
+        mListView = (ListView) root.findViewById(R.id.scroll);
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
         mHeaderView = inflater.inflate(R.layout.header_liquor_detail, null);
         mListView.addHeaderView(mHeaderView);
 
-        mHistoryView = (TextView)mHeaderView.findViewById(R.id.history);
-        mWikipediaButton = (Button)mHeaderView.findViewById(R.id.wikipedia);
-        mDrinksTitleView = (TextView)mHeaderView.findViewById(R.id.drinks_title);
+        mHistoryView = (TextView) mHeaderView.findViewById(R.id.history);
+        mWikipediaButton = (Button) mHeaderView.findViewById(R.id.wikipedia);
+        mDrinksTitleView = (TextView) mHeaderView.findViewById(R.id.drinks_title);
 
         mDrinkAdapter = new LiquorDetailAdapter(getActivity());
         mListView.setAdapter(mDrinkAdapter);
@@ -142,7 +142,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
         Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
 
-        mImageViewHeight = (int)getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
+        mImageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
         mListView.setOnScrollListener(this);
 
         mWikipediaButton.setOnClickListener(new View.OnClickListener() {
@@ -157,8 +157,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
             Liquor liquor = savedInstanceState.getParcelable("liquor");
             if (liquor != null) {
                 success(liquor, null);
-            }
-            else {
+            } else {
                 refresh();
             }
         } else {
@@ -180,7 +179,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mLiquor = liquor;
 
-        if(getActivity() == null) return;
+        if (getActivity() == null) return;
 
         DrinksProvider.getAllDrinks(mDrinksCallback);
 
@@ -201,14 +200,14 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     public void failure(RetrofitError error) {
         Response resp = error.getResponse();
         String message;
-        if(resp != null) {
+        if (resp != null) {
             message = "response status : " + resp.getStatus();
         } else {
             message = "no response";
         }
         Log.e(getTag(), "Liquor detail loading has failed : " + message);
 
-        if(getActivity() == null) return;
+        if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
         if (mRetryAction != null) mRetryAction.setVisible(true);
@@ -248,9 +247,9 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         }
         mBlurredImageView.setAlpha(alpha);
 
-        mImageView.setTop(mHeaderView.getTop()/2);
+        mImageView.setTop(mHeaderView.getTop() / 2);
         mImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
-        mBlurredImageView.setTop(mHeaderView.getTop()/2);
+        mBlurredImageView.setTop(mHeaderView.getTop() / 2);
         mBlurredImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
     }
 

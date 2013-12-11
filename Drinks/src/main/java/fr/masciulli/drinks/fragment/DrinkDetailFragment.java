@@ -57,14 +57,14 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
         setHasOptionsMenu(true);
 
-        mImageView = (ImageView)root.findViewById(R.id.image);
-        mBlurredImageView = (ImageView)root.findViewById(R.id.image_blurred);
-        mHistoryView = (TextView)root.findViewById(R.id.history);
-        mIngredientsView = (TextView)root.findViewById(R.id.ingredients);
-        mInstructionsView = (TextView)root.findViewById(R.id.instructions);
-        mScrollView = (ObservableScrollView)root.findViewById(R.id.scroll);
-        mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
-        mWikipediaButton = (Button)root.findViewById(R.id.wikipedia);
+        mImageView = (ImageView) root.findViewById(R.id.image);
+        mBlurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
+        mHistoryView = (TextView) root.findViewById(R.id.history);
+        mIngredientsView = (TextView) root.findViewById(R.id.ingredients);
+        mInstructionsView = (TextView) root.findViewById(R.id.instructions);
+        mScrollView = (ObservableScrollView) root.findViewById(R.id.scroll);
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
+        mWikipediaButton = (Button) root.findViewById(R.id.wikipedia);
 
         Intent intent = getActivity().getIntent();
         mDrinkId = intent.getIntExtra("drink_id", 1);
@@ -77,7 +77,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
         Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
 
-        mImageViewHeight = (int)getResources().getDimension(R.dimen.drink_detail_recipe_margin);
+        mImageViewHeight = (int) getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
         mWikipediaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,8 +91,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
             Drink drink = savedInstanceState.getParcelable("drink");
             if (drink != null) {
                 success(drink, null);
-            }
-            else {
+            } else {
                 refresh();
             }
         } else {
@@ -120,9 +119,9 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         }
         mBlurredImageView.setAlpha(alpha);
 
-        mImageView.setTop((0-y)/2);
+        mImageView.setTop((0 - y) / 2);
         mImageView.setBottom(mImageViewHeight - y);
-        mBlurredImageView.setTop((0-y)/2);
+        mBlurredImageView.setTop((0 - y) / 2);
         mBlurredImageView.setBottom(mImageViewHeight - y);
     }
 
@@ -132,7 +131,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
         mDrink = drink;
 
-        if(getActivity() == null) return;
+        if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
         mScrollView.setVisibility(View.VISIBLE);
@@ -164,14 +163,14 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
         Response resp = error.getResponse();
         String message;
-        if(resp != null) {
+        if (resp != null) {
             message = "response status : " + resp.getStatus();
         } else {
             message = "no response";
         }
         Log.e(getTag(), "Drink detail loading has failed : " + message);
 
-        if(getActivity() == null) return;
+        if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
         if (mRetryAction != null) mRetryAction.setVisible(true);

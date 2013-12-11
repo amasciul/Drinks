@@ -34,14 +34,14 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
             mFilteredDrinks.clear();
             FilterResults results = new FilterResults();
 
-            Log.d("adapter","performing filtering with " + charSequence);
+            Log.d("adapter", "performing filtering with " + charSequence);
 
             final String query = charSequence.toString().toLowerCase();
 
             final List<Drink> ingredientMatchDrinks = new ArrayList<Drink>();
 
             for (Drink drink : mSavedDrinks) {
-                if(drink.name.toLowerCase().contains(query)) {
+                if (drink.name.toLowerCase().contains(query)) {
                     mFilteredDrinks.add(drink);
                 } else {
                     // drink name does not match, we check the ingredients
@@ -64,7 +64,7 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update((List<Drink>)filterResults.values, true);
+            update((List<Drink>) filterResults.values, true);
         }
     };
 
@@ -109,7 +109,7 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
     public void update(List<Drink> drinks, boolean dueToFilterOperation) {
         mDrinks = drinks;
         notifyDataSetChanged();
-        if(!dueToFilterOperation) {
+        if (!dueToFilterOperation) {
             mSavedDrinks = new ArrayList<Drink>(drinks);
         }
     }

@@ -14,7 +14,7 @@ public class LicensesActivity extends Activity {
         setContentView(R.layout.activity_licenses);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        WebView webView = (WebView)findViewById(R.id.webview);
+        WebView webView = (WebView) findViewById(R.id.webview);
         webView.loadUrl("file:///android_asset/licenses.html");
     }
 

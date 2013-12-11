@@ -30,7 +30,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>,  ViewPagerScrollListener, SearchView.OnQueryTextListener {
+public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
     private ListView mListView;
     private ProgressBar mProgressBar;
 
@@ -44,7 +44,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
         final View root = inflater.inflate(R.layout.fragment_drinks_list, container, false);
 
         mListView = (ListView) root.findViewById(R.id.list);
-        mProgressBar = (ProgressBar)root.findViewById(R.id.progressbar);
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
         mListView.setEmptyView(root.findViewById(android.R.id.empty));
         mListView.setOnItemClickListener(this);
@@ -89,7 +89,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
 
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
-        ((MainActivity)getActivity()).setRefreshActionVisible(true);
+        ((MainActivity) getActivity()).setRefreshActionVisible(true);
 
         if (retrofitError.isNetworkError()) {
             Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
@@ -107,7 +107,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
             View itemRoot = mListView.getChildAt(i);
             if (itemRoot == null) continue;
 
-            TextView nameView = (TextView)itemRoot.findViewById(R.id.name);
+            TextView nameView = (TextView) itemRoot.findViewById(R.id.name);
 
             // TODO get screenWidth somewhere else (always the same)
             int screenWidth = itemRoot.getWidth();
@@ -123,7 +123,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     public void refresh() {
         mProgressBar.setVisibility(View.VISIBLE);
         mListView.getEmptyView().setVisibility(View.GONE);
-        ((MainActivity)getActivity()).setRefreshActionVisible(false);
+        ((MainActivity) getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getAllDrinks(this);
     }
 
@@ -136,8 +136,8 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
         // SearchView configuration
         final MenuItem searchMenuItem = menu.findItem(R.id.search);
 
-        if(mLoadingError) {
-            ((MainActivity)getActivity()).setRefreshActionVisible(true);
+        if (mLoadingError) {
+            ((MainActivity) getActivity()).setRefreshActionVisible(true);
         }
 
         SearchView searchView = (SearchView) searchMenuItem.getActionView();

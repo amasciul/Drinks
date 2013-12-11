@@ -24,7 +24,7 @@ public class LiquorDetailAdapter extends BaseAdapter {
     public LiquorDetailAdapter(Context context) {
         mContext = context;
     }
-    
+
     @Override
     public int getCount() {
         return mDrinks.size();

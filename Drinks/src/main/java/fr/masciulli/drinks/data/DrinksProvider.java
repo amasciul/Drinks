@@ -7,6 +7,7 @@ import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import retrofit.Callback;
 import retrofit.RestAdapter;
+
 public class DrinksProvider {
 
     private static RestAdapter mRestAdapter = new RestAdapter.Builder()
@@ -26,7 +27,7 @@ public class DrinksProvider {
         mService.getAllLiquors(callback);
     }
 
-    public static void getLiquor(int liquorId, Callback<Liquor> callback){
+    public static void getLiquor(int liquorId, Callback<Liquor> callback) {
         mService.getLiquor(liquorId, callback);
     }
 

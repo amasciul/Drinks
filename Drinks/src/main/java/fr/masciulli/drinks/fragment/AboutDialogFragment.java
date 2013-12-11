@@ -16,8 +16,8 @@ public class AboutDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder//.setTitle(getString(R.string.about_title))
-               .setPositiveButton(getString(R.string.about_ok), null)
-               .setView(inflater.inflate(R.layout.dialog_about, null));
+                .setPositiveButton(getString(R.string.about_ok), null)
+                .setView(inflater.inflate(R.layout.dialog_about, null));
 
         return builder.create();
     }
