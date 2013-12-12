@@ -26,10 +26,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DrinkDetailActivity"></activity>
-        <activity android:name=".activity.SettingsActivity" android:label="@string/title_settings"></activity>
-        <activity android:name=".activity.LicensesActivity" android:label="@string/title_licenses"></activity>
-        <activity android:name=".activity.LiquorDetailActivity"></activity>
+        <activity
+            android:name=".activity.DrinkDetailActivity"
+            android:theme="@style/Transparent" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/title_settings" />
+        <activity
+            android:name=".activity.LicensesActivity"
+            android:label="@string/title_licenses" />
+        <activity
+            android:name=".activity.LiquorDetailActivity" />
     </application>
 
 </manifest>
