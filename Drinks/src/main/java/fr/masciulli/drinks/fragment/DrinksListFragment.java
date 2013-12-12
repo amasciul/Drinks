@@ -58,10 +58,12 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
                 Log.d(getTag(), "retrieved drinks from saved instance state");
                 List<Drink> savedDrinks = savedInstanceState.getParcelableArrayList(STATE_LIST);
                 mListAdapter.update(savedDrinks);
+            } else {
+                refresh();
             }
+        } else {
+            refresh();
         }
-
-        refresh();
 
         return root;
     }
