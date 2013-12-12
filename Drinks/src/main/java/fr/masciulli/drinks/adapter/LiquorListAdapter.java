@@ -61,4 +61,8 @@ public class LiquorListAdapter extends BaseAdapter {
         mLiquors = liquors;
         notifyDataSetChanged();
     }
+
+    public ArrayList<Liquor> getLiquors() {
+        return (ArrayList<Liquor>) mLiquors;
+    }
 }

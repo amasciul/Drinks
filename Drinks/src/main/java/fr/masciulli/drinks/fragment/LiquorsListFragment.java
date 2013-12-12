@@ -20,6 +20,7 @@ import fr.masciulli.drinks.activity.LiquorDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.LiquorListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
+import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
@@ -27,6 +28,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class LiquorsListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>, ViewPagerScrollListener {
+    private static final String STATE_LIST = "liquor";
+
     private ListView mListView;
     private LiquorListAdapter mListAdapter;
 
@@ -47,7 +50,17 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
 
         mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
-        refresh();
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(STATE_LIST)) {
+                Log.d(getTag(), "retrieved liquors from saved instance state");
+                List<Liquor> savedLiquors = savedInstanceState.getParcelableArrayList(STATE_LIST);
+                mListAdapter.update(savedLiquors);
+            } else {
+                refresh();
+            }
+        } else {
+            refresh();
+        }
 
         return root;
     }
@@ -121,6 +134,15 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
         if (mLoadingError) {
             Log.d(getTag(), "loading error");
             ((MainActivity) getActivity()).setRefreshActionVisible(true);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mListAdapter.getCount() > 0) {
+            outState.putParcelableArrayList(STATE_LIST, mListAdapter.getLiquors());
         }
     }
 }
