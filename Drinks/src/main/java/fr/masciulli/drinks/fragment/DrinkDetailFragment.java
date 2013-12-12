@@ -33,6 +33,8 @@ import retrofit.client.Response;
 
 public class DrinkDetailFragment extends RefreshableFragment implements ScrollViewListener, Callback<Drink> {
 
+    private static final String STATE_DRINK = "drink";
+
     private ImageView mImageView;
     private ImageView mBlurredImageView;
     private TextView mHistoryView;
@@ -88,7 +90,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         });
 
         if (savedInstanceState != null) {
-            Drink drink = savedInstanceState.getParcelable("drink");
+            Drink drink = savedInstanceState.getParcelable(STATE_DRINK);
             if (drink != null) {
                 success(drink, null);
             } else {
@@ -106,7 +108,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         super.onSaveInstanceState(outState);
 
         if (mDrink != null) {
-            outState.putParcelable("drink", mDrink);
+            outState.putParcelable(STATE_DRINK, mDrink);
             Log.d(getTag(), "Instance state saved");
         }
     }
