@@ -189,7 +189,6 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
-        mScrollView.setVisibility(View.VISIBLE);
 
         getActivity().setTitle(drink.name);
 
@@ -211,6 +210,24 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
         mInstructionsView.setText(drink.instructions);
         mWikipediaButton.setText(String.format(getString(R.string.drink_detail_wikipedia), drink.name));
+
+        ViewTreeObserver observer = mScrollView.getViewTreeObserver();
+        if (observer != null) {
+            observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                @Override
+                public boolean onPreDraw() {
+                    mScrollView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    mScrollView.setAlpha(0);
+                    mScrollView.animate().setDuration(ANIM_DURATION).
+                            alpha(1).
+                            setInterpolator(sDecelerator);
+
+                    return true;
+                }
+            });
+        }
+        mScrollView.setVisibility(View.VISIBLE);
     }
 
     @Override
