@@ -1,7 +1,9 @@
 package fr.masciulli.drinks.fragment;
 
+import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
@@ -61,6 +63,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     private Drink mDrink;
     private int mTopDelta;
     private int mPreviousItemHeight;
+    private Drawable mBackground;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,6 +89,8 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         mPreviousItemHeight = intent.getIntExtra("height", 0);
         final int previousItemTop = intent.getIntExtra("top", 0);
         int previousOrientation = intent.getIntExtra("orientation", 0);
+
+        mBackground = root.getBackground();
 
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
@@ -137,15 +142,18 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     }
 
     private void runEnterAnimation() {
-        final long duration = ANIM_DURATION;
 
         mImageView.setPivotX(0);
         mImageView.setPivotY(0);
         mImageView.setTranslationY(mTopDelta);
 
-        mImageView.animate().setDuration(duration).
+        mImageView.animate().setDuration(ANIM_DURATION).
                 translationX(0).translationY(0).
                 setInterpolator(sDecelerator);
+
+        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
+        bgAnim.setDuration(ANIM_DURATION);
+        bgAnim.start();
     }
 
     @Override
