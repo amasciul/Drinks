@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.fragment;
 
+import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -27,6 +30,7 @@ import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
+import hugo.weaving.DebugLog;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -34,6 +38,9 @@ import retrofit.client.Response;
 public class DrinkDetailFragment extends RefreshableFragment implements ScrollViewListener, Callback<Drink> {
 
     private static final String STATE_DRINK = "drink";
+    private static final long ANIM_DURATION = 500;
+
+    private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
     private ImageView mImageView;
     private ImageView mBlurredImageView;
@@ -52,6 +59,8 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     private Transformation mTransformation;
 
     private Drink mDrink;
+    private int mTopDelta;
+    private float mHeightScale;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,11 +83,9 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
         // Data needed for animations
-        int previousItemHeight = intent.getIntExtra("height", 0);
-        int previousItemTop = intent.getIntExtra("top", 0);
+        final int previousItemHeight = intent.getIntExtra("height", 0);
+        final int previousItemTop = intent.getIntExtra("top", 0);
         int previousOrientation = intent.getIntExtra("orientation", 0);
-
-        Log.d(getTag(), "height : " + previousItemHeight + ", top : " + previousItemTop);
 
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
@@ -104,10 +111,47 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
                 refresh();
             }
         } else {
+            ViewTreeObserver observer = mImageView.getViewTreeObserver();
+            if (observer != null) {
+                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                    @Override
+                    public boolean onPreDraw() {
+                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                        int[] screenLocation = new int[2];
+                        mImageView.getLocationOnScreen(screenLocation);
+                        mTopDelta = previousItemTop - screenLocation[1];
+
+                        mHeightScale = (float) previousItemHeight / mImageView.getHeight();
+
+                        runEnterAnimation();
+
+                        return true;
+                    }
+                });
+            }
+
             refresh();
         }
 
         return root;
+    }
+
+    private void runEnterAnimation() {
+        final long duration = ANIM_DURATION;
+
+        mImageView.setPivotX(0);
+        mImageView.setPivotY(0);
+        mImageView.setScaleX(1);
+        mImageView.setScaleY(mHeightScale);
+        mImageView.setTranslationX(0);
+        mImageView.setTranslationY(mTopDelta);
+
+        mImageView.animate().setDuration(duration).
+                scaleX(1).scaleY(1).
+                translationX(0).translationY(0).
+                setInterpolator(sDecelerator);
     }
 
     @Override
