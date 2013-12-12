@@ -77,6 +77,8 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
         intent.putExtra("drink_imageurl", drink.imageUrl);
         intent.putExtra("drink_id", drink.id);
         startActivity(intent);
+
+        getActivity().overridePendingTransition(0, 0);
     }
 
     @Override
