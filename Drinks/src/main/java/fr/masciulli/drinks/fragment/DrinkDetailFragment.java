@@ -60,7 +60,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
     private Drink mDrink;
     private int mTopDelta;
-    private float mHeightScale;
+    private int mPreviousItemHeight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
         // Data needed for animations
-        final int previousItemHeight = intent.getIntExtra("height", 0);
+        mPreviousItemHeight = intent.getIntExtra("height", 0);
         final int previousItemTop = intent.getIntExtra("top", 0);
         int previousOrientation = intent.getIntExtra("orientation", 0);
 
@@ -123,8 +123,6 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
                         mImageView.getLocationOnScreen(screenLocation);
                         mTopDelta = previousItemTop - screenLocation[1];
 
-                        mHeightScale = (float) previousItemHeight / mImageView.getHeight();
-
                         runEnterAnimation();
 
                         return true;
@@ -143,13 +141,9 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
         mImageView.setPivotX(0);
         mImageView.setPivotY(0);
-        mImageView.setScaleX(1);
-        mImageView.setScaleY(mHeightScale);
-        mImageView.setTranslationX(0);
         mImageView.setTranslationY(mTopDelta);
 
         mImageView.animate().setDuration(duration).
-                scaleX(1).scaleY(1).
                 translationX(0).translationY(0).
                 setInterpolator(sDecelerator);
     }
