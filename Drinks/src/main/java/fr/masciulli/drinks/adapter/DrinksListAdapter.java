@@ -122,4 +122,8 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
     public Filter getFilter() {
         return mFilter;
     }
+
+    public ArrayList<Drink> getDrinks() {
+        return (ArrayList<Drink>) mSavedDrinks;
+    }
 }

@@ -31,6 +31,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
+    private static final String STATE_LIST = "drinks_list";
+
     private ListView mListView;
     private ProgressBar mProgressBar;
 
@@ -50,6 +52,14 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
         mListView.setOnItemClickListener(this);
         mListAdapter = new DrinksListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(STATE_LIST)) {
+                Log.d(getTag(), "retrieved drinks from saved instance state");
+                List<Drink> savedDrinks = savedInstanceState.getParcelableArrayList(STATE_LIST);
+                mListAdapter.update(savedDrinks);
+            }
+        }
 
         refresh();
 
@@ -156,5 +166,14 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
             mListAdapter.getFilter().filter(s);
         }
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mListAdapter.getCount() > 0) {
+            outState.putParcelableArrayList(STATE_LIST, mListAdapter.getDrinks());
+        }
     }
 }
