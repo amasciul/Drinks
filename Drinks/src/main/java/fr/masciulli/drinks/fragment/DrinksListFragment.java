@@ -72,10 +72,19 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Drink drink = mListAdapter.getItem(i);
 
+        // Data needed for animations in sub activity
+        int[] screenLocation = new int[2];
+        view.getLocationOnScreen(screenLocation);
+        int orientation = getResources().getConfiguration().orientation;
+
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
-        intent.putExtra("drink_name", drink.name);
-        intent.putExtra("drink_imageurl", drink.imageUrl);
-        intent.putExtra("drink_id", drink.id);
+        intent.
+                putExtra("drink_name", drink.name).
+                putExtra("drink_imageurl", drink.imageUrl).
+                putExtra("drink_id", drink.id).
+                putExtra("top", screenLocation[1]).
+                putExtra("height", view.getHeight()).
+                putExtra("orientation", orientation);
         startActivity(intent);
 
         getActivity().overridePendingTransition(0, 0);

@@ -73,6 +73,13 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
+        // Data needed for animations
+        int previousItemHeight = intent.getIntExtra("height", 0);
+        int previousItemTop = intent.getIntExtra("top", 0);
+        int previousOrientation = intent.getIntExtra("orientation", 0);
+
+        Log.d(getTag(), "height : " + previousItemHeight + ", top : " + previousItemTop);
+
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
