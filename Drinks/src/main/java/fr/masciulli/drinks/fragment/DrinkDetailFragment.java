@@ -5,7 +5,10 @@ import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build.VERSION;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
@@ -24,6 +28,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
@@ -32,7 +39,6 @@ import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
-import hugo.weaving.DebugLog;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -134,8 +140,6 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
                     }
                 });
             }
-
-            refresh();
         }
 
         return root;
@@ -147,13 +151,38 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         mImageView.setPivotY(0);
         mImageView.setTranslationY(mTopDelta);
 
-        mImageView.animate().setDuration(ANIM_DURATION).
+        ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_DURATION).
                 translationX(0).translationY(0).
                 setInterpolator(sDecelerator);
+
+        if (VERSION.SDK_INT >= 16) {
+            animator.withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                    refresh();
+                }
+            });
+        }
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_DURATION);
         bgAnim.start();
+
+        if (VERSION.SDK_INT < 16) {
+            Timer timer = new Timer();
+            final Handler handler = new Handler() {
+                public void handleMessage(Message msg) {
+                    refresh();
+                }
+            };
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    handler.obtainMessage().sendToTarget();
+                }
+            };
+            timer.schedule(task, ANIM_DURATION);
+        }
     }
 
     @Override
