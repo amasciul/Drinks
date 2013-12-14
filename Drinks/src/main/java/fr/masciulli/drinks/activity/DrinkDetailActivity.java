@@ -19,7 +19,7 @@ public class DrinkDetailActivity extends FragmentActivity {
         if (savedInstanceState == null) {
             mDetailFragment = new DrinkDetailFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.drink_detail_container, new DrinkDetailFragment())
+                    .add(R.id.drink_detail_container, mDetailFragment)
                     .commit();
         }
 
