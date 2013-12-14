@@ -73,6 +73,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     private int mPreviousItemHeight;
     private Drawable mBackground;
     private int mPreviousOrientation;
+    private int mPreviousItemTop;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,7 +97,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
         // Data needed for animations
         mPreviousItemHeight = intent.getIntExtra("height", 0);
-        final int previousItemTop = intent.getIntExtra("top", 0);
+        mPreviousItemTop = intent.getIntExtra("top", 0);
         mPreviousOrientation = intent.getIntExtra("orientation", 0);
 
         mBackground = root.getBackground();
@@ -135,7 +136,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
                         int[] screenLocation = new int[2];
                         mImageView.getLocationOnScreen(screenLocation);
-                        mTopDelta = previousItemTop - screenLocation[1];
+                        mTopDelta = mPreviousItemTop - screenLocation[1];
 
                         runEnterAnimation();
 
@@ -314,10 +315,32 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
     @Override
     public void onBackPressed() {
+
+        // Configure the image exit animation in a runnable
+
+        Runnable imageAnim = new Runnable() {
+            @Override
+            public void run() {
+                mImageView.animate().setDuration(ANIM_DURATION).
+                        translationX(0).translationY(mTopDelta).
+                        setInterpolator(sAccelerator);
+            }
+        };
+
+
         if (mScrollView != null) {
-            mScrollView.animate().setDuration(ANIM_DURATION).
+            ViewPropertyAnimator animator = mScrollView.animate().setDuration(ANIM_DURATION).
                     alpha(0).
                     setInterpolator(sAccelerator);
+
+            if (VERSION.SDK_INT >= 16) {
+                animator.withEndAction(imageAnim);
+            } else {
+                // TODO handle API < 16
+            }
+        } else {
+            // scrollView null, let's run the image animation right away
+            imageAnim.run();
         }
     }
 }
