@@ -299,10 +299,14 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().finish();
+                return true;
             case R.id.retry:
                 refresh();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
