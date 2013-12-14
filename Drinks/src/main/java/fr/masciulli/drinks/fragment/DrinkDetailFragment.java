@@ -316,14 +316,40 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     @Override
     public void onBackPressed() {
 
-        // Configure the image exit animation in a runnable
-
-        Runnable imageAnim = new Runnable() {
+        // Configure the end action (finishing activity)
+        final Runnable finish = new Runnable() {
             @Override
             public void run() {
-                mImageView.animate().setDuration(ANIM_DURATION).
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
+            }
+        };
+
+        // Configure the image exit animation in a runnable
+
+        final Runnable imageAnim = new Runnable() {
+            @Override
+            public void run() {
+
+                mBlurredImageView.setAlpha(0f);
+
+                int[] screenLocation = new int[2];
+                mImageView.getLocationOnScreen(screenLocation);
+                mTopDelta = mPreviousItemTop - screenLocation[1];
+                ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_DURATION).
                         translationX(0).translationY(mTopDelta).
                         setInterpolator(sAccelerator);
+
+                if (VERSION.SDK_INT >= 16) {
+                    imageViewAnimator.withEndAction(finish);
+                } else {
+                    // TODO handle API < 16
+                }
+
+                ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
+                bgAnim.setDuration(ANIM_DURATION);
+                bgAnim.start();
             }
         };
 
