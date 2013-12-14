@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:name="fr.masciulli.drinks.fragment.DrinkDetailFragment"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drink_detail_container"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:id="@+id/fragment_drink" />
+    android:layout_width="match_parent" />

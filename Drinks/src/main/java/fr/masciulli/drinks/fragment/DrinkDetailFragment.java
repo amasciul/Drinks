@@ -43,7 +43,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinkDetailFragment extends RefreshableFragment implements ScrollViewListener, Callback<Drink> {
+public class DrinkDetailFragment extends RefreshableFragment implements ScrollViewListener, Callback<Drink>, BackPressedListener {
 
     private static final String STATE_DRINK = "drink";
     private static final long ANIM_DURATION = 500;
@@ -309,4 +309,8 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        //TODO run exit animation
+    }
 }
