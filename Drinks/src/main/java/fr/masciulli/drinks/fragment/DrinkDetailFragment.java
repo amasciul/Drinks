@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     private static final long ANIM_DURATION = 500;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
+    private static final TimeInterpolator sAccelerator = new AccelerateInterpolator();
 
     private ImageView mImageView;
     private ImageView mBlurredImageView;
@@ -70,6 +72,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     private int mTopDelta;
     private int mPreviousItemHeight;
     private Drawable mBackground;
+    private int mPreviousOrientation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,7 +97,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         // Data needed for animations
         mPreviousItemHeight = intent.getIntExtra("height", 0);
         final int previousItemTop = intent.getIntExtra("top", 0);
-        int previousOrientation = intent.getIntExtra("orientation", 0);
+        mPreviousOrientation = intent.getIntExtra("orientation", 0);
 
         mBackground = root.getBackground();
 
@@ -311,6 +314,20 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
     @Override
     public void onBackPressed() {
-        //TODO run exit animation
+        final boolean fadeOut;
+        if (getResources().getConfiguration().orientation != mPreviousOrientation) {
+            mImageView.setPivotX(mImageView.getWidth() / 2);
+            mImageView.setPivotY(mImageView.getHeight() / 2);
+            mTopDelta = 0;
+            fadeOut = true;
+        } else {
+            fadeOut = false;
+        }
+
+        if (mScrollView != null) {
+            mScrollView.animate().setDuration(ANIM_DURATION).
+                    alpha(0).
+                    setInterpolator(sAccelerator);
+        }
     }
 }
