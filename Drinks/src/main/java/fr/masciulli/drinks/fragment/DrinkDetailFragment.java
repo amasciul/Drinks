@@ -314,16 +314,6 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
     @Override
     public void onBackPressed() {
-        final boolean fadeOut;
-        if (getResources().getConfiguration().orientation != mPreviousOrientation) {
-            mImageView.setPivotX(mImageView.getWidth() / 2);
-            mImageView.setPivotY(mImageView.getHeight() / 2);
-            mTopDelta = 0;
-            fadeOut = true;
-        } else {
-            fadeOut = false;
-        }
-
         if (mScrollView != null) {
             mScrollView.animate().setDuration(ANIM_DURATION).
                     alpha(0).
