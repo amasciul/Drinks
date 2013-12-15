@@ -50,7 +50,6 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
     private static final long ANIM_DURATION = 500;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
-    private static final TimeInterpolator sAccelerator = new AccelerateInterpolator();
 
     private ImageView mImageView;
     private ImageView mBlurredImageView;
@@ -339,7 +338,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
                 mTopDelta = mPreviousItemTop - screenLocation[1];
                 ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_DURATION).
                         translationX(0).translationY(mTopDelta).
-                        setInterpolator(sAccelerator);
+                        setInterpolator(sDecelerator);
 
                 if (VERSION.SDK_INT >= 16) {
                     imageViewAnimator.withEndAction(finish);
@@ -357,7 +356,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         if (mScrollView != null) {
             ViewPropertyAnimator animator = mScrollView.animate().setDuration(ANIM_DURATION).
                     alpha(0).
-                    setInterpolator(sAccelerator);
+                    setInterpolator(sDecelerator);
 
             if (VERSION.SDK_INT >= 16) {
                 animator.withEndAction(imageAnim);
