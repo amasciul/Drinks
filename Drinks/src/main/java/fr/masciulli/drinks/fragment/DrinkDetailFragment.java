@@ -196,7 +196,6 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
         if (mDrink != null) {
             outState.putParcelable(STATE_DRINK, mDrink);
-            Log.d(getTag(), "Instance state saved");
         }
     }
 
