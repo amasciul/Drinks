@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -47,7 +46,10 @@ import retrofit.client.Response;
 public class DrinkDetailFragment extends RefreshableFragment implements ScrollViewListener, Callback<Drink>, BackPressedListener {
 
     private static final String STATE_DRINK = "drink";
-    private static final long ANIM_DURATION = 500;
+    private static final long ANIM_IMAGE_ENTER_DURATION = 500;
+    private static final long ANIM_IMAGE_EXIT_DURATION = 500;
+    private static final long ANIM_TEXT_ENTER_DURATION = 500;
+    private static final long ANIM_TEXT_EXIT_DURATION = 300;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
@@ -154,7 +156,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         mImageView.setPivotY(0);
         mImageView.setTranslationY(mTopDelta);
 
-        ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_DURATION).
+        ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
                 translationX(0).translationY(0).
                 setInterpolator(sDecelerator);
 
@@ -168,7 +170,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
         }
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
-        bgAnim.setDuration(ANIM_DURATION);
+        bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
         bgAnim.start();
 
         if (VERSION.SDK_INT < 16) {
@@ -184,7 +186,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
                     handler.obtainMessage().sendToTarget();
                 }
             };
-            timer.schedule(task, ANIM_DURATION);
+            timer.schedule(task, ANIM_IMAGE_ENTER_DURATION);
         }
     }
 
@@ -251,7 +253,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
                 public boolean onPreDraw() {
                     mScrollView.getViewTreeObserver().removeOnPreDrawListener(this);
                     mScrollView.setAlpha(0);
-                    mScrollView.animate().setDuration(ANIM_DURATION).
+                    mScrollView.animate().setDuration(ANIM_TEXT_ENTER_DURATION).
                             alpha(1).
                             setInterpolator(sDecelerator);
 
@@ -336,7 +338,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
                 int[] screenLocation = new int[2];
                 mImageView.getLocationOnScreen(screenLocation);
                 mTopDelta = mPreviousItemTop - screenLocation[1];
-                ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_DURATION).
+                ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_IMAGE_EXIT_DURATION).
                         translationX(0).translationY(mTopDelta).
                         setInterpolator(sDecelerator);
 
@@ -347,14 +349,14 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
                 }
 
                 ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
-                bgAnim.setDuration(ANIM_DURATION);
+                bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
                 bgAnim.start();
             }
         };
 
 
         if (mScrollView != null) {
-            ViewPropertyAnimator animator = mScrollView.animate().setDuration(ANIM_DURATION).
+            ViewPropertyAnimator animator = mScrollView.animate().setDuration(ANIM_TEXT_EXIT_DURATION).
                     alpha(0).
                     setInterpolator(sDecelerator);
 
