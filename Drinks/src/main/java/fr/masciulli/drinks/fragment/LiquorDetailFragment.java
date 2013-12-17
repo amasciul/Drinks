@@ -280,4 +280,12 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         getActivity().overridePendingTransition(0, 0);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mLiquor != null) {
+            outState.putParcelable("liquor", mLiquor);
+        }
+    }
 }
