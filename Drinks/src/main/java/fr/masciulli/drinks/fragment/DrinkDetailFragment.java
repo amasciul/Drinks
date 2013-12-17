@@ -170,15 +170,14 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
         if (VERSION.SDK_INT >= 16) {
             animator.withEndAction(refreshRunnable);
+        } else {
+            scheduleEndAction(refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
         }
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
         bgAnim.start();
 
-        if (VERSION.SDK_INT < 16) {
-            scheduleEndAction(refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
-        }
     }
 
     @Override
@@ -333,15 +332,13 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
                 if (VERSION.SDK_INT >= 16) {
                     imageViewAnimator.withEndAction(finish);
+                } else {
+                    scheduleEndAction(finish, ANIM_IMAGE_ENTER_DURATION);
                 }
 
                 ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
                 bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
                 bgAnim.start();
-
-                if (VERSION.SDK_INT < 16) {
-                    scheduleEndAction(finish, ANIM_IMAGE_ENTER_DURATION);
-                }
             }
         };
 
