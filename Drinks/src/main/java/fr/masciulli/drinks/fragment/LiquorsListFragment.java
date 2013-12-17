@@ -2,10 +2,12 @@ package fr.masciulli.drinks.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,14 +22,13 @@ import fr.masciulli.drinks.activity.LiquorDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.LiquorListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
-import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorsListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>, ViewPagerScrollListener {
+public class LiquorsListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>, ViewPagerScrollListener {
     private static final String STATE_LIST = "liquor";
 
     private ListView mListView;
@@ -119,8 +120,7 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
         }
     }
 
-    @Override
-    public void refresh() {
+    private void refresh() {
         mProgressBar.setVisibility(View.GONE);
         mListView.getEmptyView().setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
@@ -135,6 +135,16 @@ public class LiquorsListFragment extends RefreshableFragment implements AdapterV
             Log.d(getTag(), "loading error");
             ((MainActivity) getActivity()).setRefreshActionVisible(true);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.retry:
+                refresh();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -151,12 +151,8 @@ public class MainActivity extends FragmentActivity {
             case R.id.about:
                 (new AboutDialogFragment()).show(getSupportFragmentManager(), "dialog_about");
                 return true;
-            case R.id.retry:
-                if (mDrinksFragment != null) mDrinksFragment.refresh();
-                if (mLiquorsFragment != null) mLiquorsFragment.refresh();
-                return true;
         }
-        return false;
+        return super.onMenuItemSelected(featureId, item);
     }
 
     public void setRefreshActionVisible(boolean visibility) {

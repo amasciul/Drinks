@@ -9,6 +9,7 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,7 +44,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinkDetailFragment extends RefreshableFragment implements ScrollViewListener, Callback<Drink>, BackPressedListener {
+public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<Drink>, BackPressedListener {
 
     private static final String STATE_DRINK = "drink";
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
@@ -287,8 +288,7 @@ public class DrinkDetailFragment extends RefreshableFragment implements ScrollVi
 
     }
 
-    @Override
-    public void refresh() {
+    private void refresh() {
         mProgressBar.setVisibility(View.VISIBLE);
         if (mRetryAction != null) mRetryAction.setVisible(false);
         DrinksProvider.getDrink(mDrinkId, this);
