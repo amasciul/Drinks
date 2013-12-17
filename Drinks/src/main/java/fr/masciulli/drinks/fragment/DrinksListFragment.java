@@ -2,6 +2,7 @@ package fr.masciulli.drinks.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,7 +31,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinksListFragment extends RefreshableFragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
+public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
     private static final String STATE_LIST = "drinks_list";
 
     private ListView mListView;
@@ -142,8 +143,7 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
 
     }
 
-    @Override
-    public void refresh() {
+    private void refresh() {
         mProgressBar.setVisibility(View.VISIBLE);
         mListView.getEmptyView().setVisibility(View.GONE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
@@ -188,5 +188,14 @@ public class DrinksListFragment extends RefreshableFragment implements AdapterVi
         if (mListAdapter.getCount() > 0) {
             outState.putParcelableArrayList(STATE_LIST, mListAdapter.getDrinks());
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.retry:
+                refresh();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
