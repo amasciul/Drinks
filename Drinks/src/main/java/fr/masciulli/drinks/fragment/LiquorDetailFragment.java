@@ -2,7 +2,6 @@ package fr.masciulli.drinks.fragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -10,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,7 +50,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
+public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener, AdapterView.OnItemClickListener, BackPressedListener {
     private static final int HEADERVIEWS_COUNT = 1;
 
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
@@ -392,6 +392,63 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         super.onSaveInstanceState(outState);
         if (mLiquor != null) {
             outState.putParcelable("liquor", mLiquor);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        // Configure the end action (finishing activity)
+        final Runnable finish = new Runnable() {
+            @Override
+            public void run() {
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
+            }
+        };
+
+        // Configure the image exit animation in a runnable
+
+        final Runnable imageAnim = new Runnable() {
+            @Override
+            public void run() {
+
+                mBlurredImageView.setAlpha(0f);
+
+                int[] screenLocation = new int[2];
+                mImageView.getLocationOnScreen(screenLocation);
+                mTopDelta = mPreviousItemTop - screenLocation[1];
+                ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_IMAGE_EXIT_DURATION).
+                        translationX(0).translationY(mTopDelta).
+                        setInterpolator(sDecelerator);
+
+                if (Build.VERSION.SDK_INT >= 16) {
+                    imageViewAnimator.withEndAction(finish);
+                } else {
+                    // TODO handle API < 16
+                }
+
+                ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
+                bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
+                bgAnim.start();
+            }
+        };
+
+
+        if (mListView != null) {
+            ViewPropertyAnimator animator = mListView.animate().setDuration(ANIM_TEXT_EXIT_DURATION).
+                    alpha(0).
+                    setInterpolator(sDecelerator);
+
+            if (Build.VERSION.SDK_INT >= 16) {
+                animator.withEndAction(imageAnim);
+            } else {
+                // TODO handle API < 16
+            }
+        } else {
+            // scrollView null, let's run the image animation right away
+            imageAnim.run();
         }
     }
 }
