@@ -75,6 +75,8 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
         intent.putExtra("liquor_imageurl", liquor.imageUrl);
         intent.putExtra("liquor_id", liquor.id);
         startActivity(intent);
+
+        getActivity().overridePendingTransition(0, 0);
     }
 
     @Override

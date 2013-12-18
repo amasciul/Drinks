@@ -23,4 +23,12 @@ public class LiquorDetailActivity extends Activity {
         }
         return super.onMenuItemSelected(featureId, item);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+
+        // override transitions to skip the standard window animations
+        overridePendingTransition(0, 0);
+    }
 }
