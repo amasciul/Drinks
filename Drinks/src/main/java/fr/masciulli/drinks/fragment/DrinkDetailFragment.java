@@ -153,8 +153,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     private void runEnterAnimation() {
 
-        mImageView.setPivotX(0);
-        mImageView.setPivotY(0);
         mImageView.setTranslationY(mTopDelta);
 
         ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
