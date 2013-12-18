@@ -36,7 +36,8 @@
             android:name=".activity.LicensesActivity"
             android:label="@string/title_licenses" />
         <activity
-            android:name=".activity.LiquorDetailActivity" />
+            android:name=".activity.LiquorDetailActivity"
+            android:theme="@style/AppTheme.Transparent" />
     </application>
 
 </manifest>
