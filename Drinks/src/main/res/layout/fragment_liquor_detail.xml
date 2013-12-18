@@ -21,7 +21,8 @@
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/progressbar" />
+        android:id="@+id/progressbar"
+        android:visibility="gone" />
 
     <ListView
         android:layout_height="match_parent"
