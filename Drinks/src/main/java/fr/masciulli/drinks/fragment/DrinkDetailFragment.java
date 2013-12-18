@@ -153,6 +153,12 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     private void runEnterAnimation() {
 
+        Runnable refreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                refresh();
+            }
+        };
         mImageView.setTranslationY(mTopDelta);
 
         ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
@@ -160,33 +166,15 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 setInterpolator(sDecelerator);
 
         if (VERSION.SDK_INT >= 16) {
-            animator.withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    refresh();
-                }
-            });
+            animator.withEndAction(refreshRunnable);
+        } else {
+            scheduleEndAction(refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
         }
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
         bgAnim.start();
 
-        if (VERSION.SDK_INT < 16) {
-            Timer timer = new Timer();
-            final Handler handler = new Handler() {
-                public void handleMessage(Message msg) {
-                    refresh();
-                }
-            };
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    handler.obtainMessage().sendToTarget();
-                }
-            };
-            timer.schedule(task, ANIM_IMAGE_ENTER_DURATION);
-        }
     }
 
     @Override
@@ -302,7 +290,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                getActivity().finish();
+                onBackPressed();
                 return true;
             case R.id.retry:
                 refresh();
@@ -342,7 +330,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 if (VERSION.SDK_INT >= 16) {
                     imageViewAnimator.withEndAction(finish);
                 } else {
-                    // TODO handle API < 16
+                    scheduleEndAction(finish, ANIM_IMAGE_ENTER_DURATION);
                 }
 
                 ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
@@ -360,11 +348,27 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
             if (VERSION.SDK_INT >= 16) {
                 animator.withEndAction(imageAnim);
             } else {
-                // TODO handle API < 16
+                scheduleEndAction(imageAnim, ANIM_TEXT_EXIT_DURATION);
             }
         } else {
             // scrollView null, let's run the image animation right away
             imageAnim.run();
         }
+    }
+
+    private void scheduleEndAction(final Runnable endAction, long duration) {
+        Timer timer = new Timer();
+        final Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                endAction.run();
+            }
+        };
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.obtainMessage().sendToTarget();
+            }
+        };
+        timer.schedule(task, duration);
     }
 }
