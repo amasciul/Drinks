@@ -279,7 +279,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         DrinksProvider.getAllDrinks(mDrinksCallback);
 
         mProgressBar.setVisibility(View.GONE);
-        mListView.setVisibility(View.VISIBLE);
 
         getActivity().setTitle(liquor.name);
 
@@ -289,6 +288,24 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mHistoryView.setText(liquor.history);
         mWikipediaButton.setText(String.format(getString(R.string.liquor_detail_wikipedia), liquor.name));
         mDrinksTitleView.setText(String.format(getString(R.string.liquor_detail_drinks), liquor.name));
+
+        ViewTreeObserver observer = mListView.getViewTreeObserver();
+        if (observer != null) {
+            observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                @Override
+                public boolean onPreDraw() {
+                    mListView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    mListView.setAlpha(0);
+                    mListView.animate().setDuration(ANIM_TEXT_ENTER_DURATION).
+                            alpha(1).
+                            setInterpolator(sDecelerator);
+
+                    return true;
+                }
+            });
+        }
+        mListView.setVisibility(View.VISIBLE);
     }
 
     @Override
