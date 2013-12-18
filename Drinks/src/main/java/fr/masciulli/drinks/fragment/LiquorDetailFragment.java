@@ -1,9 +1,15 @@
 package fr.masciulli.drinks.fragment;
 
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,6 +33,8 @@ import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -34,12 +45,20 @@ import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.view.BlurTransformation;
+import hugo.weaving.DebugLog;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
     private static final int HEADERVIEWS_COUNT = 1;
+
+    private static final long ANIM_IMAGE_ENTER_DURATION = 500;
+    private static final long ANIM_IMAGE_EXIT_DURATION = 500;
+    private static final long ANIM_TEXT_ENTER_DURATION = 500;
+    private static final long ANIM_TEXT_EXIT_DURATION = 300;
+
+    private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
     private ImageView mImageView;
     private ImageView mBlurredImageView;
@@ -59,6 +78,13 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     private Liquor mLiquor;
 
     private int mImageViewHeight;
+
+    private int mTopDelta;
+    private int mPreviousItemTop;
+    private Drawable mBackground;
+    private long mPreviousItemHeight;
+    private int mPreviousOrientation;
+
     private Callback<List<Drink>> mDrinksCallback = new Callback<List<Drink>>() {
         @Override
         public void success(List<Drink> drinks, Response response) {
@@ -142,6 +168,13 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         String name = intent.getStringExtra("liquor_name");
         String imageUrl = intent.getStringExtra("liquor_imageurl");
 
+        // Data needed for animations
+        mPreviousItemHeight = intent.getIntExtra("height", 0);
+        mPreviousItemTop = intent.getIntExtra("top", 0);
+        mPreviousOrientation = intent.getIntExtra("orientation", 0);
+
+        mBackground = root.getBackground();
+
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
 
@@ -167,10 +200,66 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 refresh();
             }
         } else {
-            refresh();
+            ViewTreeObserver observer = mImageView.getViewTreeObserver();
+            if (observer != null) {
+                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                    @Override
+                    public boolean onPreDraw() {
+                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                        int[] screenLocation = new int[2];
+                        mImageView.getLocationOnScreen(screenLocation);
+                        mTopDelta = mPreviousItemTop - screenLocation[1];
+
+                        runEnterAnimation();
+
+                        return true;
+                    }
+                });
+            }
         }
 
         return root;
+    }
+
+    @DebugLog
+    private void runEnterAnimation() {
+        mImageView.setTranslationY(mTopDelta);
+
+        ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+                translationX(0).translationY(0).
+                setInterpolator(sDecelerator);
+
+        if (Build.VERSION.SDK_INT >= 16) {
+            animator.withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                    refresh();
+                }
+            });
+        }
+
+        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
+        bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
+        bgAnim.start();
+
+        if (Build.VERSION.SDK_INT < 16) {
+            Timer timer = new Timer();
+            final Handler handler = new Handler() {
+                public void handleMessage(Message msg) {
+                    refresh();
+                }
+            };
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    handler.obtainMessage().sendToTarget();
+                }
+            };
+            timer.schedule(task, ANIM_IMAGE_ENTER_DURATION);
+        }
+
     }
 
     private void refresh() {
