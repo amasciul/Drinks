@@ -70,10 +70,18 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Liquor liquor = mListAdapter.getItem(i);
 
+        // Data needed for animations in sub activity
+        int[] screenLocation = new int[2];
+        view.getLocationOnScreen(screenLocation);
+        int orientation = getResources().getConfiguration().orientation;
+
         Intent intent = new Intent(getActivity(), LiquorDetailActivity.class);
-        intent.putExtra("liquor_name", liquor.name);
-        intent.putExtra("liquor_imageurl", liquor.imageUrl);
-        intent.putExtra("liquor_id", liquor.id);
+        intent.putExtra("liquor_name", liquor.name).
+                putExtra("liquor_imageurl", liquor.imageUrl).
+                putExtra("liquor_id", liquor.id).
+                putExtra("top", screenLocation[1]).
+                putExtra("height", view.getHeight()).
+                putExtra("orientation", orientation);
         startActivity(intent);
 
         getActivity().overridePendingTransition(0, 0);
