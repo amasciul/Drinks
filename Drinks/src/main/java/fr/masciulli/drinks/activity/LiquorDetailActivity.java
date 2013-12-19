@@ -20,7 +20,7 @@ public class LiquorDetailActivity extends FragmentActivity {
                     .add(R.id.liquor_detail_container, mDetailFragment)
                     .commit();
         } else {
-            mDetailFragment = (LiquorDetailFragment) getSupportFragmentManager().findFragmentById(R.id.drink_detail_container);
+            mDetailFragment = (LiquorDetailFragment) getSupportFragmentManager().findFragmentById(R.id.liquor_detail_container);
         }
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
