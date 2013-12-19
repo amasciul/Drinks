@@ -16,7 +16,6 @@ import java.util.List;
 import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
-import fr.masciulli.drinks.model.Liquor;
 
 public class LiquorDetailAdapter extends BaseAdapter {
     private List<Drink> mDrinks = new ArrayList<Drink>();

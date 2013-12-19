@@ -1,9 +1,9 @@
 package fr.masciulli.drinks.util;
 
+import android.os.Build.VERSION;
 import android.os.Handler;
 import android.os.Message;
 import android.view.ViewPropertyAnimator;
-import android.os.Build.VERSION;
 
 import java.util.Timer;
 import java.util.TimerTask;
