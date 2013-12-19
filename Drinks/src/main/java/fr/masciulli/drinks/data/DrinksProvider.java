@@ -2,7 +2,6 @@ package fr.masciulli.drinks.data;
 
 import java.util.List;
 
-
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import retrofit.Callback;

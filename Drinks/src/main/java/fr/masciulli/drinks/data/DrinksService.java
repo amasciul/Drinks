@@ -7,7 +7,6 @@ import fr.masciulli.drinks.model.Liquor;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
-import retrofit.http.Query;
 
 public interface DrinksService {
     @GET("/Drinks")
