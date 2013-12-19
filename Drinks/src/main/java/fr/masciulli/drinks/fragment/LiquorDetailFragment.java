@@ -5,10 +5,7 @@ import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,8 +30,6 @@ import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -240,11 +235,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 translationX(0).translationY(0).
                 setInterpolator(sDecelerator);
 
-        if (Build.VERSION.SDK_INT >= 16) {
-            animator.withEndAction(refreshRunnable);
-        } else {
-            AnimUtils.scheduleEndAction(refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
-        }
+        AnimUtils.scheduleEndAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
@@ -416,11 +407,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                         translationX(0).translationY(mTopDelta).
                         setInterpolator(sDecelerator);
 
-                if (Build.VERSION.SDK_INT >= 16) {
-                    imageViewAnimator.withEndAction(finish);
-                } else {
-                    AnimUtils.scheduleEndAction(finish, ANIM_IMAGE_EXIT_DURATION);
-                }
+                AnimUtils.scheduleEndAction(imageViewAnimator, finish, ANIM_IMAGE_EXIT_DURATION);
 
                 ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
                 bgAnim.setDuration(ANIM_IMAGE_EXIT_DURATION);
@@ -434,11 +421,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                     alpha(0).
                     setInterpolator(sDecelerator);
 
-            if (Build.VERSION.SDK_INT >= 16) {
-                animator.withEndAction(imageAnim);
-            } else {
-                AnimUtils.scheduleEndAction(imageAnim, ANIM_TEXT_EXIT_DURATION);
-            }
+            AnimUtils.scheduleEndAction(animator, imageAnim, ANIM_TEXT_EXIT_DURATION);
         } else {
             // scrollView null, let's run the image animation right away
             imageAnim.run();

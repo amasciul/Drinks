@@ -5,10 +5,7 @@ import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.util.Log;
@@ -28,9 +25,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -166,11 +160,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 translationX(0).translationY(0).
                 setInterpolator(sDecelerator);
 
-        if (VERSION.SDK_INT >= 16) {
-            animator.withEndAction(refreshRunnable);
-        } else {
-            AnimUtils.scheduleEndAction(refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
-        }
+        AnimUtils.scheduleEndAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
@@ -328,11 +318,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                         translationX(0).translationY(mTopDelta).
                         setInterpolator(sDecelerator);
 
-                if (VERSION.SDK_INT >= 16) {
-                    imageViewAnimator.withEndAction(finish);
-                } else {
-                    AnimUtils.scheduleEndAction(finish, ANIM_IMAGE_EXIT_DURATION);
-                }
+                AnimUtils.scheduleEndAction(imageViewAnimator, finish, ANIM_IMAGE_EXIT_DURATION);
 
                 ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
                 bgAnim.setDuration(ANIM_IMAGE_EXIT_DURATION);
@@ -346,11 +332,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                     alpha(0).
                     setInterpolator(sDecelerator);
 
-            if (VERSION.SDK_INT >= 16) {
-                animator.withEndAction(imageAnim);
-            } else {
-                AnimUtils.scheduleEndAction(imageAnim, ANIM_TEXT_EXIT_DURATION);
-            }
+            AnimUtils.scheduleEndAction(animator, imageAnim, ANIM_TEXT_EXIT_DURATION);
         } else {
             // scrollView null, let's run the image animation right away
             imageAnim.run();
