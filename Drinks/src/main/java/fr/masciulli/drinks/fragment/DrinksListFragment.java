@@ -20,10 +20,10 @@ import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
-import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.view.ViewPagerScrollListener;
@@ -189,6 +189,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
             outState.putParcelableArrayList(STATE_LIST, mListAdapter.getDrinks());
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
