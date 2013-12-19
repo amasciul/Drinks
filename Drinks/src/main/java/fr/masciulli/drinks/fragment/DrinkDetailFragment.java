@@ -37,6 +37,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.util.AnimUtils;
 import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
@@ -168,7 +169,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         if (VERSION.SDK_INT >= 16) {
             animator.withEndAction(refreshRunnable);
         } else {
-            scheduleEndAction(refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
+            AnimUtils.scheduleEndAction(refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
         }
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
@@ -330,7 +331,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 if (VERSION.SDK_INT >= 16) {
                     imageViewAnimator.withEndAction(finish);
                 } else {
-                    scheduleEndAction(finish, ANIM_IMAGE_ENTER_DURATION);
+                    AnimUtils.scheduleEndAction(finish, ANIM_IMAGE_ENTER_DURATION);
                 }
 
                 ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
@@ -348,27 +349,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
             if (VERSION.SDK_INT >= 16) {
                 animator.withEndAction(imageAnim);
             } else {
-                scheduleEndAction(imageAnim, ANIM_TEXT_EXIT_DURATION);
+                AnimUtils.scheduleEndAction(imageAnim, ANIM_TEXT_EXIT_DURATION);
             }
         } else {
             // scrollView null, let's run the image animation right away
             imageAnim.run();
         }
-    }
-
-    private void scheduleEndAction(final Runnable endAction, long duration) {
-        Timer timer = new Timer();
-        final Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                endAction.run();
-            }
-        };
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                handler.obtainMessage().sendToTarget();
-            }
-        };
-        timer.schedule(task, duration);
     }
 }
