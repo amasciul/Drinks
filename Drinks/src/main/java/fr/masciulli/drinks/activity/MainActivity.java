@@ -37,22 +37,38 @@ public class MainActivity extends FragmentActivity {
      */
     ViewPager mViewPager;
     private MenuItem mRetryAction;
+    private boolean mDualPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mDualPane = getResources().getBoolean(R.bool.dualpane);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the app.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        if (mDualPane) {
+            if (savedInstanceState == null) {
+                mDrinksFragment = new DrinksListFragment();
+                mLiquorsFragment = new LiquorsListFragment();
+                getSupportFragmentManager().beginTransaction().
+                        add(R.id.drinks_list_container, mDrinksFragment).
+                        add(R.id.liquors_list_container, mLiquorsFragment).
+                        commit();
+            } else {
+                mDrinksFragment = (DrinksListFragment) getSupportFragmentManager().findFragmentById(R.id.drinks_list_container);
+                mLiquorsFragment = (LiquorsListFragment) getSupportFragmentManager().findFragmentById(R.id.liquors_list_container);
+            }
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
+        } else {
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the app.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
+        }
     }
 
     @Override
