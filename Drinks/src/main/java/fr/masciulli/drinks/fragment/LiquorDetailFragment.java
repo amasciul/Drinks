@@ -44,6 +44,7 @@ import fr.masciulli.drinks.adapter.LiquorDetailAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.util.AnimUtils;
 import fr.masciulli.drinks.view.BlurTransformation;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -225,6 +226,14 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     }
 
     private void runEnterAnimation() {
+
+        Runnable refreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                refresh();
+            }
+        };
+
         mImageView.setTranslationY(mTopDelta);
 
         ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
@@ -232,33 +241,14 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 setInterpolator(sDecelerator);
 
         if (Build.VERSION.SDK_INT >= 16) {
-            animator.withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    refresh();
-                }
-            });
+            animator.withEndAction(refreshRunnable);
+        } else {
+            AnimUtils.scheduleEndAction(refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
         }
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
         bgAnim.start();
-
-        if (Build.VERSION.SDK_INT < 16) {
-            Timer timer = new Timer();
-            final Handler handler = new Handler() {
-                public void handleMessage(Message msg) {
-                    refresh();
-                }
-            };
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    handler.obtainMessage().sendToTarget();
-                }
-            };
-            timer.schedule(task, ANIM_IMAGE_ENTER_DURATION);
-        }
 
     }
 
@@ -429,11 +419,11 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 if (Build.VERSION.SDK_INT >= 16) {
                     imageViewAnimator.withEndAction(finish);
                 } else {
-                    // TODO handle API < 16
+                    AnimUtils.scheduleEndAction(finish, ANIM_IMAGE_EXIT_DURATION);
                 }
 
                 ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
-                bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
+                bgAnim.setDuration(ANIM_IMAGE_EXIT_DURATION);
                 bgAnim.start();
             }
         };
@@ -447,7 +437,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
             if (Build.VERSION.SDK_INT >= 16) {
                 animator.withEndAction(imageAnim);
             } else {
-                // TODO handle API < 16
+                AnimUtils.scheduleEndAction(imageAnim, ANIM_TEXT_EXIT_DURATION);
             }
         } else {
             // scrollView null, let's run the image animation right away
