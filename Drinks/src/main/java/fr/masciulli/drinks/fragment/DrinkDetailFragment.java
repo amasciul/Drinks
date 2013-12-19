@@ -331,11 +331,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 if (VERSION.SDK_INT >= 16) {
                     imageViewAnimator.withEndAction(finish);
                 } else {
-                    AnimUtils.scheduleEndAction(finish, ANIM_IMAGE_ENTER_DURATION);
+                    AnimUtils.scheduleEndAction(finish, ANIM_IMAGE_EXIT_DURATION);
                 }
 
                 ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
-                bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
+                bgAnim.setDuration(ANIM_IMAGE_EXIT_DURATION);
                 bgAnim.start();
             }
         };
