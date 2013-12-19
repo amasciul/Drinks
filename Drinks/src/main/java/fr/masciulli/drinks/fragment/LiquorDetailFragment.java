@@ -81,9 +81,15 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     private int mPreviousOrientation;
 
     private Callback<List<Drink>> mDrinksCallback = new Callback<List<Drink>>() {
+
+        /**
+         * Retrofit callback when drinks loaded
+         * @param drinks
+         * @param response
+         */
         @Override
         public void success(List<Drink> drinks, Response response) {
-            Log.d(getTag(), "Liquor detail related drinks loading has succeeded");
+            Log.d(getTag(), "Liquor detail related drinks loading/retrieving has succeeded");
 
             if (getActivity() == null) return;
 
@@ -191,8 +197,10 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         if (savedInstanceState != null) {
             Liquor liquor = savedInstanceState.getParcelable("liquor");
-            if (liquor != null) {
-                success(liquor, null);
+            List<Drink> drinks = savedInstanceState.getParcelableArrayList("drinks");
+            if (liquor != null && drinks != null) {
+                onLiquorFound(liquor);
+                mDrinksCallback.success(drinks, null);
             } else {
                 refresh();
             }
@@ -249,15 +257,10 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         DrinksProvider.getLiquor(mLiquorId, this);
     }
 
-    @Override
-    public void success(Liquor liquor, Response response) {
-        Log.d(getTag(), "Liquor detail loading has succeeded");
 
+    public void onLiquorFound(Liquor liquor) {
         mLiquor = liquor;
-
         if (getActivity() == null) return;
-
-        DrinksProvider.getAllDrinks(mDrinksCallback);
 
         mProgressBar.setVisibility(View.GONE);
 
@@ -287,6 +290,21 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
             });
         }
         mListView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Retrofit callback when liquor loaded
+     * @param liquor
+     * @param response
+     */
+    @Override
+    public void success(Liquor liquor, Response response) {
+        Log.d(getTag(), "Liquor detail loading has succeeded");
+
+        if (getActivity() == null) return;
+
+        DrinksProvider.getAllDrinks(mDrinksCallback);
+        onLiquorFound(liquor);
     }
 
     @Override
@@ -374,8 +392,11 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mLiquor != null) {
+
+        // TODO do not use getCount
+        if (mLiquor != null && mDrinkAdapter.getCount() > 0) {
             outState.putParcelable("liquor", mLiquor);
+            outState.putParcelableArrayList("drinks", mDrinkAdapter.getDrinks());
         }
     }
 
@@ -414,7 +435,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 bgAnim.start();
             }
         };
-
 
         if (mListView != null) {
             ViewPropertyAnimator animator = mListView.animate().setDuration(ANIM_TEXT_EXIT_DURATION).
