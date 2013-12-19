@@ -45,7 +45,6 @@ import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.view.BlurTransformation;
-import hugo.weaving.DebugLog;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -147,6 +146,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_liquor_detail, container, false);
 
+        setHasOptionsMenu(true);
+
         mImageView = (ImageView) root.findViewById(R.id.image);
         mBlurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
         mListView = (ListView) root.findViewById(R.id.scroll);
@@ -223,7 +224,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         return root;
     }
 
-    @DebugLog
     private void runEnterAnimation() {
         mImageView.setTranslationY(mTopDelta);
 
@@ -340,6 +340,9 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             case R.id.retry:
                 refresh();
                 return true;
