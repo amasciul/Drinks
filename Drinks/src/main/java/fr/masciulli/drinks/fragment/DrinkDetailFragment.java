@@ -71,12 +71,15 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private Drawable mBackground;
     private int mPreviousOrientation;
     private int mPreviousItemTop;
+    private boolean mDualPane;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
 
         setHasOptionsMenu(true);
+
+        mDualPane = getResources().getBoolean(R.bool.dualpane);
 
         mImageView = (ImageView) root.findViewById(R.id.image);
         mBlurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
@@ -123,23 +126,27 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 refresh();
             }
         } else {
-            ViewTreeObserver observer = mImageView.getViewTreeObserver();
-            if (observer != null) {
-                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            if (!mDualPane) {
+                ViewTreeObserver observer = mImageView.getViewTreeObserver();
+                if (observer != null) {
+                    observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
-                    @Override
-                    public boolean onPreDraw() {
-                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        @Override
+                        public boolean onPreDraw() {
+                            mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                        int[] screenLocation = new int[2];
-                        mImageView.getLocationOnScreen(screenLocation);
-                        mTopDelta = mPreviousItemTop - screenLocation[1];
+                            int[] screenLocation = new int[2];
+                            mImageView.getLocationOnScreen(screenLocation);
+                            mTopDelta = mPreviousItemTop - screenLocation[1];
 
-                        runEnterAnimation();
+                            runEnterAnimation();
 
-                        return true;
-                    }
-                });
+                            return true;
+                        }
+                    });
+                }
+            } else {
+                refresh();
             }
         }
 
