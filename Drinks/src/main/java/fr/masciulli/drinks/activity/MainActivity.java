@@ -46,19 +46,21 @@ public class MainActivity extends FragmentActivity {
 
         mDualPane = getResources().getBoolean(R.bool.dualpane);
 
+        if (savedInstanceState != null) {
+            mDrinksFragment = (DrinksListFragment) getSupportFragmentManager().findFragmentById(R.id.drinks_list_container);
+            mLiquorsFragment = (LiquorsListFragment) getSupportFragmentManager().findFragmentById(R.id.liquors_list_container);
+        } else {
+            mDrinksFragment = new DrinksListFragment();
+            mLiquorsFragment = new LiquorsListFragment();
+        }
+
         if (mDualPane) {
             if (savedInstanceState == null) {
-                mDrinksFragment = new DrinksListFragment();
-                mLiquorsFragment = new LiquorsListFragment();
-                getSupportFragmentManager().beginTransaction().
-                        add(R.id.drinks_list_container, mDrinksFragment).
-                        add(R.id.liquors_list_container, mLiquorsFragment).
-                        commit();
-            } else {
-                mDrinksFragment = (DrinksListFragment) getSupportFragmentManager().findFragmentById(R.id.drinks_list_container);
-                mLiquorsFragment = (LiquorsListFragment) getSupportFragmentManager().findFragmentById(R.id.liquors_list_container);
+                    getSupportFragmentManager().beginTransaction().
+                            add(R.id.drinks_list_container, mDrinksFragment).
+                            add(R.id.liquors_list_container, mLiquorsFragment).
+                            commit();
             }
-
         } else {
             // Create the adapter that will return a fragment for each of the three
             // primary sections of the app.
@@ -79,16 +81,6 @@ public class MainActivity extends FragmentActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public void onAttachFragment(Fragment fragment) {
-        // TODO uncast to object once Android Studio bug fixed
-        if (((Object) fragment).getClass() == DrinksListFragment.class) {
-            mDrinksFragment = (DrinksListFragment) fragment;
-        } else if (((Object) fragment).getClass() == LiquorsListFragment.class) {
-            mLiquorsFragment = (LiquorsListFragment) fragment;
-        }
-    }
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -107,9 +99,9 @@ public class MainActivity extends FragmentActivity {
             final int ingredients = getResources().getInteger(R.integer.position_fragment_ingredients);
 
             if (position == drinks) {
-                return new DrinksListFragment();
+                return mDrinksFragment;
             } else if (position == ingredients) {
-                return new LiquorsListFragment();
+                return mLiquorsFragment;
             }
 
             return null;
