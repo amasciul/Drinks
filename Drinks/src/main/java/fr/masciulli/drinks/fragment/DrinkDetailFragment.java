@@ -299,7 +299,16 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void onBackPressed() {
+        if (mDualPane) {
+            if (getActivity()!= null) {
+                getActivity().finish();
+            }
+        } else {
+            runExitAnimation();
+        }
+    }
 
+    private void runExitAnimation() {
         // Configure the end action (finishing activity)
         final Runnable finish = new Runnable() {
             @Override
@@ -332,7 +341,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 bgAnim.start();
             }
         };
-
 
         if (mScrollView != null) {
             ViewPropertyAnimator animator = mScrollView.animate().setDuration(ANIM_TEXT_EXIT_DURATION).
