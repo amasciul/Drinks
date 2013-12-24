@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import java.util.Locale;
 
@@ -46,7 +47,7 @@ public class MainActivity extends FragmentActivity {
 
         mDualPane = getResources().getBoolean(R.bool.dualpane);
 
-        if (savedInstanceState != null) {
+        if (mDualPane && savedInstanceState != null) {
             mDrinksFragment = (DrinksListFragment) getSupportFragmentManager().findFragmentById(R.id.drinks_list_container);
             mLiquorsFragment = (LiquorsListFragment) getSupportFragmentManager().findFragmentById(R.id.liquors_list_container);
         } else {
@@ -86,6 +87,9 @@ public class MainActivity extends FragmentActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
+        
+        final int mDrinksPosition = getResources().getInteger(R.integer.position_fragment_drinks);
+        final int mLiquorsPosition = getResources().getInteger(R.integer.position_fragment_ingredients);
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -95,16 +99,34 @@ public class MainActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
 
-            final int drinks = getResources().getInteger(R.integer.position_fragment_drinks);
-            final int ingredients = getResources().getInteger(R.integer.position_fragment_ingredients);
-
-            if (position == drinks) {
+            if (position == mDrinksPosition) {
                 return mDrinksFragment;
-            } else if (position == ingredients) {
+            } else if (position == mLiquorsPosition) {
                 return mLiquorsFragment;
             }
 
             return null;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Object fragment = super.instantiateItem(container, position);
+            if (position == mDrinksPosition) {
+                mDrinksFragment = (DrinksListFragment) fragment;
+            } else if (position == mLiquorsPosition) {
+                mLiquorsFragment = (LiquorsListFragment) fragment;
+            }
+            return fragment;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            if (position == mDrinksPosition) {
+                mDrinksFragment = null;
+            } else if (position == mLiquorsPosition) {
+                mLiquorsFragment = null;
+            }
+            super.destroyItem(container, position, object);
         }
 
         @Override
