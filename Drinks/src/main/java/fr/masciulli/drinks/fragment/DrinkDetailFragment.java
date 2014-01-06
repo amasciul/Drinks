@@ -309,6 +309,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     }
 
     private void runExitAnimation() {
+        mProgressBar.setVisibility(View.GONE);
+
         // Configure the end action (finishing activity)
         final Runnable finish = new Runnable() {
             @Override
