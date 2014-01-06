@@ -402,6 +402,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     @Override
     public void onBackPressed() {
+        mProgressBar.setVisibility(View.GONE);
 
         // Configure the end action (finishing activity)
         final Runnable finish = new Runnable() {
