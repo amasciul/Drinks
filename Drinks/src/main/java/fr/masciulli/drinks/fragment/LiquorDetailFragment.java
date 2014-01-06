@@ -72,6 +72,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     private Transformation mTransformation;
     private Liquor mLiquor;
 
+    private boolean mDualPane;
+
     private int mImageViewHeight;
 
     private int mTopDelta;
@@ -150,6 +152,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         setHasOptionsMenu(true);
 
+        mDualPane = getResources().getBoolean(R.bool.dualpane);
+
         mImageView = (ImageView) root.findViewById(R.id.image);
         mBlurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
         mListView = (ListView) root.findViewById(R.id.scroll);
@@ -205,23 +209,27 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 refresh();
             }
         } else {
-            ViewTreeObserver observer = mImageView.getViewTreeObserver();
-            if (observer != null) {
-                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            if (!mDualPane) {
+                ViewTreeObserver observer = mImageView.getViewTreeObserver();
+                if (observer != null) {
+                    observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
-                    @Override
-                    public boolean onPreDraw() {
-                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        @Override
+                        public boolean onPreDraw() {
+                            mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                        int[] screenLocation = new int[2];
-                        mImageView.getLocationOnScreen(screenLocation);
-                        mTopDelta = mPreviousItemTop - screenLocation[1];
+                            int[] screenLocation = new int[2];
+                            mImageView.getLocationOnScreen(screenLocation);
+                            mTopDelta = mPreviousItemTop - screenLocation[1];
 
-                        runEnterAnimation();
+                            runEnterAnimation();
 
-                        return true;
-                    }
-                });
+                            return true;
+                        }
+                    });
+                }
+            } else {
+                refresh();
             }
         }
 
@@ -249,6 +257,54 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
         bgAnim.start();
 
+    }
+
+    private void runExitAnimation() {
+        mProgressBar.setVisibility(View.GONE);
+
+        // Configure the end action (finishing activity)
+        final Runnable finish = new Runnable() {
+            @Override
+            public void run() {
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
+            }
+        };
+
+        // Configure the image exit animation in a runnable
+
+        final Runnable imageAnim = new Runnable() {
+            @Override
+            public void run() {
+
+                mBlurredImageView.setAlpha(0f);
+
+                int[] screenLocation = new int[2];
+                mImageView.getLocationOnScreen(screenLocation);
+                mTopDelta = mPreviousItemTop - screenLocation[1];
+                ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_IMAGE_EXIT_DURATION).
+                        translationX(0).translationY(mTopDelta).
+                        setInterpolator(sDecelerator);
+
+                AnimUtils.scheduleEndAction(imageViewAnimator, finish, ANIM_IMAGE_EXIT_DURATION);
+
+                ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
+                bgAnim.setDuration(ANIM_IMAGE_EXIT_DURATION);
+                bgAnim.start();
+            }
+        };
+
+        if (mListView != null) {
+            ViewPropertyAnimator animator = mListView.animate().setDuration(ANIM_TEXT_EXIT_DURATION).
+                    alpha(0).
+                    setInterpolator(sDecelerator);
+
+            AnimUtils.scheduleEndAction(animator, imageAnim, ANIM_TEXT_EXIT_DURATION);
+        } else {
+            // scrollView null, let's run the image animation right away
+            imageAnim.run();
+        }
     }
 
     private void refresh() {
@@ -402,50 +458,12 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     @Override
     public void onBackPressed() {
-        mProgressBar.setVisibility(View.GONE);
-
-        // Configure the end action (finishing activity)
-        final Runnable finish = new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
+        if (mDualPane) {
+            if (getActivity()!= null) {
+                getActivity().finish();
             }
-        };
-
-        // Configure the image exit animation in a runnable
-
-        final Runnable imageAnim = new Runnable() {
-            @Override
-            public void run() {
-
-                mBlurredImageView.setAlpha(0f);
-
-                int[] screenLocation = new int[2];
-                mImageView.getLocationOnScreen(screenLocation);
-                mTopDelta = mPreviousItemTop - screenLocation[1];
-                ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_IMAGE_EXIT_DURATION).
-                        translationX(0).translationY(mTopDelta).
-                        setInterpolator(sDecelerator);
-
-                AnimUtils.scheduleEndAction(imageViewAnimator, finish, ANIM_IMAGE_EXIT_DURATION);
-
-                ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
-                bgAnim.setDuration(ANIM_IMAGE_EXIT_DURATION);
-                bgAnim.start();
-            }
-        };
-
-        if (mListView != null) {
-            ViewPropertyAnimator animator = mListView.animate().setDuration(ANIM_TEXT_EXIT_DURATION).
-                    alpha(0).
-                    setInterpolator(sDecelerator);
-
-            AnimUtils.scheduleEndAction(animator, imageAnim, ANIM_TEXT_EXIT_DURATION);
         } else {
-            // scrollView null, let's run the image animation right away
-            imageAnim.run();
+            runExitAnimation();
         }
     }
 }
