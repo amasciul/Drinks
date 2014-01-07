@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -193,8 +192,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void success(Drink drink, Response response) {
-        Log.d(getTag(), "Drink detail loading has succeeded");
-
         mDrink = drink;
 
         if (getActivity() == null) return;
@@ -243,16 +240,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     @Override
     public void failure(RetrofitError error) {
-
-        Response resp = error.getResponse();
-        String message;
-        if (resp != null) {
-            message = "response status : " + resp.getStatus();
-        } else {
-            message = "no response";
-        }
-        Log.e(getTag(), "Drink detail loading has failed : " + message);
-
         if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
