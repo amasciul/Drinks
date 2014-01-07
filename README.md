@@ -5,9 +5,8 @@ Drinks
 
 An ultra simple app for making cocktails.
 
-To try Drinks latest beta, join the "Drinks Android beta testers" Google+ community by clicking on the link below. Feedbacks are more than welcome !
-
-[Google+ beta testers community](https://plus.google.com/communities/117756751911042042036)
+To try Drinks latest beta, join the ["Drinks Android beta testers" Google+ community](https://plus.google.com/communities/117756751911042042036). Alternatively, you can join the [Drinks beta testers Google group](https://groups.google.com/forum/?hl=en#!forum/drinks-beta-testers).
+Feedbacks are more than welcome !
 
 License
 =======
