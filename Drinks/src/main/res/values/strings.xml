@@ -36,5 +36,6 @@
     <string name="liquor_detail_drinks">Drinks containing %1$s</string>
     <string name="report">Report a problem</string>
     <string name="report_default_subject">[Drinks] Problem report</string>
+    <string name="report_mail">alexandre.masciulli@gmail.com</string>
 
 </resources>

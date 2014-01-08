@@ -146,10 +146,13 @@ public class MainActivity extends FragmentActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case R.id.action_report:
-                final Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:alexandre.masciulli@gmail.com"));
-                sendIntent.setType("message/rfc822");
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.report_default_subject);
+                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+                String uriText = "mailto:" + Uri.encode(getString(R.string.report_mail)) +
+                        "?subject=" + Uri.encode(getString(R.string.report_default_subject));
+                Uri uri = Uri.parse(uriText);
+                sendIntent.setData(uri);
                 startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.report)));
+                return true;
             case R.id.licenses:
                 startActivity(new Intent(this, LicensesActivity.class));
                 return true;
