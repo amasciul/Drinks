@@ -32,3 +32,6 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+# release keystore
+release.keystore

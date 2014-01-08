@@ -3,7 +3,6 @@ package fr.masciulli.drinks.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,7 +55,6 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
-                Log.d(getTag(), "retrieved drinks from saved instance state");
                 List<Drink> savedDrinks = savedInstanceState.getParcelableArrayList(STATE_LIST);
                 mListAdapter.update(savedDrinks);
             } else {
@@ -96,7 +94,6 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void success(List<Drink> drinks, Response response) {
         mLoadingError = false;
-        Log.d(getTag(), "Drinks list loading has succeeded");
 
         if (getActivity() == null) return;
 
@@ -109,7 +106,6 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void failure(RetrofitError retrofitError) {
         mLoadingError = true;
-        Log.e(getTag(), "Drinks list loading has failed");
 
         if (getActivity() == null) return;
 

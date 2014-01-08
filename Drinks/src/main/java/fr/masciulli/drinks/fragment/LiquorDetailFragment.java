@@ -355,8 +355,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
      */
     @Override
     public void success(Liquor liquor, Response response) {
-        Log.d(getTag(), "Liquor detail loading has succeeded");
-
         if (getActivity() == null) return;
 
         DrinksProvider.getAllDrinks(mDrinksCallback);
@@ -365,15 +363,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     @Override
     public void failure(RetrofitError error) {
-        Response resp = error.getResponse();
-        String message;
-        if (resp != null) {
-            message = "response status : " + resp.getStatus();
-        } else {
-            message = "no response";
-        }
-        Log.e(getTag(), "Liquor detail loading has failed : " + message);
-
         if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);

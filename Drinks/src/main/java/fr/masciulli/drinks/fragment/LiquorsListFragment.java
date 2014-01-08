@@ -3,7 +3,6 @@ package fr.masciulli.drinks.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,7 +52,6 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
-                Log.d(getTag(), "retrieved liquors from saved instance state");
                 List<Liquor> savedLiquors = savedInstanceState.getParcelableArrayList(STATE_LIST);
                 mListAdapter.update(savedLiquors);
             } else {
@@ -91,7 +89,6 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public void success(List<Liquor> liquors, Response response) {
-        Log.d(getTag(), "Liquors list loading has succeeded");
         mLoadingError = false;
 
         if (getActivity() == null) return;
@@ -103,7 +100,6 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public void failure(RetrofitError retrofitError) {
-        Log.e(getTag(), "Liquor list loading has failed");
         mLoadingError = true;
 
         if (getActivity() == null) return;
@@ -144,7 +140,6 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
         super.onCreateOptionsMenu(menu, inflater);
 
         if (mLoadingError) {
-            Log.d(getTag(), "loading error");
             ((MainActivity) getActivity()).setRefreshActionVisible(true);
         }
     }
