@@ -37,5 +37,6 @@
     <string name="report">Report a problem</string>
     <string name="report_default_subject">[Drinks] Problem report</string>
     <string name="report_mail">alexandre.masciulli@gmail.com</string>
+    <string name="unknown_version">Unknown version</string>
 
 </resources>
