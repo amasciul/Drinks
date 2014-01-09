@@ -4,6 +4,10 @@
         android:title="@string/action_settings"
         android:showAsAction="never" />
     <item
+        android:id="@+id/action_report"
+        android:title="@string/report"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/licenses"
         android:title="@string/licenses"
         android:showAsAction="never" />

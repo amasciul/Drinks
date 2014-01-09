@@ -1,6 +1,7 @@
 package fr.masciulli.drinks.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -173,6 +174,14 @@ public class MainActivity extends FragmentActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.action_report:
+                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+                String uriText = "mailto:" + Uri.encode(getString(R.string.report_mail)) +
+                        "?subject=" + Uri.encode(getString(R.string.report_default_subject));
+                Uri uri = Uri.parse(uriText);
+                sendIntent.setData(uri);
+                startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.report)));
                 return true;
             case R.id.licenses:
                 startActivity(new Intent(this, LicensesActivity.class));
