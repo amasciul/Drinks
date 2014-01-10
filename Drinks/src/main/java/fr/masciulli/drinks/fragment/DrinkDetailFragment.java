@@ -51,14 +51,22 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
-    @InjectView(R.id.image) ImageView mImageView;
-    @InjectView(R.id.image_blurred) ImageView mBlurredImageView;
-    @InjectView(R.id.history) TextView mHistoryView;
-    @InjectView(R.id.scroll) ObservableScrollView mScrollView;
-    @InjectView(R.id.ingredients) TextView mIngredientsView;
-    @InjectView(R.id.instructions) TextView mInstructionsView;
-    @InjectView(R.id.progressbar) ProgressBar mProgressBar;
-    @InjectView(R.id.wikipedia) Button mWikipediaButton;
+    @InjectView(R.id.image)
+    ImageView mImageView;
+    @InjectView(R.id.image_blurred)
+    ImageView mBlurredImageView;
+    @InjectView(R.id.history)
+    TextView mHistoryView;
+    @InjectView(R.id.scroll)
+    ObservableScrollView mScrollView;
+    @InjectView(R.id.ingredients)
+    TextView mIngredientsView;
+    @InjectView(R.id.instructions)
+    TextView mInstructionsView;
+    @InjectView(R.id.progressbar)
+    ProgressBar mProgressBar;
+    @InjectView(R.id.wikipedia)
+    Button mWikipediaButton;
 
     private MenuItem mRetryAction;
 
@@ -140,7 +148,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         return root;
     }
 
-    @OnClick(R.id.wikipedia) void goToWikipedia() {
+    @OnClick(R.id.wikipedia)
+    void goToWikipedia() {
         if (mDrink == null) return;
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDrink.wikipedia)));
     }
@@ -280,7 +289,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     @Override
     public void onBackPressed() {
         if (mDualPane) {
-            if (getActivity()!= null) {
+            if (getActivity() != null) {
                 getActivity().finish();
             }
         } else {

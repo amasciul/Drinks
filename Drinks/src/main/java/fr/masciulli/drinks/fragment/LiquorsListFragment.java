@@ -32,9 +32,12 @@ import retrofit.client.Response;
 public class LiquorsListFragment extends Fragment implements Callback<List<Liquor>>, ViewPagerScrollListener {
     private static final String STATE_LIST = "liquor";
 
-    @InjectView(R.id.list) ListView mListView;
-    @InjectView(android.R.id.empty) View mEmptyView;
-    @InjectView(R.id.progressbar) ProgressBar mProgressBar;
+    @InjectView(R.id.list)
+    ListView mListView;
+    @InjectView(android.R.id.empty)
+    View mEmptyView;
+    @InjectView(R.id.progressbar)
+    ProgressBar mProgressBar;
 
     private LiquorListAdapter mListAdapter;
 

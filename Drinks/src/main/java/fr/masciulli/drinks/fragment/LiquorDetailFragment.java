@@ -18,7 +18,6 @@ import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -59,12 +58,18 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
-    @InjectView(R.id.image) ImageView mImageView;
-    @InjectView(R.id.image_blurred) ImageView mBlurredImageView;
-    @InjectView(R.id.history) TextView mHistoryView;
-    @InjectView(R.id.progressbar) ProgressBar mProgressBar;
-    @InjectView(R.id.wikipedia) Button mWikipediaButton;
-    @InjectView(R.id.drinks_title) TextView mDrinksTitleView;
+    @InjectView(R.id.image)
+    ImageView mImageView;
+    @InjectView(R.id.image_blurred)
+    ImageView mBlurredImageView;
+    @InjectView(R.id.history)
+    TextView mHistoryView;
+    @InjectView(R.id.progressbar)
+    ProgressBar mProgressBar;
+    @InjectView(R.id.wikipedia)
+    Button mWikipediaButton;
+    @InjectView(R.id.drinks_title)
+    TextView mDrinksTitleView;
     private ListView mListView;
     private View mHeaderView;
 
@@ -369,6 +374,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     /**
      * Retrofit callback when liquor loaded
+     *
      * @param liquor
      * @param response
      */
@@ -445,7 +451,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     @Override
     public void onBackPressed() {
         if (mDualPane) {
-            if (getActivity()!= null) {
+            if (getActivity() != null) {
                 getActivity().finish();
             }
         } else {

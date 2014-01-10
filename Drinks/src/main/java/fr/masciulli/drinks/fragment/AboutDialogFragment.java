@@ -16,7 +16,8 @@ import fr.masciulli.drinks.R;
 
 public class AboutDialogFragment extends DialogFragment {
 
-    @InjectView(R.id.version_name) TextView mVersionNameView;
+    @InjectView(R.id.version_name)
+    TextView mVersionNameView;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

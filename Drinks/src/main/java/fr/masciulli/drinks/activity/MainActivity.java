@@ -40,7 +40,9 @@ public class MainActivity extends FragmentActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    @Optional @InjectView(R.id.pager) ViewPager mViewPager;
+    @Optional
+    @InjectView(R.id.pager)
+    ViewPager mViewPager;
 
     private MenuItem mRetryAction;
     private boolean mDualPane;
@@ -63,10 +65,10 @@ public class MainActivity extends FragmentActivity {
 
         if (mDualPane) {
             if (savedInstanceState == null) {
-                    getSupportFragmentManager().beginTransaction().
-                            add(R.id.drinks_list_container, mDrinksFragment).
-                            add(R.id.liquors_list_container, mLiquorsFragment).
-                            commit();
+                getSupportFragmentManager().beginTransaction().
+                        add(R.id.drinks_list_container, mDrinksFragment).
+                        add(R.id.liquors_list_container, mLiquorsFragment).
+                        commit();
             }
         } else {
             // Create the adapter that will return a fragment for each of the three
@@ -92,7 +94,7 @@ public class MainActivity extends FragmentActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
-        
+
         final int mDrinksPosition = getResources().getInteger(R.integer.position_fragment_drinks);
         final int mLiquorsPosition = getResources().getInteger(R.integer.position_fragment_ingredients);
 

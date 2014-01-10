@@ -11,7 +11,8 @@ import fr.masciulli.drinks.R;
 
 public class LicensesActivity extends Activity {
 
-    @InjectView(R.id.webview) WebView mWebView;
+    @InjectView(R.id.webview)
+    WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

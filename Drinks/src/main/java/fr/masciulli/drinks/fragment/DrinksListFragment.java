@@ -35,9 +35,12 @@ import retrofit.client.Response;
 public class DrinksListFragment extends Fragment implements Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
     private static final String STATE_LIST = "drinks_list";
 
-    @InjectView(R.id.list) ListView mListView;
-    @InjectView(R.id.progressbar) ProgressBar mProgressBar;
-    @InjectView(android.R.id.empty) View mEmptyView;
+    @InjectView(R.id.list)
+    ListView mListView;
+    @InjectView(R.id.progressbar)
+    ProgressBar mProgressBar;
+    @InjectView(android.R.id.empty)
+    View mEmptyView;
 
     private DrinksListAdapter mListAdapter;
 
