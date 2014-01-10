@@ -99,7 +99,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
         if (getActivity() == null) return;
 
         mListView.setVisibility(View.VISIBLE);
-        mListView.getEmptyView().setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mListAdapter.update(drinks);
     }
@@ -111,7 +111,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
         if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
-        mListView.getEmptyView().setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).setRefreshActionVisible(true);
 
         if (retrofitError.isNetworkError()) {
