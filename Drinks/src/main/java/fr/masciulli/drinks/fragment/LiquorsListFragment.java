@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.LiquorDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
@@ -30,10 +32,11 @@ import retrofit.client.Response;
 public class LiquorsListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>, ViewPagerScrollListener {
     private static final String STATE_LIST = "liquor";
 
-    private ListView mListView;
-    private LiquorListAdapter mListAdapter;
+    @InjectView(R.id.list) ListView mListView;
+    @InjectView(android.R.id.empty) View mEmptyView;
+    @InjectView(R.id.progressbar) ProgressBar mProgressBar;
 
-    private ProgressBar mProgressBar;
+    private LiquorListAdapter mListAdapter;
 
     private boolean mLoadingError = false;
 
@@ -41,14 +44,12 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         final View root = inflater.inflate(R.layout.fragment_liquors_list, container, false);
+        ButterKnife.inject(this, root);
 
-        mListView = (ListView) root.findViewById(R.id.list);
-        mListView.setEmptyView(root.findViewById(android.R.id.empty));
+        mListView.setEmptyView(mEmptyView);
         mListView.setOnItemClickListener(this);
         mListAdapter = new LiquorListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
-
-        mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
@@ -94,7 +95,7 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
         if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
-        mListView.getEmptyView().setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
         mListAdapter.update(liquors);
     }
 
@@ -105,7 +106,7 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
         if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
-        mListView.getEmptyView().setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -130,7 +131,7 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
 
     private void refresh() {
         mProgressBar.setVisibility(View.GONE);
-        mListView.getEmptyView().setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getAllLiquors(this);
     }
