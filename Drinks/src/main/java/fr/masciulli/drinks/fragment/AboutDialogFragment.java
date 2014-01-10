@@ -16,7 +16,7 @@ import fr.masciulli.drinks.R;
 
 public class AboutDialogFragment extends DialogFragment {
 
-    @InjectView(R.id.version_name) TextView versionNameView;
+    @InjectView(R.id.version_name) TextView mVersionNameView;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,9 +28,9 @@ public class AboutDialogFragment extends DialogFragment {
 
         try {
             PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            versionNameView.setText(pInfo.versionName);
+            mVersionNameView.setText(pInfo.versionName);
         } catch (PackageManager.NameNotFoundException e) {
-            versionNameView.setText(getString(R.string.unknown_version));
+            mVersionNameView.setText(getString(R.string.unknown_version));
         }
 
 
