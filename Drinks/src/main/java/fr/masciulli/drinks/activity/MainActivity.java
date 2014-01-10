@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import java.util.Locale;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
@@ -37,7 +39,8 @@ public class MainActivity extends FragmentActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager mViewPager;
+    @InjectView(R.id.pager) ViewPager mViewPager;
+
     private MenuItem mRetryAction;
     private boolean mDualPane;
 
@@ -45,6 +48,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
 
         mDualPane = getResources().getBoolean(R.bool.dualpane);
 
@@ -69,7 +73,6 @@ public class MainActivity extends FragmentActivity {
             mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
             // Set up the ViewPager with the sections adapter.
-            mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mSectionsPagerAdapter);
             mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
         }
