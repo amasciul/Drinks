@@ -5,17 +5,23 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.masciulli.drinks.R;
 
 public class LicensesActivity extends Activity {
+
+    @InjectView(R.id.webview) WebView mWebView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_licenses);
+        ButterKnife.inject(this);
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        WebView webView = (WebView) findViewById(R.id.webview);
-        webView.loadUrl("file:///android_asset/licenses.html");
+        mWebView.loadUrl("file:///android_asset/licenses.html");
     }
 
     @Override
