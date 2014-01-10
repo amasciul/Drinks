@@ -10,17 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.masciulli.drinks.R;
 
 public class AboutDialogFragment extends DialogFragment {
+
+    @InjectView(R.id.version_name) TextView versionNameView;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View root = inflater.inflate(R.layout.dialog_about, null);
-
-        TextView versionNameView = (TextView) root.findViewById(R.id.version_name);
+        ButterKnife.inject(this, root);
 
         try {
             PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
