@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import fr.masciulli.drinks.R;
 
 public class AboutDialogFragment extends DialogFragment {
@@ -36,10 +37,13 @@ public class AboutDialogFragment extends DialogFragment {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder
-                .setPositiveButton(getString(R.string.about_ok), null)
-                .setView(root);
+        builder.setView(root);
 
         return builder.create();
+    }
+
+    @OnClick(R.id.ok)
+    void dismissDialog() {
+        dismiss();
     }
 }
