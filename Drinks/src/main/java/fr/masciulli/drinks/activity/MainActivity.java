@@ -16,6 +16,7 @@ import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.Optional;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
@@ -39,7 +40,7 @@ public class MainActivity extends FragmentActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    @InjectView(R.id.pager) ViewPager mViewPager;
+    @Optional @InjectView(R.id.pager) ViewPager mViewPager;
 
     private MenuItem mRetryAction;
     private boolean mDualPane;
