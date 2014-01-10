@@ -25,6 +25,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
@@ -48,14 +50,14 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
-    private ImageView mImageView;
-    private ImageView mBlurredImageView;
-    private TextView mHistoryView;
-    private ObservableScrollView mScrollView;
-    private TextView mIngredientsView;
-    private TextView mInstructionsView;
-    private ProgressBar mProgressBar;
-    private Button mWikipediaButton;
+    @InjectView(R.id.image) ImageView mImageView;
+    @InjectView(R.id.image_blurred) ImageView mBlurredImageView;
+    @InjectView(R.id.history) TextView mHistoryView;
+    @InjectView(R.id.scroll) ObservableScrollView mScrollView;
+    @InjectView(R.id.ingredients) TextView mIngredientsView;
+    @InjectView(R.id.instructions) TextView mInstructionsView;
+    @InjectView(R.id.progressbar) ProgressBar mProgressBar;
+    @InjectView(R.id.wikipedia) Button mWikipediaButton;
 
     private MenuItem mRetryAction;
 
@@ -75,19 +77,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
+        ButterKnife.inject(this, root);
 
         setHasOptionsMenu(true);
 
         mDualPane = getResources().getBoolean(R.bool.dualpane);
-
-        mImageView = (ImageView) root.findViewById(R.id.image);
-        mBlurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
-        mHistoryView = (TextView) root.findViewById(R.id.history);
-        mIngredientsView = (TextView) root.findViewById(R.id.ingredients);
-        mInstructionsView = (TextView) root.findViewById(R.id.instructions);
-        mScrollView = (ObservableScrollView) root.findViewById(R.id.scroll);
-        mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
-        mWikipediaButton = (Button) root.findViewById(R.id.wikipedia);
 
         Intent intent = getActivity().getIntent();
         mDrinkId = intent.getIntExtra("drink_id", 1);
