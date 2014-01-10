@@ -31,6 +31,8 @@ import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
@@ -55,14 +57,14 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
-    private ImageView mImageView;
-    private ImageView mBlurredImageView;
-    private TextView mHistoryView;
+    @InjectView(R.id.image) ImageView mImageView;
+    @InjectView(R.id.image_blurred) ImageView mBlurredImageView;
+    @InjectView(R.id.history) TextView mHistoryView;
+    @InjectView(R.id.progressbar) ProgressBar mProgressBar;
+    @InjectView(R.id.wikipedia) Button mWikipediaButton;
+    @InjectView(R.id.drinks_title) TextView mDrinksTitleView;
     private ListView mListView;
-    private ProgressBar mProgressBar;
-    private Button mWikipediaButton;
     private View mHeaderView;
-    private TextView mDrinksTitleView;
 
     private LiquorDetailAdapter mDrinkAdapter;
 
@@ -154,17 +156,13 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mDualPane = getResources().getBoolean(R.bool.dualpane);
 
-        mImageView = (ImageView) root.findViewById(R.id.image);
-        mBlurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
-        mListView = (ListView) root.findViewById(R.id.scroll);
-        mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
-
         mHeaderView = inflater.inflate(R.layout.header_liquor_detail, null);
+
+        mListView = ButterKnife.findById(root, R.id.list);
         mListView.addHeaderView(mHeaderView);
 
-        mHistoryView = (TextView) mHeaderView.findViewById(R.id.history);
-        mWikipediaButton = (Button) mHeaderView.findViewById(R.id.wikipedia);
-        mDrinksTitleView = (TextView) mHeaderView.findViewById(R.id.drinks_title);
+        //View injection only done here because header has to be added before
+        ButterKnife.inject(this, root);
 
         mDrinkAdapter = new LiquorDetailAdapter(getActivity());
         mListView.setAdapter(mDrinkAdapter);
