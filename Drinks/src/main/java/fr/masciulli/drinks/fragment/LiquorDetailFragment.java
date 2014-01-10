@@ -33,6 +33,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
@@ -47,7 +49,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener, AdapterView.OnItemClickListener, BackPressedListener {
+public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener, BackPressedListener {
     private static final int HEADERVIEWS_COUNT = 1;
 
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
@@ -166,7 +168,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mDrinkAdapter = new LiquorDetailAdapter(getActivity());
         mListView.setAdapter(mDrinkAdapter);
-        mListView.setOnItemClickListener(this);
 
         Intent intent = getActivity().getIntent();
         mLiquorId = intent.getIntExtra("liquor_id", 1);
@@ -188,14 +189,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mImageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
         mListView.setOnScrollListener(this);
-
-        mWikipediaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mLiquor == null) return;
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
-            }
-        });
 
         if (savedInstanceState != null) {
             Liquor liquor = savedInstanceState.getParcelable("liquor");
@@ -232,6 +225,34 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         }
 
         return root;
+    }
+
+    @OnClick(R.id.wikipedia)
+    void goToWikipedia() {
+        if (mLiquor == null) return;
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
+    }
+
+    @OnItemClick(R.id.list)
+    void openRelatedDrinkDetail(int position, View view) {
+        Drink drink = mDrinkAdapter.getItem(position - HEADERVIEWS_COUNT);
+
+        // Data needed for animations in sub activity
+        int[] screenLocation = new int[2];
+        view.getLocationOnScreen(screenLocation);
+        int orientation = getResources().getConfiguration().orientation;
+
+        Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
+        intent.
+                putExtra("drink_name", drink.name).
+                putExtra("drink_imageurl", drink.imageUrl).
+                putExtra("drink_id", drink.id).
+                putExtra("top", screenLocation[1]).
+                putExtra("height", view.getHeight()).
+                putExtra("orientation", orientation);
+        startActivity(intent);
+
+        getActivity().overridePendingTransition(0, 0);
     }
 
     private void runEnterAnimation() {
@@ -408,28 +429,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
         mBlurredImageView.setTop(mHeaderView.getTop() / 2);
         mBlurredImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Drink drink = mDrinkAdapter.getItem(position - HEADERVIEWS_COUNT);
-
-        // Data needed for animations in sub activity
-        int[] screenLocation = new int[2];
-        view.getLocationOnScreen(screenLocation);
-        int orientation = getResources().getConfiguration().orientation;
-
-        Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
-        intent.
-                putExtra("drink_name", drink.name).
-                putExtra("drink_imageurl", drink.imageUrl).
-                putExtra("drink_id", drink.id).
-                putExtra("top", screenLocation[1]).
-                putExtra("height", view.getHeight()).
-                putExtra("orientation", orientation);
-        startActivity(intent);
-
-        getActivity().overridePendingTransition(0, 0);
     }
 
     @Override
