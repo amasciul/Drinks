@@ -27,6 +27,7 @@ import com.squareup.picasso.Transformation;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
@@ -103,13 +104,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
         mImageViewHeight = (int) getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
-        mWikipediaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mDrink == null) return;
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDrink.wikipedia)));
-            }
-        });
 
         if (savedInstanceState != null) {
             Drink drink = savedInstanceState.getParcelable(STATE_DRINK);
@@ -144,6 +138,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         }
 
         return root;
+    }
+
+    @OnClick(R.id.wikipedia) void goToWikipedia() {
+        if (mDrink == null) return;
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDrink.wikipedia)));
     }
 
     private void runEnterAnimation() {
