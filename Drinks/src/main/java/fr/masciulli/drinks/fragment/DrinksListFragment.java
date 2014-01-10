@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
@@ -33,8 +35,9 @@ import retrofit.client.Response;
 public class DrinksListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
     private static final String STATE_LIST = "drinks_list";
 
-    private ListView mListView;
-    private ProgressBar mProgressBar;
+    @InjectView(R.id.list) ListView mListView;
+    @InjectView(R.id.progressbar) ProgressBar mProgressBar;
+    @InjectView(android.R.id.empty) View mEmptyView;
 
     private DrinksListAdapter mListAdapter;
 
@@ -44,11 +47,9 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         final View root = inflater.inflate(R.layout.fragment_drinks_list, container, false);
+        ButterKnife.inject(this, root);
 
-        mListView = (ListView) root.findViewById(R.id.list);
-        mProgressBar = (ProgressBar) root.findViewById(R.id.progressbar);
-
-        mListView.setEmptyView(root.findViewById(android.R.id.empty));
+        mListView.setEmptyView(mEmptyView);
         mListView.setOnItemClickListener(this);
         mListAdapter = new DrinksListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
@@ -143,7 +144,7 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
 
     private void refresh() {
         mProgressBar.setVisibility(View.VISIBLE);
-        mListView.getEmptyView().setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
         DrinksProvider.getAllDrinks(this);
     }
