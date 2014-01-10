@@ -119,7 +119,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
             View itemRoot = mListView.getChildAt(i);
             if (itemRoot == null) continue;
 
-            TextView nameView = (TextView) itemRoot.findViewById(R.id.name);
+            TextView nameView = ButterKnife.findById(itemRoot, R.id.name);
 
             int textWidth = nameView.getWidth();
 

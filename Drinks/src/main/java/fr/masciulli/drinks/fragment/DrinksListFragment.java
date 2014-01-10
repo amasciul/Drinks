@@ -129,7 +129,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
             View itemRoot = mListView.getChildAt(i);
             if (itemRoot == null) continue;
 
-            TextView nameView = (TextView) itemRoot.findViewById(R.id.name);
+            TextView nameView = ButterKnife.findById(itemRoot, R.id.name);
 
             // TODO get screenWidth somewhere else (always the same)
             int screenWidth = itemRoot.getWidth();
