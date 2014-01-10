@@ -2,7 +2,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar" />
 
-    <style name="AppTheme.Transparent">
+    <style name="AppTheme.TransparentFromDualPane">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>

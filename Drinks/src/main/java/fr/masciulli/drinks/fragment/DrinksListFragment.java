@@ -86,7 +86,9 @@ public class DrinksListFragment extends Fragment implements AdapterView.OnItemCl
                 putExtra("orientation", orientation);
         startActivity(intent);
 
-        getActivity().overridePendingTransition(0, 0);
+        if (!getResources().getBoolean(R.bool.dualpane)) {
+            getActivity().overridePendingTransition(0, 0);
+        }
     }
 
     @Override
