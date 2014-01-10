@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnItemClick;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.LiquorDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
@@ -29,7 +29,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorsListFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Liquor>>, ViewPagerScrollListener {
+public class LiquorsListFragment extends Fragment implements Callback<List<Liquor>>, ViewPagerScrollListener {
     private static final String STATE_LIST = "liquor";
 
     @InjectView(R.id.list) ListView mListView;
@@ -47,7 +47,6 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
         ButterKnife.inject(this, root);
 
         mListView.setEmptyView(mEmptyView);
-        mListView.setOnItemClickListener(this);
         mListAdapter = new LiquorListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
 
@@ -65,9 +64,9 @@ public class LiquorsListFragment extends Fragment implements AdapterView.OnItemC
         return root;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Liquor liquor = mListAdapter.getItem(i);
+    @OnItemClick(R.id.list)
+    public void openLiquorDetail(View view, int position) {
+        Liquor liquor = mListAdapter.getItem(position);
 
         // Data needed for animations in sub activity
         int[] screenLocation = new int[2];
