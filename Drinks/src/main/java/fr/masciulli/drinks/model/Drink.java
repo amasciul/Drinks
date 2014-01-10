@@ -54,8 +54,4 @@ public class Drink implements Parcelable {
             return new Drink[size];
         }
     };
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> master
