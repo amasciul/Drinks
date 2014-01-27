@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -55,6 +57,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         mListView.setEmptyView(mEmptyView);
         mListAdapter = new DrinksListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
+        mListView.setOnScrollListener(new DrinksListScrollListener());
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
@@ -199,5 +202,41 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class DrinksListScrollListener implements AbsListView.OnScrollListener {
+        private static final long DRINKNAME_ANIM_DURATION = 600;
+
+        private int mPreviousFirstVisibleItem = -1;
+        private int mPreviousLastVisibleItem = -1;
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+
+            @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            int lastVisibleItem = firstVisibleItem + visibleItemCount - 1;
+
+            if (firstVisibleItem < mPreviousFirstVisibleItem) {
+                View root = mListView.getChildAt(0);
+                View nameView = ButterKnife.findById(root, R.id.name);
+                nameView.setTranslationX(nameView.getWidth());
+                nameView.animate().translationX(0).setDuration(DRINKNAME_ANIM_DURATION).setInterpolator(new DecelerateInterpolator());
+            }
+
+            if (lastVisibleItem > mPreviousLastVisibleItem) {
+
+                View root = mListView.getChildAt(visibleItemCount - 1);
+                View nameView = ButterKnife.findById(root, R.id.name);
+                nameView.setTranslationX(nameView.getWidth());
+                nameView.animate().translationX(0).setDuration(DRINKNAME_ANIM_DURATION).setInterpolator(new DecelerateInterpolator());
+            }
+
+
+            mPreviousFirstVisibleItem = firstVisibleItem;
+            mPreviousLastVisibleItem = lastVisibleItem;
+        }
     }
 }
