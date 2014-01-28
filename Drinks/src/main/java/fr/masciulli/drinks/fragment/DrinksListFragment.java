@@ -214,8 +214,9 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
 
-            @Override
+        @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (totalItemCount == 0) return;
 
             int lastVisibleItem = firstVisibleItem + visibleItemCount - 1;
 
@@ -233,7 +234,6 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
                 nameView.setTranslationX(nameView.getWidth());
                 nameView.animate().translationX(0).setDuration(DRINKNAME_ANIM_DURATION).setInterpolator(new DecelerateInterpolator());
             }
-
 
             mPreviousFirstVisibleItem = firstVisibleItem;
             mPreviousLastVisibleItem = lastVisibleItem;
