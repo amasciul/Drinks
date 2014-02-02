@@ -51,6 +51,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
 
         mListView.setEmptyView(mEmptyView);
         mListAdapter = new LiquorListAdapter(getActivity());
+        mListView.setOnScrollListener(new DrinksOnScrollListener(mListView, DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
         mListView.setAdapter(mListAdapter);
 
         if (savedInstanceState != null) {
