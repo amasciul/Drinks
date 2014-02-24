@@ -75,6 +75,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     private LiquorDetailAdapter mDrinkAdapter;
 
+    private DrinksOnScrollListener mAnimationOnScrollListener;
+
     private MenuItem mRetryAction;
 
     private int mLiquorId;
@@ -194,6 +196,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mImageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
         mListView.setOnScrollListener(this);
+        mAnimationOnScrollListener = new DrinksOnScrollListener(mListView);
 
         if (savedInstanceState != null) {
             Liquor liquor = savedInstanceState.getParcelable("liquor");
@@ -421,10 +424,16 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     @Override
     public void onScrollStateChanged(AbsListView listView, int state) {
+        if (mAnimationOnScrollListener != null) {
+            mAnimationOnScrollListener.onScrollStateChanged(listView, state);
+        }
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (mAnimationOnScrollListener != null) {
+            mAnimationOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+        }
         float alpha = 2 * (float) -mHeaderView.getTop() / (float) mImageViewHeight;
         if (alpha > 1) {
             alpha = 1;

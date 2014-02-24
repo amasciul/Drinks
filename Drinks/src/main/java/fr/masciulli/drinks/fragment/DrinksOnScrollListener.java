@@ -45,6 +45,7 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
             // first visible item index has decreased : we are scrolling up
             View root = mListView.getChildAt(0);
             View nameView = ButterKnife.findById(root, R.id.name);
+            if (nameView == null) return;
             if (mNameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
                 nameView.setTranslationX(nameView.getWidth());
             } else {
@@ -57,6 +58,7 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
             // first visible item index has decreased : we are scrolling down
             View root = mListView.getChildAt(visibleItemCount - 1);
             View nameView = ButterKnife.findById(root, R.id.name);
+            if (nameView == null) return;
             if (mNameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
                 nameView.setTranslationX(nameView.getWidth());
             } else {
