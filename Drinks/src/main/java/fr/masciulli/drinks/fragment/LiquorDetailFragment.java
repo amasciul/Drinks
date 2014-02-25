@@ -257,8 +257,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 putExtra("height", view.getHeight()).
                 putExtra("orientation", orientation);
         startActivity(intent);
-
-        getActivity().overridePendingTransition(0, 0);
     }
 
     private void runEnterAnimation() {
