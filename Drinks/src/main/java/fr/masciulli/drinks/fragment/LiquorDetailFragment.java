@@ -48,13 +48,11 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener, BackPressedListener {
+public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener {
     private static final int HEADERVIEWS_COUNT = 1;
 
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
-    private static final long ANIM_IMAGE_EXIT_DURATION = 500;
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
-    private static final long ANIM_TEXT_EXIT_DURATION = 300;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
@@ -272,10 +270,10 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
             }
         };
 
-        mImageView.setTranslationY(mTopDelta);
+        mImageView.setTranslationY(-mImageView.getHeight());
 
         ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
-                translationX(0).translationY(0).
+                translationY(0).
                 setInterpolator(sDecelerator);
 
         AnimUtils.scheduleEndAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
@@ -284,54 +282,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
         bgAnim.start();
 
-    }
-
-    private void runExitAnimation() {
-        mProgressBar.setVisibility(View.GONE);
-
-        // Configure the end action (finishing activity)
-        final Runnable finish = new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
-            }
-        };
-
-        // Configure the image exit animation in a runnable
-
-        final Runnable imageAnim = new Runnable() {
-            @Override
-            public void run() {
-
-                mBlurredImageView.setAlpha(0f);
-
-                int[] screenLocation = new int[2];
-                mImageView.getLocationOnScreen(screenLocation);
-                mTopDelta = mPreviousItemTop - screenLocation[1];
-                ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_IMAGE_EXIT_DURATION).
-                        translationX(0).translationY(mTopDelta).
-                        setInterpolator(sDecelerator);
-
-                AnimUtils.scheduleEndAction(imageViewAnimator, finish, ANIM_IMAGE_EXIT_DURATION);
-
-                ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
-                bgAnim.setDuration(ANIM_IMAGE_EXIT_DURATION);
-                bgAnim.start();
-            }
-        };
-
-        if (mListView != null) {
-            ViewPropertyAnimator animator = mListView.animate().setDuration(ANIM_TEXT_EXIT_DURATION).
-                    alpha(0).
-                    setInterpolator(sDecelerator);
-
-            AnimUtils.scheduleEndAction(animator, imageAnim, ANIM_TEXT_EXIT_DURATION);
-        } else {
-            // scrollView null, let's run the image animation right away
-            imageAnim.run();
-        }
     }
 
     private void refresh() {
@@ -413,7 +363,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                getActivity().finish();
                 return true;
             case R.id.retry:
                 refresh();
@@ -454,17 +404,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         if (mLiquor != null && mDrinkAdapter.getCount() > 0) {
             outState.putParcelable("liquor", mLiquor);
             outState.putParcelableArrayList("drinks", mDrinkAdapter.getDrinks());
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mDualPane) {
-            if (getActivity() != null) {
-                getActivity().finish();
-            }
-        } else {
-            runExitAnimation();
         }
     }
 }
