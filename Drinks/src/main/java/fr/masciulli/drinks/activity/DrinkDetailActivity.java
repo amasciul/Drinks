@@ -26,9 +26,4 @@ public class DrinkDetailActivity extends FragmentActivity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
-    @Override
-    public void onBackPressed() {
-        mDetailFragment.onBackPressed();
-    }
 }

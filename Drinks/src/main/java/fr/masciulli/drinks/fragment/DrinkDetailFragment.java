@@ -41,13 +41,11 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<Drink>, BackPressedListener {
+public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<Drink> {
 
     private static final String STATE_DRINK = "drink";
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
-    private static final long ANIM_IMAGE_EXIT_DURATION = 500;
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
-    private static final long ANIM_TEXT_EXIT_DURATION = 300;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
@@ -76,7 +74,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private Transformation mTransformation;
 
     private Drink mDrink;
-    private int mTopDelta;
     private Drawable mBackground;
     private boolean mDualPane;
 
@@ -263,70 +260,12 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                getActivity().finish();
                 return true;
             case R.id.retry:
                 refresh();
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mDualPane) {
-            if (getActivity() != null) {
-                getActivity().finish();
-            }
-        } else {
-            runExitAnimation();
-        }
-    }
-
-    private void runExitAnimation() {
-        mProgressBar.setVisibility(View.GONE);
-
-        // Configure the end action (finishing activity)
-        final Runnable finish = new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
-            }
-        };
-
-        // Configure the image exit animation in a runnable
-
-        final Runnable imageAnim = new Runnable() {
-            @Override
-            public void run() {
-
-                mBlurredImageView.setAlpha(0f);
-
-                int[] screenLocation = new int[2];
-                mImageView.getLocationOnScreen(screenLocation);
-                ViewPropertyAnimator imageViewAnimator = mImageView.animate().setDuration(ANIM_IMAGE_EXIT_DURATION).
-                        translationX(0).translationY(mTopDelta).
-                        setInterpolator(sDecelerator);
-
-                AnimUtils.scheduleEndAction(imageViewAnimator, finish, ANIM_IMAGE_EXIT_DURATION);
-
-                ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 255, 0);
-                bgAnim.setDuration(ANIM_IMAGE_EXIT_DURATION);
-                bgAnim.start();
-            }
-        };
-
-        if (mScrollView != null) {
-            ViewPropertyAnimator animator = mScrollView.animate().setDuration(ANIM_TEXT_EXIT_DURATION).
-                    alpha(0).
-                    setInterpolator(sDecelerator);
-
-            AnimUtils.scheduleEndAction(animator, imageAnim, ANIM_TEXT_EXIT_DURATION);
-        } else {
-            // scrollView null, let's run the image animation right away
-            imageAnim.run();
-        }
     }
 }
