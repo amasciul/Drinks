@@ -86,9 +86,6 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
                 putExtra("orientation", orientation);
         startActivity(intent);
 
-        if (!getResources().getBoolean(R.bool.dualpane)) {
-            getActivity().overridePendingTransition(0, 0);
-        }
     }
 
     @Override
