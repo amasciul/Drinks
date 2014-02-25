@@ -28,16 +28,6 @@ public class DrinkDetailActivity extends FragmentActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-
-        if (!getResources().getBoolean(R.bool.dualpane)) {
-            // override transitions to skip the standard window animations
-            overridePendingTransition(0, 0);
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         mDetailFragment.onBackPressed();
     }

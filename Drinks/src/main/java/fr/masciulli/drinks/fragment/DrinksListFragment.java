@@ -89,10 +89,6 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
                 putExtra("height", view.getHeight()).
                 putExtra("orientation", orientation);
         startActivity(intent);
-
-        if (!getResources().getBoolean(R.bool.dualpane)) {
-            getActivity().overridePendingTransition(0, 0);
-        }
     }
 
     @Override
