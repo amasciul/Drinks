@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.masciulli.android_quantizer.lib">
+
+    <application android:allowBackup="true">
+
+    </application>
+
+</manifest>

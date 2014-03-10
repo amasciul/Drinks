@@ -16,7 +16,7 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    buildToolsVersion '19.0.0'
 
     defaultConfig {
         minSdkVersion 14
@@ -43,12 +43,10 @@ android {
 }
 
 dependencies {
-	compile 'com.android.support:appcompat-v7:19.0.1'
+    compile 'com.android.support:appcompat-v7:19.0.1'
     compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.squareup.retrofit:retrofit:1.4.1'
     compile 'com.jakewharton:butterknife:4.0.1'
-    compile ('de.keyboardsurfer.android.widget:crouton:1.8.3') {
-        exclude module: 'support-v4'
-        compile 'com.android.support:support-v4:13.0.0'
-    }
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.3'
+    compile project(':android-quantizer')
 }

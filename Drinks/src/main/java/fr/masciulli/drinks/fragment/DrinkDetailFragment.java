@@ -3,11 +3,15 @@ package fr.masciulli.drinks.fragment;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,13 +27,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import fr.masciulli.android_quantizer.lib.ColorQuantizer;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
@@ -76,6 +84,23 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private Drink mDrink;
     private Drawable mBackground;
     private boolean mDualPane;
+    private Target mTarget = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            mImageView.setImageBitmap(bitmap);
+            new QuantizeBitmapTask().execute(bitmap);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -192,7 +217,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
         getActivity().setTitle(drink.name);
 
-        Picasso.with(getActivity()).load(drink.imageUrl).into(mImageView);
+        Picasso.with(getActivity()).load(drink.imageUrl).into(mTarget);
         Picasso.with(getActivity()).load(drink.imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mHistoryView.setText(drink.history);
@@ -267,5 +292,25 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class QuantizeBitmapTask extends AsyncTask<Bitmap, Void, ArrayList<Integer>> {
+
+        @Override
+        protected ArrayList<Integer> doInBackground(Bitmap... bitmaps) {
+
+            Bitmap originalBitmap = bitmaps[0];
+
+            int originalWidth = originalBitmap.getWidth();
+            int originalHeight = originalBitmap.getHeight();
+
+            Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / 16, originalHeight / 16, true);
+
+            ArrayList<Integer> quantizedColors = new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
+
+            Log.d(getTag(), "Colors quantized !");
+
+            return quantizedColors;
+        }
     }
 }

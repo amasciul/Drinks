@@ -1,1 +1,1 @@
-include ':Drinks'
+include ':Drinks', ':android-quantizer'
