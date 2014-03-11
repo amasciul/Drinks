@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -73,6 +72,14 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     ProgressBar mProgressBar;
     @InjectView(R.id.wikipedia)
     Button mWikipediaButton;
+    @InjectView(R.id.color1)
+    View mColorView1;
+    @InjectView(R.id.color2)
+    View mColorView2;
+    @InjectView(R.id.color3)
+    View mColorView3;
+    @InjectView(R.id.color4)
+    View mColorView4;
 
     private MenuItem mRetryAction;
 
@@ -311,6 +318,14 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
             Log.d(getTag(), "Colors quantized !");
 
             return quantizedColors;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Integer> colors) {
+            mColorView1.setBackgroundColor(colors.get(0));
+            mColorView2.setBackgroundColor(colors.get(1));
+            mColorView3.setBackgroundColor(colors.get(2));
+            mColorView4.setBackgroundColor(colors.get(3));
         }
     }
 }

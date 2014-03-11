@@ -6,81 +6,119 @@
     android:background="@color/background_holo_light">
 
     <fr.masciulli.drinks.view.TopCenterImageView
-        android:layout_height="@dimen/drink_detail_recipe_margin"
+        android:id="@+id/image"
         android:layout_width="match_parent"
-        android:id="@+id/image" />
+        android:layout_height="@dimen/drink_detail_recipe_margin" />
 
     <fr.masciulli.drinks.view.TopCenterImageView
-        android:layout_height="@dimen/drink_detail_recipe_margin"
+        android:id="@+id/image_blurred"
         android:layout_width="match_parent"
-        android:alpha="0"
-        android:id="@+id/image_blurred" />
+        android:layout_height="@dimen/drink_detail_recipe_margin"
+        android:alpha="0" />
 
     <ProgressBar
-        android:layout_below="@+id/image"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
         android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/image"
+        android:layout_centerHorizontal="true"
         android:visibility="gone" />
 
 
     <fr.masciulli.drinks.view.ObservableScrollView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
         android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="invisible">
 
         <LinearLayout
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
                 android:layout_marginTop="@dimen/drink_detail_recipe_margin"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:id="@+id/history"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_marginTop="16dp"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:text="@string/detail_ingredients"
-                android:textSize="24sp" />
+                <View
+                    android:id="@+id/color1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/ingredients"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light" />
+                <View
+                    android:id="@+id/color2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-            <TextView
-                android:layout_marginTop="16dp"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:text="@string/detail_recipe"
-                android:textSize="24sp" />
+                <View
+                    android:id="@+id/color3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/instructions"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light" />
+                <View
+                    android:id="@+id/color4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/wikipedia"
-                android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif-light"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_drinks"
-                android:textColor="@color/holo_blue_dark" />
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/detail_ingredients"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/detail_recipe"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/instructions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/wikipedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_drinks"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="@color/holo_blue_dark" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
