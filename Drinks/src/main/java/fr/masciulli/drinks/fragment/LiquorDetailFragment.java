@@ -3,8 +3,11 @@ package fr.masciulli.drinks.fragment;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
@@ -36,6 +40,7 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import fr.masciulli.android_quantizer.lib.ColorQuantizer;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.adapter.LiquorDetailAdapter;
@@ -68,8 +73,35 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     Button mWikipediaButton;
     @InjectView(R.id.drinks_title)
     TextView mDrinksTitleView;
+    @InjectView(R.id.color1)
+    View mColorView1;
+    @InjectView(R.id.color2)
+    View mColorView2;
+    @InjectView(R.id.color3)
+    View mColorView3;
+    @InjectView(R.id.color4)
+    View mColorView4;
+
     private ListView mListView;
     private View mHeaderView;
+
+    private Target mTarget = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            mImageView.setImageBitmap(bitmap);
+            new QuantizeBitmapTask().execute(bitmap);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
+    };
 
     private LiquorDetailAdapter mDrinkAdapter;
 
@@ -187,7 +219,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mBackground = root.getBackground();
 
         getActivity().setTitle(name);
-        Picasso.with(getActivity()).load(imageUrl).into(mImageView);
+        Picasso.with(getActivity()).load(imageUrl).into(mTarget);
 
         mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
         Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
@@ -402,6 +434,35 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         if (mLiquor != null && mDrinkAdapter.getCount() > 0) {
             outState.putParcelable("liquor", mLiquor);
             outState.putParcelableArrayList("drinks", mDrinkAdapter.getDrinks());
+        }
+    }
+
+    private class QuantizeBitmapTask extends AsyncTask<Bitmap, Void, ArrayList<Integer>> {
+        @Override
+        protected ArrayList<Integer> doInBackground(Bitmap... bitmaps) {
+
+            Bitmap originalBitmap = bitmaps[0];
+
+            int originalWidth = originalBitmap.getWidth();
+            int originalHeight = originalBitmap.getHeight();
+
+            Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / 16, originalHeight / 16, true);
+
+            Log.d(getTag(), bitmap.getWidth() + " " + bitmap.getHeight());
+
+            ArrayList<Integer> quantizedColors = new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
+
+            //TODO figure out why only two colors for some images
+
+            return quantizedColors;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Integer> colors) {
+            View[] colorViews = new View[]{mColorView1, mColorView2, mColorView3, mColorView4};
+            for (int i = 0; i < colors.size() && i < 4; i++) {
+                colorViews[i].setBackgroundColor(colors.get(i));
+            }
         }
     }
 }
