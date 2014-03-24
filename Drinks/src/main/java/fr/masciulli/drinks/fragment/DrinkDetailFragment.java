@@ -315,17 +315,15 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
             ArrayList<Integer> quantizedColors = new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
 
-            Log.d(getTag(), "Colors quantized !");
-
             return quantizedColors;
         }
 
         @Override
         protected void onPostExecute(ArrayList<Integer> colors) {
-            mColorView1.setBackgroundColor(colors.get(0));
-            mColorView2.setBackgroundColor(colors.get(1));
-            mColorView3.setBackgroundColor(colors.get(2));
-            mColorView4.setBackgroundColor(colors.get(3));
+            View[] colorViews = new View[]{mColorView1, mColorView2, mColorView3, mColorView4};
+            for (int i = 0; i < colors.size() && i < 4; i++) {
+                colorViews[i].setBackgroundColor(colors.get(i));
+            }
         }
     }
 }
