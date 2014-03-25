@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +22,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -208,10 +208,15 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         }
         mBlurredImageView.setAlpha(alpha);
 
-        mImageView.setTop((0 - y) / 2);
-        mImageView.setBottom(mImageViewHeight - y);
-        mBlurredImageView.setTop((0 - y) / 2);
-        mBlurredImageView.setBottom(mImageViewHeight - y);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mImageView.getLayoutParams();
+        params.setMargins(params.leftMargin, -y, params.rightMargin, params.bottomMargin);
+        mImageView.setLayoutParams(params);
+        mImageView.setPadding(mImageView.getPaddingLeft(), y / 2, mImageView.getPaddingRight(), mImageView.getPaddingBottom());
+
+        params = (RelativeLayout.LayoutParams) mBlurredImageView.getLayoutParams();
+        params.setMargins(params.leftMargin, -y, params.rightMargin, params.bottomMargin);
+        mBlurredImageView.setLayoutParams(params);
+        mBlurredImageView.setPadding(mImageView.getPaddingLeft(), y / 2, mImageView.getPaddingRight(), mImageView.getPaddingBottom());
     }
 
     @Override
@@ -254,7 +259,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                     mScrollView.animate().setDuration(ANIM_TEXT_ENTER_DURATION).
                             alpha(1).
                             setInterpolator(sDecelerator);
-
+                    // Fake a onScrollChangedCall to apply changes to mBlurredImageView and mImageView.
+                    fakeOnScrollChanged();
                     return true;
                 }
             });
@@ -299,6 +305,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void fakeOnScrollChanged() {
+        onScrollChanged(mScrollView, mScrollView.getScrollX(),
+                mScrollView.getScrollY(), mScrollView.getScrollX(), mScrollView.getScrollY());
     }
 
     private class QuantizeBitmapTask extends AsyncTask<Bitmap, Void, ArrayList<Integer>> {
