@@ -8,12 +8,14 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
+        android:scaleType="centerCrop"
         android:layout_height="@dimen/drink_detail_recipe_margin" />
 
     <ImageView
         android:id="@+id/image_blurred"
         android:layout_width="match_parent"
         android:layout_height="@dimen/drink_detail_recipe_margin"
+        android:scaleType="centerCrop"
         android:alpha="0" />
 
     <ProgressBar
