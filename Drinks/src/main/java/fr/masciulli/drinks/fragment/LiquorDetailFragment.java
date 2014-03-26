@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -447,8 +446,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
             int originalHeight = originalBitmap.getHeight();
 
             Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / 16, originalHeight / 16, true);
-
-            Log.d(getTag(), bitmap.getWidth() + " " + bitmap.getHeight());
 
             ArrayList<Integer> quantizedColors = new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
 
