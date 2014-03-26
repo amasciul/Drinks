@@ -2,21 +2,20 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_holo_light">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_height="@dimen/drink_detail_recipe_margin" />
+        android:layout_height="@dimen/drink_detail_recipe_margin"
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/image_blurred"
         android:layout_width="match_parent"
         android:layout_height="@dimen/drink_detail_recipe_margin"
-        android:scaleType="centerCrop"
-        android:alpha="0" />
+        android:alpha="0"
+        android:scaleType="centerCrop" />
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -33,96 +32,103 @@
         android:layout_height="match_parent"
         android:visibility="invisible">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:id="@+id/background_root"
                 android:layout_marginTop="@dimen/drink_detail_recipe_margin"
-                android:orientation="horizontal">
-
-                <View
-                    android:id="@+id/color1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <View
-                    android:id="@+id/color2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <View
-                    android:id="@+id/color3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <View
-                    android:id="@+id/color4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
+                android:background="@color/background_holo_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/history"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="18sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
 
-                <TextView
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/color1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <View
+                        android:id="@+id/color2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <View
+                        android:id="@+id/color3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <View
+                        android:id="@+id/color4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/detail_ingredients"
-                    android:textSize="24sp" />
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/ingredients"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/detail_recipe"
-                    android:textSize="24sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/detail_ingredients"
+                        android:textSize="24sp" />
 
-                <TextView
-                    android:id="@+id/instructions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/ingredients"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:textSize="18sp" />
 
-                <Button
-                    android:id="@+id/wikipedia"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/button_drinks"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="@color/holo_blue_dark" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/detail_recipe"
+                        android:textSize="24sp" />
 
+                    <TextView
+                        android:id="@+id/instructions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/wikipedia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/button_drinks"
+                        android:fontFamily="sans-serif-light"
+                        android:textColor="@color/holo_blue_dark" />
+
+                </LinearLayout>
             </LinearLayout>
-
-        </LinearLayout>
+        </FrameLayout>
 
     </fr.masciulli.drinks.view.ObservableScrollView>
 

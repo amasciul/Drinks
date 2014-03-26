@@ -64,6 +64,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     TextView mHistoryView;
     @InjectView(R.id.scroll)
     ObservableScrollView mScrollView;
+    @InjectView(R.id.background_root)
+    View mBackgroundRoot;
     @InjectView(R.id.ingredients)
     TextView mIngredientsView;
     @InjectView(R.id.instructions)
@@ -123,7 +125,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
 
-        mBackground = root.getBackground();
+        mBackground = mBackgroundRoot.getBackground();
 
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mImageView);
@@ -209,14 +211,12 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mBlurredImageView.setAlpha(alpha);
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mImageView.getLayoutParams();
-        params.setMargins(params.leftMargin, -y, params.rightMargin, params.bottomMargin);
+        params.setMargins(params.leftMargin, -y/2, params.rightMargin, params.bottomMargin);
         mImageView.setLayoutParams(params);
-        mImageView.setPadding(mImageView.getPaddingLeft(), y / 2, mImageView.getPaddingRight(), mImageView.getPaddingBottom());
 
         params = (RelativeLayout.LayoutParams) mBlurredImageView.getLayoutParams();
-        params.setMargins(params.leftMargin, -y, params.rightMargin, params.bottomMargin);
+        params.setMargins(params.leftMargin, -y/2, params.rightMargin, params.bottomMargin);
         mBlurredImageView.setLayoutParams(params);
-        mBlurredImageView.setPadding(mImageView.getPaddingLeft(), y / 2, mImageView.getPaddingRight(), mImageView.getPaddingBottom());
     }
 
     @Override
