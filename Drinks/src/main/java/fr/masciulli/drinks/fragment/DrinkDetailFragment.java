@@ -53,6 +53,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private static final String STATE_DRINK = "drink";
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
+    private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
@@ -182,6 +183,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mImageView.setTranslationY(-mImageView.getHeight());
 
         ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+                setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
                 translationY(0).
                 setInterpolator(sDecelerator);
 
