@@ -45,11 +45,12 @@
             android:text="@string/about_madeinfrance" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/holo_blue_dark"
-        />
+        android:background="@color/holo_blue_dark" />
+
     <Button
         android:id="@+id/ok"
         android:text="@string/about_dismiss"
