@@ -57,6 +57,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
+    private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
@@ -302,6 +303,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mImageView.setTranslationY(-mImageView.getHeight());
 
         ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+                setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
                 translationY(0).
                 setInterpolator(sDecelerator);
 
