@@ -213,11 +213,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mBlurredImageView.setAlpha(alpha);
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mImageView.getLayoutParams();
-        params.setMargins(params.leftMargin, -y/2, params.rightMargin, params.bottomMargin);
+        params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
         mImageView.setLayoutParams(params);
 
         params = (RelativeLayout.LayoutParams) mBlurredImageView.getLayoutParams();
-        params.setMargins(params.leftMargin, -y/2, params.rightMargin, params.bottomMargin);
+        params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
         mBlurredImageView.setLayoutParams(params);
     }
 
