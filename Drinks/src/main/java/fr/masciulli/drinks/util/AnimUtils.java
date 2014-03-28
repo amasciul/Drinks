@@ -30,7 +30,7 @@ public class AnimUtils {
     }
 
     public static void scheduleEndAction(ViewPropertyAnimator animator, final Runnable endAction, long duration) {
-        scheduleEndAction(animator, endAction, 0);
+        scheduleEndAction(animator, endAction, duration, 0);
     }
 
     public static void scheduleStartAction(ViewPropertyAnimator animator, final Runnable endAction, long startDelay) {
