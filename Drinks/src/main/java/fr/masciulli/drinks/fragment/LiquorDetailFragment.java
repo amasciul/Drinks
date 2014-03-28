@@ -58,6 +58,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
+    private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
@@ -73,6 +74,8 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     Button mWikipediaButton;
     @InjectView(R.id.drinks_title)
     TextView mDrinksTitleView;
+    @InjectView(R.id.colorbox)
+    View mColorBox;
     @InjectView(R.id.color1)
     View mColorView1;
     @InjectView(R.id.color2)
@@ -307,7 +310,18 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                 translationY(0).
                 setInterpolator(sDecelerator);
 
+        Runnable animateColorBoxRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mColorBox.animate()
+                        .alpha(1)
+                        .setDuration(ANIM_COLORBOX_ENTER_DURATION)
+                        .setInterpolator(sDecelerator);
+            }
+        };
+
         AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
+        AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_DURATION, ANIM_IMAGE_ENTER_STARTDELAY);
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
