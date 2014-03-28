@@ -141,6 +141,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mScrollView.setScrollViewListener(this);
 
         if (savedInstanceState != null) {
+            mColorBox.setAlpha(1);
             Drink drink = savedInstanceState.getParcelable(STATE_DRINK);
             if (drink != null) {
                 success(drink, null);

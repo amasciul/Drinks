@@ -232,6 +232,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mAnimationOnScrollListener = new DrinksOnScrollListener(mListView);
 
         if (savedInstanceState != null) {
+            mColorBox.setAlpha(1);
             Liquor liquor = savedInstanceState.getParcelable("liquor");
             List<Drink> drinks = savedInstanceState.getParcelableArrayList("drinks");
             if (liquor != null && drinks != null) {
