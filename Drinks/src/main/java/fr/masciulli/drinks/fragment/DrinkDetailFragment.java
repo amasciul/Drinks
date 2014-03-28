@@ -182,12 +182,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         };
         mImageView.setTranslationY(-mImageView.getHeight());
 
-        ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+        mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
                 setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
                 translationY(0).
+                withStartAction(refreshRunnable).
                 setInterpolator(sDecelerator);
-
-        AnimUtils.scheduleEndAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_DURATION);
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
