@@ -302,12 +302,12 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         mImageView.setTranslationY(-mImageView.getHeight());
 
-        mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+        ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
                 setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
-                //TODO handle API < 16
-                withStartAction(refreshRunnable).
                 translationY(0).
                 setInterpolator(sDecelerator);
+
+        AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);

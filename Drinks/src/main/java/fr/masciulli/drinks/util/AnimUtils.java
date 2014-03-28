@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AnimUtils {
-    public static void scheduleEndAction(ViewPropertyAnimator animator, final Runnable endAction, long duration) {
+    public static void scheduleEndAction(ViewPropertyAnimator animator, final Runnable endAction, long duration, long startDelay) {
         if (VERSION.SDK_INT >= 16) {
             animator.withEndAction(endAction);
         } else {
@@ -25,7 +25,31 @@ public class AnimUtils {
                     handler.obtainMessage().sendToTarget();
                 }
             };
-            timer.schedule(task, duration);
+            timer.schedule(task, startDelay + duration);
+        }
+    }
+
+    public static void scheduleEndAction(ViewPropertyAnimator animator, final Runnable endAction, long duration) {
+        scheduleEndAction(animator, endAction, 0);
+    }
+
+    public static void scheduleStartAction(ViewPropertyAnimator animator, final Runnable endAction, long startDelay) {
+        if (VERSION.SDK_INT >= 16) {
+            animator.withStartAction(endAction);
+        } else {
+            Timer timer = new Timer();
+            final Handler handler = new Handler() {
+                public void handleMessage(Message msg) {
+                    endAction.run();
+                }
+            };
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    handler.obtainMessage().sendToTarget();
+                }
+            };
+            timer.schedule(task, startDelay);
         }
     }
 }
