@@ -54,6 +54,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
+    private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
 
@@ -75,6 +76,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     ProgressBar mProgressBar;
     @InjectView(R.id.wikipedia)
     Button mWikipediaButton;
+    @InjectView(R.id.colorbox)
+    View mColorBox;
     @InjectView(R.id.color1)
     View mColorView1;
     @InjectView(R.id.color2)
@@ -187,7 +190,18 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
                 translationY(0).
                 setInterpolator(sDecelerator);
 
+        Runnable animateColorBoxRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mColorBox.animate()
+                        .alpha(1)
+                        .setDuration(ANIM_COLORBOX_ENTER_DURATION)
+                        .setInterpolator(sDecelerator);
+            }
+        };
+
         AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
+        AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_STARTDELAY, ANIM_IMAGE_ENTER_DURATION);
 
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
         bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
