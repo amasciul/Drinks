@@ -1,6 +1,5 @@
 package fr.masciulli.drinks.fragment;
 
-import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -323,11 +322,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
         AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
         AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_DURATION, ANIM_IMAGE_ENTER_STARTDELAY);
-
-        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
-        bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
-        bgAnim.start();
-
     }
 
     private void refresh() {
@@ -342,11 +336,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
-
-        getActivity().setTitle(liquor.name);
-
-        Picasso.with(getActivity()).load(liquor.imageUrl).into(mImageView);
-        Picasso.with(getActivity()).load(liquor.imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mHistoryView.setText(liquor.history);
         mWikipediaButton.setText(String.format(getString(R.string.liquor_detail_wikipedia), liquor.name));
