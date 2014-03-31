@@ -13,6 +13,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import fr.masciulli.drinks.BuildConfig;
 import fr.masciulli.drinks.R;
 
 public class AboutDialogFragment extends DialogFragment {
@@ -30,7 +31,12 @@ public class AboutDialogFragment extends DialogFragment {
 
         try {
             PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            mVersionNameView.setText(pInfo.versionName);
+            String versionNameText = pInfo.versionName;
+            if (BuildConfig.DEBUG)
+            {
+                versionNameText += ".dev";
+            }
+            mVersionNameView.setText(versionNameText);
         } catch (PackageManager.NameNotFoundException e) {
             mVersionNameView.setText(getString(R.string.unknown_version));
         }
