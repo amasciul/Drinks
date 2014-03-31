@@ -75,19 +75,11 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     public void openDrinkDetail(View view, int position) {
         Drink drink = mListAdapter.getItem(position);
 
-        // Data needed for animations in sub activity
-        int[] screenLocation = new int[2];
-        view.getLocationOnScreen(screenLocation);
-        int orientation = getResources().getConfiguration().orientation;
-
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
         intent.
                 putExtra("drink_name", drink.name).
                 putExtra("drink_imageurl", drink.imageUrl).
-                putExtra("drink_id", drink.id).
-                putExtra("top", screenLocation[1]).
-                putExtra("height", view.getHeight()).
-                putExtra("orientation", orientation);
+                putExtra("drink_id", drink.id);
         startActivity(intent);
     }
 
