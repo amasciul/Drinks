@@ -94,7 +94,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     private Transformation mTransformation;
 
     private Drink mDrink;
-    private Drawable mBackground;
     private boolean mDualPane;
     private Target mTarget = new Target() {
         @Override
@@ -127,8 +126,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mDrinkId = intent.getIntExtra("drink_id", 1);
         String name = intent.getStringExtra("drink_name");
         String imageUrl = intent.getStringExtra("drink_imageurl");
-
-        mBackground = mBackgroundRoot.getBackground();
 
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mTarget);
