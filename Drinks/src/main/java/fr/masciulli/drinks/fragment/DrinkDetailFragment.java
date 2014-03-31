@@ -1,6 +1,5 @@
 package fr.masciulli.drinks.fragment;
 
-import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -132,7 +131,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mBackground = mBackgroundRoot.getBackground();
 
         getActivity().setTitle(name);
-        Picasso.with(getActivity()).load(imageUrl).into(mImageView);
+        Picasso.with(getActivity()).load(imageUrl).into(mTarget);
 
         mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
         Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
@@ -204,10 +203,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
         AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_STARTDELAY, ANIM_IMAGE_ENTER_DURATION);
 
-        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
-        bgAnim.setDuration(ANIM_IMAGE_ENTER_DURATION);
-        bgAnim.start();
-
     }
 
     @Override
@@ -243,11 +238,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         if (getActivity() == null) return;
 
         mProgressBar.setVisibility(View.GONE);
-
-        getActivity().setTitle(drink.name);
-
-        Picasso.with(getActivity()).load(drink.imageUrl).into(mTarget);
-        Picasso.with(getActivity()).load(drink.imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mHistoryView.setText(drink.history);
 
