@@ -119,12 +119,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     private int mImageViewHeight;
 
-    private int mTopDelta;
-    private int mPreviousItemTop;
-    private Drawable mBackground;
-    private long mPreviousItemHeight;
-    private int mPreviousOrientation;
-
     private Callback<List<Drink>> mDrinksCallback = new Callback<List<Drink>>() {
 
         /**
@@ -213,13 +207,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         String name = intent.getStringExtra("liquor_name");
         String imageUrl = intent.getStringExtra("liquor_imageurl");
 
-        // Data needed for animations
-        mPreviousItemHeight = intent.getIntExtra("height", 0);
-        mPreviousItemTop = intent.getIntExtra("top", 0);
-        mPreviousOrientation = intent.getIntExtra("orientation", 0);
-
-        mBackground = root.getBackground();
-
         getActivity().setTitle(name);
         Picasso.with(getActivity()).load(imageUrl).into(mTarget);
 
@@ -249,11 +236,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
                         @Override
                         public boolean onPreDraw() {
                             mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                            int[] screenLocation = new int[2];
-                            mImageView.getLocationOnScreen(screenLocation);
-                            mTopDelta = mPreviousItemTop - screenLocation[1];
-
                             runEnterAnimation();
 
                             return true;
