@@ -16,7 +16,7 @@
             android:text="@string/about_drinks"
             android:textSize="48sp"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/holo_blue_dark"
+            android:textColor="@color/holo_red_dark"
             android:fontFamily="sans-serif-light" />
 
         <TextView
@@ -49,7 +49,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/holo_blue_dark" />
+        android:background="@color/holo_red_dark" />
 
     <Button
         android:id="@+id/ok"
@@ -57,5 +57,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_drinks"
-        android:textColor="@color/holo_blue_dark" />
+        android:textColor="@color/holo_red_dark" />
 </LinearLayout>

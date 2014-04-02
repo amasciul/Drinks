@@ -3,6 +3,9 @@
     <color name="holo_blue_dark">#0099cc</color>
     <color name="holo_blue_light">#33b5e5</color>
     <color name="holo_blue_light_transparent">#5533b5e5</color>
+    <color name="holo_red_dark">#c00000</color>
+    <color name="holo_red_light">#f44000</color>
+    <color name="holo_red_light_transparent">#55f44000</color>
     <color name="white_transparent">#60ffffff</color>
     <color name="background_holo_light">#fff3f3f3</color>
     <color name="selector">#60ffffff</color>

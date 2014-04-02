@@ -125,7 +125,7 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/button_drinks"
                         android:fontFamily="sans-serif-light"
-                        android:textColor="@color/holo_blue_dark" />
+                        android:textColor="@color/holo_red_dark" />
 
                 </LinearLayout>
             </LinearLayout>
