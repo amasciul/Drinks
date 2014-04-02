@@ -1,7 +1,7 @@
 Drinks
 ======
 
-![Logo](website/logo.png)
+![Logo](website/drinks-full-192.png)
 
 An ultra simple app for making cocktails.
 
