@@ -149,6 +149,20 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         // SearchView configuration
         final MenuItem searchMenuItem = menu.findItem(R.id.search);
 
+        searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                getActivity().getActionBar().setIcon(getResources().getDrawable(R.drawable.ic_launcher));
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                getActivity().getActionBar().setIcon(getResources().getDrawable(R.drawable.ic_main));
+                return true;
+            }
+        });
+
         if (mLoadingError) {
             ((MainActivity) getActivity()).setRefreshActionVisible(true);
         }
