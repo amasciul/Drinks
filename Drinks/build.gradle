@@ -43,7 +43,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.0.1'
+    compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.squareup.retrofit:retrofit:1.5.0'
     compile 'com.jakewharton:butterknife:4.0.1'
