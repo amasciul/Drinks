@@ -337,7 +337,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.drink_detail, menu);
+        inflater.inflate(R.menu.liquor_detail, menu);
         mRetryAction = menu.findItem(R.id.retry);
     }
 

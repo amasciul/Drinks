@@ -33,19 +33,13 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.android_quantizer.lib.ColorQuantizer;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.util.AnimUtils;
 import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class DrinkDetailFragment extends Fragment implements ScrollViewListener {
 
@@ -83,8 +77,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     View mColorView3;
     @InjectView(R.id.color4)
     View mColorView4;
-
-    private MenuItem mRetryAction;
 
     private int mImageViewHeight;
 
@@ -136,8 +128,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
             Drink drink = savedInstanceState.getParcelable(STATE_DRINK);
             if (drink != null) {
                 refreshUI(drink);
-            } else {
-                refresh();
             }
         } else {
             if (!mDualPane) {
@@ -153,8 +143,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
                         }
                     });
                 }
-            } else {
-                refresh();
             }
         }
 
@@ -172,7 +160,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         Runnable refreshRunnable = new Runnable() {
             @Override
             public void run() {
-                refresh();
+                refreshUI(mDrink);
             }
         };
         mImageView.setTranslationY(-mImageView.getHeight());
@@ -266,26 +254,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         mScrollView.setVisibility(View.VISIBLE);
     }
 
-    private void refresh() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        if (mRetryAction != null) mRetryAction.setVisible(false);
-        refreshUI(mDrink);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.drink_detail, menu);
-        mRetryAction = menu.findItem(R.id.retry);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().finish();
-                return true;
-            case R.id.retry:
-                refresh();
                 return true;
         }
         return super.onOptionsItemSelected(item);
