@@ -61,8 +61,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     TextView mIngredientsView;
     @InjectView(R.id.instructions)
     TextView mInstructionsView;
-    @InjectView(R.id.progressbar)
-    ProgressBar mProgressBar;
     @InjectView(R.id.wikipedia)
     Button mWikipediaButton;
     @InjectView(R.id.colorbox)
@@ -213,8 +211,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         mDrink = drink;
 
         if (getActivity() == null) return;
-
-        mProgressBar.setVisibility(View.GONE);
 
         mHistoryView.setText(drink.history);
 
