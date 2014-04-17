@@ -111,7 +111,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     private MenuItem mRetryAction;
 
-    private Transformation mTransformation;
     private Liquor mLiquor;
 
     private boolean mDualPane;
@@ -207,8 +206,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         getActivity().setTitle(mLiquor.name);
         Picasso.with(getActivity()).load(mLiquor.imageUrl).into(mTarget);
 
-        mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
-        Picasso.with(getActivity()).load(mLiquor.imageUrl).transform(mTransformation).into(mBlurredImageView);
+        Transformation transformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
+        Picasso.with(getActivity()).load(mLiquor.imageUrl).transform(transformation).into(mBlurredImageView);
 
         mImageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
         mListView.setOnScrollListener(this);
@@ -219,10 +218,10 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             Liquor liquor = savedInstanceState.getParcelable("liquor");
             List<Drink> drinks = savedInstanceState.getParcelableArrayList("drinks");
             if (liquor != null && drinks != null) {
-                onLiquorFound(liquor);
+                onLiquorFound(mLiquor);
                 mDrinksCallback.success(drinks, null);
             } else {
-                refresh();
+                refresh(mLiquor);
             }
         } else {
             if (!mDualPane) {
@@ -240,7 +239,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
                     });
                 }
             } else {
-                refresh();
+                refresh(mLiquor);
             }
         }
 
@@ -267,7 +266,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         Runnable refreshRunnable = new Runnable() {
             @Override
             public void run() {
-                refresh();
+                refresh(mLiquor);
             }
         };
 
@@ -290,12 +289,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
         AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_DURATION, ANIM_IMAGE_ENTER_STARTDELAY);
-    }
-
-    private void refresh() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        if (mRetryAction != null) mRetryAction.setVisible(false);
-        refreshUI(mLiquor);
     }
 
 
@@ -328,7 +321,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         mListView.setVisibility(View.VISIBLE);
     }
 
-    public void refreshUI(Liquor liquor) {
+    public void refresh(Liquor liquor) {
         if (getActivity() == null) return;
 
         DrinksProvider.getAllDrinks(mDrinksCallback);
@@ -348,7 +341,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
                 getActivity().finish();
                 return true;
             case R.id.retry:
-                refresh();
+                refresh(mLiquor);
                 return true;
         }
         return super.onOptionsItemSelected(item);
