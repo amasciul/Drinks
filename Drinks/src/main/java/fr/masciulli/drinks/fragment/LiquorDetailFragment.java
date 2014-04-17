@@ -51,7 +51,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, AbsListView.OnScrollListener {
+public class LiquorDetailFragment extends Fragment implements AbsListView.OnScrollListener {
     private static final int HEADERVIEWS_COUNT = 1;
 
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
@@ -111,7 +111,6 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
 
     private MenuItem mRetryAction;
 
-    private int mLiquorId;
     private Transformation mTransformation;
     private Liquor mLiquor;
 
@@ -203,15 +202,13 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mListView.setAdapter(mDrinkAdapter);
 
         Intent intent = getActivity().getIntent();
-        mLiquorId = intent.getIntExtra("liquor_id", 1);
-        String name = intent.getStringExtra("liquor_name");
-        String imageUrl = intent.getStringExtra("liquor_imageurl");
+        mLiquor = intent.getParcelableExtra("liquor");
 
-        getActivity().setTitle(name);
-        Picasso.with(getActivity()).load(imageUrl).into(mTarget);
+        getActivity().setTitle(mLiquor.name);
+        Picasso.with(getActivity()).load(mLiquor.imageUrl).into(mTarget);
 
         mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
-        Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
+        Picasso.with(getActivity()).load(mLiquor.imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mImageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
         mListView.setOnScrollListener(this);
@@ -261,10 +258,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         Drink drink = mDrinkAdapter.getItem(position - HEADERVIEWS_COUNT);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
-        intent.
-                putExtra("drink_name", drink.name).
-                putExtra("drink_imageurl", drink.imageUrl).
-                putExtra("drink_id", drink.id);
+        intent.putExtra("drink", drink);
         startActivity(intent);
     }
 
@@ -301,7 +295,7 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
     private void refresh() {
         mProgressBar.setVisibility(View.VISIBLE);
         if (mRetryAction != null) mRetryAction.setVisible(false);
-        DrinksProvider.getLiquor(mLiquorId, this);
+        refreshUI(mLiquor);
     }
 
 
@@ -334,32 +328,11 @@ public class LiquorDetailFragment extends Fragment implements Callback<Liquor>, 
         mListView.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * Retrofit callback when liquor loaded
-     *
-     * @param liquor
-     * @param response
-     */
-    @Override
-    public void success(Liquor liquor, Response response) {
+    public void refreshUI(Liquor liquor) {
         if (getActivity() == null) return;
 
         DrinksProvider.getAllDrinks(mDrinksCallback);
         onLiquorFound(liquor);
-    }
-
-    @Override
-    public void failure(RetrofitError error) {
-        if (getActivity() == null) return;
-
-        mProgressBar.setVisibility(View.GONE);
-        if (mRetryAction != null) mRetryAction.setVisible(true);
-        if (error.isNetworkError()) {
-            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-        } else {
-            Crouton.makeText(getActivity(), R.string.liquor_detail_loading_failed, Style.ALERT).show();
-        }
-
     }
 
     @Override

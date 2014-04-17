@@ -47,7 +47,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DrinkDetailFragment extends Fragment implements ScrollViewListener, Callback<Drink> {
+public class DrinkDetailFragment extends Fragment implements ScrollViewListener {
 
     private static final String STATE_DRINK = "drink";
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
@@ -65,8 +65,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
     TextView mHistoryView;
     @InjectView(R.id.scroll)
     ObservableScrollView mScrollView;
-    @InjectView(R.id.background_root)
-    View mBackgroundRoot;
     @InjectView(R.id.ingredients)
     TextView mIngredientsView;
     @InjectView(R.id.instructions)
@@ -90,7 +88,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
 
     private int mImageViewHeight;
 
-    private int mDrinkId;
     private Transformation mTransformation;
 
     private Drink mDrink;
@@ -123,15 +120,13 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mDualPane = getResources().getBoolean(R.bool.dualpane);
 
         Intent intent = getActivity().getIntent();
-        mDrinkId = intent.getIntExtra("drink_id", 1);
-        String name = intent.getStringExtra("drink_name");
-        String imageUrl = intent.getStringExtra("drink_imageurl");
+        mDrink = intent.getParcelableExtra("drink");
 
-        getActivity().setTitle(name);
-        Picasso.with(getActivity()).load(imageUrl).into(mTarget);
+        getActivity().setTitle(mDrink.name);
+        Picasso.with(getActivity()).load(mDrink.imageUrl).into(mTarget);
 
         mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
-        Picasso.with(getActivity()).load(imageUrl).transform(mTransformation).into(mBlurredImageView);
+        Picasso.with(getActivity()).load(mDrink.imageUrl).transform(mTransformation).into(mBlurredImageView);
 
         mImageViewHeight = (int) getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
@@ -140,7 +135,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
             mColorBox.setAlpha(1);
             Drink drink = savedInstanceState.getParcelable(STATE_DRINK);
             if (drink != null) {
-                success(drink, null);
+                refreshUI(drink);
             } else {
                 refresh();
             }
@@ -227,9 +222,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
         mBlurredImageView.setLayoutParams(params);
     }
-
-    @Override
-    public void success(Drink drink, Response response) {
+    
+    public void refreshUI(Drink drink) {
         mDrink = drink;
 
         if (getActivity() == null) return;
@@ -272,24 +266,10 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener,
         mScrollView.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void failure(RetrofitError error) {
-        if (getActivity() == null) return;
-
-        mProgressBar.setVisibility(View.GONE);
-        if (mRetryAction != null) mRetryAction.setVisible(true);
-        if (error.isNetworkError()) {
-            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-        } else {
-            Crouton.makeText(getActivity(), R.string.drink_detail_loading_failed, Style.ALERT).show();
-        }
-
-    }
-
     private void refresh() {
         mProgressBar.setVisibility(View.VISIBLE);
         if (mRetryAction != null) mRetryAction.setVisible(false);
-        DrinksProvider.getDrink(mDrinkId, this);
+        refreshUI(mDrink);
     }
 
     @Override

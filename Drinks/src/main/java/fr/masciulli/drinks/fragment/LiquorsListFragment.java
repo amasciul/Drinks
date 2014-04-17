@@ -73,9 +73,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         Liquor liquor = mListAdapter.getItem(position);
 
         Intent intent = new Intent(getActivity(), LiquorDetailActivity.class);
-        intent.putExtra("liquor_name", liquor.name).
-                putExtra("liquor_imageurl", liquor.imageUrl).
-                putExtra("liquor_id", liquor.id);
+        intent.putExtra("liquor", liquor);
         startActivity(intent);
 
     }

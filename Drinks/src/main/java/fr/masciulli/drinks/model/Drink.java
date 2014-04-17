@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Drink implements Parcelable {
-    public int id;
     public String name;
     public String imageUrl;
     public String history;
@@ -19,7 +18,6 @@ public class Drink implements Parcelable {
     }
 
     private Drink(Parcel parcel) {
-        id = parcel.readInt();
         name = parcel.readString();
         imageUrl = parcel.readString();
         history = parcel.readString();
@@ -35,7 +33,6 @@ public class Drink implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeString(imageUrl);
         parcel.writeString(history);
