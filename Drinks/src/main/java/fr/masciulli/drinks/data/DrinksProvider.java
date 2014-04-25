@@ -9,32 +9,33 @@ import retrofit.RestAdapter;
 
 public class DrinksProvider {
 
-    private static RestAdapter mRestAdapter = new RestAdapter.Builder()
-            .setServer("http://drinkstest.elasticbeanstalk.com/api")
+    private static RestAdapter sRestAdapter = new RestAdapter.Builder()
+            .setEndpoint("http://drinkstest.elasticbeanstalk.com/api")
             .build();
-    private static DrinksService mService = mRestAdapter.create(DrinksService.class);
+    private static DrinksService sService = sRestAdapter.create(DrinksService.class);
 
     public static void getAllDrinks(Callback<List<Drink>> callback) {
-        mService.getAllDrinks(callback);
+        sService.getAllDrinks(callback);
     }
 
     public static void getDrink(int drinkId, Callback<Drink> callback) {
-        mService.getDrink(drinkId, callback);
+        sService.getDrink(drinkId, callback);
     }
 
+    
     public static void getAllLiquors(Callback<List<Liquor>> callback) {
-        mService.getAllLiquors(callback);
+        sService.getAllLiquors(callback);
     }
 
     public static void getLiquor(int liquorId, Callback<Liquor> callback) {
-        mService.getLiquor(liquorId, callback);
+        sService.getLiquor(liquorId, callback);
     }
 
     public static void updateServer(String server) {
-        mRestAdapter = new RestAdapter.Builder()
+        sRestAdapter = new RestAdapter.Builder()
                 .setServer(server)
                 .build();
-        mService = mRestAdapter.create(DrinksService.class);
+        sService = sRestAdapter.create(DrinksService.class);
     }
 
 }
