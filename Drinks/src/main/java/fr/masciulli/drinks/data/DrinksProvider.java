@@ -18,17 +18,8 @@ public class DrinksProvider {
         sService.getAllDrinks(callback);
     }
 
-    public static void getDrink(int drinkId, Callback<Drink> callback) {
-        sService.getDrink(drinkId, callback);
-    }
-
-    
     public static void getAllLiquors(Callback<List<Liquor>> callback) {
         sService.getAllLiquors(callback);
-    }
-
-    public static void getLiquor(int liquorId, Callback<Liquor> callback) {
-        sService.getLiquor(liquorId, callback);
     }
 
     public static void updateServer(String server) {

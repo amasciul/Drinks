@@ -12,12 +12,6 @@ public interface DrinksService {
     @GET("/Drinks")
     public void getAllDrinks(Callback<List<Drink>> callback);
 
-    @GET("/Drinks/{drinkid}")
-    public void getDrink(@Path("drinkid") int drinkId, Callback<Drink> callback);
-
     @GET("/Liquors")
     public void getAllLiquors(Callback<List<Liquor>> callback);
-
-    @GET("/Liquors/{liquorid}")
-    public void getLiquor(@Path("liquorid") int liquorId, Callback<Liquor> callback);
 }
