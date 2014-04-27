@@ -32,8 +32,7 @@ public class AboutDialogFragment extends DialogFragment {
         try {
             PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
             String versionNameText = pInfo.versionName;
-            if (BuildConfig.DEBUG)
-            {
+            if (BuildConfig.DEBUG) {
                 versionNameText += ".dev";
             }
             mVersionNameView.setText(versionNameText);

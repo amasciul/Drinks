@@ -18,7 +18,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -206,7 +205,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
         mBlurredImageView.setLayoutParams(params);
     }
-    
+
     public void refreshUI(Drink drink) {
         mDrink = drink;
 
