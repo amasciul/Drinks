@@ -10,7 +10,7 @@ import retrofit.RestAdapter;
 public class DrinksProvider {
 
     private static RestAdapter sRestAdapter = new RestAdapter.Builder()
-            .setEndpoint("http://drinkstest.elasticbeanstalk.com/api")
+            .setEndpoint("http://drinks-api.appspot.com/api")
             .build();
     private static DrinksService sService = sRestAdapter.create(DrinksService.class);
 

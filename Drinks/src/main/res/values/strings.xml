@@ -16,7 +16,7 @@
     <string name="list_loading_failed">List loading has failed. Please give it another try.</string>
     <string name="pref_apiendpoint_title">API endpoint</string>
     <string name="pref_apiendpoint_key">pref_apiendpoint</string>
-    <string name="pref_apiendpoint_default">http://drinkstest.elasticbeanstalk.com/api</string>
+    <string name="pref_apiendpoint_default">http://drinks-api.appspot.com/api</string>
     <string name="server_updated">Server updated. Please reload list.</string>
     <string name="drink_detail_wikipedia">See %1$s on Wikipedia</string>
     <string name="liquor_detail_wikipedia">See %1$s on Wikipedia</string>
