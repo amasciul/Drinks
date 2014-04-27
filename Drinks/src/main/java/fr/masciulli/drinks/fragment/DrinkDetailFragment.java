@@ -78,7 +78,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private Transformation mTransformation;
 
     private Drink mDrink;
-    private boolean mDualPane;
     private Target mTarget = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -104,8 +103,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
         setHasOptionsMenu(true);
 
-        mDualPane = getResources().getBoolean(R.bool.dualpane);
-
         Intent intent = getActivity().getIntent();
         mDrink = intent.getParcelableExtra("drink");
 
@@ -125,19 +122,17 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
                 refreshUI(drink);
             }
         } else {
-            if (!mDualPane) {
-                ViewTreeObserver observer = mImageView.getViewTreeObserver();
-                if (observer != null) {
-                    observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            ViewTreeObserver observer = mImageView.getViewTreeObserver();
+            if (observer != null) {
+                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
-                        @Override
-                        public boolean onPreDraw() {
-                            mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
-                            runEnterAnimation();
-                            return true;
-                        }
-                    });
-                }
+                    @Override
+                    public boolean onPreDraw() {
+                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        runEnterAnimation();
+                        return true;
+                    }
+                });
             }
         }
 

@@ -109,11 +109,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     private DrinksOnScrollListener mAnimationOnScrollListener;
 
-    private MenuItem mRetryAction;
-
     private Liquor mLiquor;
-
-    private boolean mDualPane;
 
     private int mImageViewHeight;
 
@@ -187,8 +183,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         setHasOptionsMenu(true);
 
-        mDualPane = getResources().getBoolean(R.bool.dualpane);
-
         mHeaderView = inflater.inflate(R.layout.header_liquor_detail, null);
 
         mListView = ButterKnife.findById(root, R.id.list);
@@ -224,20 +218,18 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
                 refresh(mLiquor);
             }
         } else {
-            if (!mDualPane) {
-                ViewTreeObserver observer = mImageView.getViewTreeObserver();
-                if (observer != null) {
-                    observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            ViewTreeObserver observer = mImageView.getViewTreeObserver();
+            if (observer != null) {
+                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
-                        @Override
-                        public boolean onPreDraw() {
-                            mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
-                            runEnterAnimation();
+                    @Override
+                    public boolean onPreDraw() {
+                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        runEnterAnimation();
 
-                            return true;
-                        }
-                    });
-                }
+                        return true;
+                    }
+                });
             } else {
                 refresh(mLiquor);
             }
@@ -331,7 +323,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.liquor_detail, menu);
-        mRetryAction = menu.findItem(R.id.retry);
     }
 
     @Override
