@@ -172,7 +172,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             if (error.isNetworkError()) {
                 Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
             } else {
-                Crouton.makeText(getActivity(), R.string.liquor_detail_drinks_loading_failed, Style.ALERT).show();
+                String croutonText = String.format(getString(R.string.liquor_detail_drinks_loading_failed), mLiquor.name);
+                Crouton.makeText(getActivity(), croutonText, Style.ALERT).show();
             }
         }
     };
