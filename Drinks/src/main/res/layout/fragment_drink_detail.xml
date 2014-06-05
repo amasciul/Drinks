@@ -28,6 +28,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:background="@color/background_holo_light"
                 android:id="@+id/background_root"
                 android:layout_marginTop="@dimen/drink_detail_recipe_margin"
                 android:layout_width="match_parent"
