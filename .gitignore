@@ -7,6 +7,9 @@
 *.apk
 *.ap_
 
+# build folder
+/build
+
 # files for the dex VM
 *.dex
 
