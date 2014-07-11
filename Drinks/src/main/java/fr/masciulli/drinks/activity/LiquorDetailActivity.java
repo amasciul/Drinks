@@ -1,12 +1,12 @@
 package fr.masciulli.drinks.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.LiquorDetailFragment;
 
-public class LiquorDetailActivity extends FragmentActivity {
+public class LiquorDetailActivity extends Activity {
     private LiquorDetailFragment mDetailFragment;
 
     @Override
@@ -16,11 +16,11 @@ public class LiquorDetailActivity extends FragmentActivity {
 
         if (savedInstanceState == null) {
             mDetailFragment = new LiquorDetailFragment();
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.liquor_detail_container, mDetailFragment)
                     .commit();
         } else {
-            mDetailFragment = (LiquorDetailFragment) getSupportFragmentManager().findFragmentById(R.id.liquor_detail_container);
+            mDetailFragment = (LiquorDetailFragment) getFragmentManager().findFragmentById(R.id.liquor_detail_container);
         }
 
         getActionBar().setDisplayHomeAsUpEnabled(true);

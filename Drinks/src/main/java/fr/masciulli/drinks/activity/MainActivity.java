@@ -1,12 +1,12 @@
 package fr.masciulli.drinks.activity;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +22,7 @@ import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsListFragment;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
 
     private DrinksListFragment mDrinksFragment;
     private LiquorsListFragment mLiquorsFragment;
@@ -56,8 +56,8 @@ public class MainActivity extends FragmentActivity {
         mDualPane = getResources().getBoolean(R.bool.dualpane);
 
         if (mDualPane && savedInstanceState != null) {
-            mDrinksFragment = (DrinksListFragment) getSupportFragmentManager().findFragmentById(R.id.drinks_list_container);
-            mLiquorsFragment = (LiquorsListFragment) getSupportFragmentManager().findFragmentById(R.id.liquors_list_container);
+            mDrinksFragment = (DrinksListFragment) getFragmentManager().findFragmentById(R.id.drinks_list_container);
+            mLiquorsFragment = (LiquorsListFragment) getFragmentManager().findFragmentById(R.id.liquors_list_container);
         } else {
             mDrinksFragment = new DrinksListFragment();
             mLiquorsFragment = new LiquorsListFragment();
@@ -65,7 +65,7 @@ public class MainActivity extends FragmentActivity {
 
         if (mDualPane) {
             if (savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction().
+                getFragmentManager().beginTransaction().
                         add(R.id.drinks_list_container, mDrinksFragment).
                         add(R.id.liquors_list_container, mLiquorsFragment).
                         commit();
@@ -73,7 +73,7 @@ public class MainActivity extends FragmentActivity {
         } else {
             // Create the adapter that will return a fragment for each of the three
             // primary sections of the app.
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
             // Set up the ViewPager with the sections adapter.
             mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -193,7 +193,7 @@ public class MainActivity extends FragmentActivity {
                 startActivity(new Intent(this, LicensesActivity.class));
                 return true;
             case R.id.about:
-                (new AboutDialogFragment()).show(getSupportFragmentManager(), "dialog_about");
+                (new AboutDialogFragment()).show(getFragmentManager(), "dialog_about");
                 return true;
         }
         return super.onMenuItemSelected(featureId, item);
