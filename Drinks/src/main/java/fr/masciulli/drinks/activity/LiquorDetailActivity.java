@@ -2,11 +2,12 @@ package fr.masciulli.drinks.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.LiquorDetailFragment;
 
-public class LiquorDetailActivity extends Activity {
+public class LiquorDetailActivity extends ActionBarActivity {
     private LiquorDetailFragment mDetailFragment;
 
     @Override
@@ -23,6 +24,6 @@ public class LiquorDetailActivity extends Activity {
             mDetailFragment = (LiquorDetailFragment) getFragmentManager().findFragmentById(R.id.liquor_detail_container);
         }
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

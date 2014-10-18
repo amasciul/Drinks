@@ -1,6 +1,5 @@
 package fr.masciulli.drinks.activity;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -8,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -22,7 +22,7 @@ import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsListFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     private DrinksListFragment mDrinksFragment;
     private LiquorsListFragment mLiquorsFragment;
@@ -175,29 +175,29 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            case R.id.action_report:
-                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-                String uriText = "mailto:" + Uri.encode(getString(R.string.report_mail)) +
-                        "?subject=" + Uri.encode(getString(R.string.report_default_subject));
-                Uri uri = Uri.parse(uriText);
-                sendIntent.setData(uri);
-                startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.report)));
-                return true;
-            case R.id.licenses:
-                startActivity(new Intent(this, LicensesActivity.class));
-                return true;
-            case R.id.about:
-                (new AboutDialogFragment()).show(getFragmentManager(), "dialog_about");
-                return true;
-        }
-        return super.onMenuItemSelected(featureId, item);
-    }
+//    @Override
+//    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_settings:
+//                startActivity(new Intent(this, SettingsActivity.class));
+//                return true;
+//            case R.id.action_report:
+//                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+//                String uriText = "mailto:" + Uri.encode(getString(R.string.report_mail)) +
+//                        "?subject=" + Uri.encode(getString(R.string.report_default_subject));
+//                Uri uri = Uri.parse(uriText);
+//                sendIntent.setData(uri);
+//                startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.report)));
+//                return true;
+//            case R.id.licenses:
+//                startActivity(new Intent(this, LicensesActivity.class));
+//                return true;
+//            case R.id.about:
+//                (new AboutDialogFragment()).show(getFragmentManager(), "dialog_about");
+//                return true;
+//        }
+//        return super.onMenuItemSelected(featureId, item);
+//    }
 
     public void setRefreshActionVisible(boolean visibility) {
         if (mRetryAction != null) {
