@@ -5,11 +5,12 @@
 </style>
 
 <style name="MainActivityTheme" parent="AppTheme">
-    <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+    <item name="actionBarStyle">@style/ActionBarStyle</item>
 </style>
 
-<style name="ActionBarStyle" parent="android:Widget.Holo.ActionBar.Solid">
-    <item name="android:displayOptions">useLogo|showHome</item>
+<style name="ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar.Solid">
+    <item name="displayOptions">useLogo|showHome</item>
+    <item name="logo">@drawable/ic_main</item>
 </style>
 
 </resources>
