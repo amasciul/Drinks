@@ -1,6 +1,5 @@
 package fr.masciulli.drinks.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -21,7 +20,7 @@ public class LicensesActivity extends ActionBarActivity {
         setContentView(R.layout.activity_licenses);
         ButterKnife.inject(this);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mWebView.loadUrl("file:///android_asset/licenses.html");
     }
