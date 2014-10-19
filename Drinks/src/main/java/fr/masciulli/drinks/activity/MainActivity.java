@@ -175,29 +175,29 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-//    @Override
-//    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_settings:
-//                startActivity(new Intent(this, SettingsActivity.class));
-//                return true;
-//            case R.id.action_report:
-//                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-//                String uriText = "mailto:" + Uri.encode(getString(R.string.report_mail)) +
-//                        "?subject=" + Uri.encode(getString(R.string.report_default_subject));
-//                Uri uri = Uri.parse(uriText);
-//                sendIntent.setData(uri);
-//                startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.report)));
-//                return true;
-//            case R.id.licenses:
-//                startActivity(new Intent(this, LicensesActivity.class));
-//                return true;
-//            case R.id.about:
-//                (new AboutDialogFragment()).show(getFragmentManager(), "dialog_about");
-//                return true;
-//        }
-//        return super.onMenuItemSelected(featureId, item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.action_report:
+                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+                String uriText = "mailto:" + Uri.encode(getString(R.string.report_mail)) +
+                        "?subject=" + Uri.encode(getString(R.string.report_default_subject));
+                Uri uri = Uri.parse(uriText);
+                sendIntent.setData(uri);
+                startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.report)));
+                return true;
+            case R.id.licenses:
+                startActivity(new Intent(this, LicensesActivity.class));
+                return true;
+            case R.id.about:
+                (new AboutDialogFragment()).show(getFragmentManager(), "dialog_about");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void setRefreshActionVisible(boolean visibility) {
         if (mRetryAction != null) {

@@ -1,6 +1,5 @@
 package fr.masciulli.drinks.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -16,16 +15,17 @@ public class SettingsActivity extends ActionBarActivity {
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar()
+                .setDisplayHomeAsUpEnabled(true);
     }
 
-//    @Override
-//    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                finish();
-//                return true;
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return false;
+    }
 }
