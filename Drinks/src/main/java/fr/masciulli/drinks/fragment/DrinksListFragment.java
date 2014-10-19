@@ -3,6 +3,10 @@ package fr.masciulli.drinks.fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -137,37 +140,39 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         DrinksProvider.getAllDrinks(this);
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//        inflater.inflate(R.menu.drinks_list, menu);
-//
-//        // SearchView configuration
-//        final MenuItem searchMenuItem = menu.findItem(R.id.search);
-//
-//        searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem menuItem) {
-//                getActivity().getActionBar().setIcon(getResources().getDrawable(R.drawable.ic_launcher));
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-//                getActivity().getActionBar().setIcon(getResources().getDrawable(R.drawable.ic_main));
-//                return true;
-//            }
-//        });
-//
-//        if (mLoadingError) {
-//            ((MainActivity) getActivity()).setRefreshActionVisible(true);
-//        }
-//
-//        SearchView searchView = (SearchView) searchMenuItem.getActionView();
-//        searchView.setQueryHint(getString(R.string.search_hint));
-//        searchView.setOnQueryTextListener(this);
-//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.drinks_list, menu);
+
+        // SearchView configuration
+        final MenuItem searchMenuItem = menu.findItem(R.id.search);
+
+        final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                actionBar.setIcon(getResources().getDrawable(R.drawable.ic_launcher));
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                actionBar.setIcon(getResources().getDrawable(R.drawable.ic_main));
+                return true;
+            }
+        });
+
+        if (mLoadingError) {
+            ((MainActivity) getActivity()).setRefreshActionVisible(true);
+        }
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setOnQueryTextListener(this);
+    }
 
     @Override
     public boolean onQueryTextSubmit(String s) {
