@@ -20,6 +20,6 @@
         android:id="@+id/retry"
         android:title="@string/retry"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_refresh"
+        android:icon="@drawable/ic_refresh_white"
         android:visible="false" />
 </menu>
