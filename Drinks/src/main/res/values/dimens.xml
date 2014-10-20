@@ -5,4 +5,5 @@
     <dimen name="drink_image_height">250dp</dimen>
     <dimen name="drink_detail_recipe_margin">250dp</dimen>
     <dimen name="liquor_detail_recipe_margin">250dp</dimen>
+    <dimen name="list_item_vertical_margin">0dp</dimen>
 </resources>
