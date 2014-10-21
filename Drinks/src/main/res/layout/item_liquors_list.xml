@@ -29,6 +29,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
                 android:textSize="28sp"
                 android:textColor="@color/text_dark"
                 android:fontFamily="sans-serif-light" />
