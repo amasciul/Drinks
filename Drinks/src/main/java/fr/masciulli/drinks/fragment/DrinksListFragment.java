@@ -124,7 +124,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
             TextView nameView = ButterKnife.findById(itemRoot, R.id.name);
 
             // TODO get screenWidth somewhere else (always the same)
-            int screenWidth = itemRoot.getWidth();
+            int screenWidth = ((ViewGroup) nameView.getParent()).getWidth();
             int textWidth = nameView.getWidth();
 
             nameView.setRight(Math.round(screenWidth + positionOffset * textWidth));
