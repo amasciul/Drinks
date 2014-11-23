@@ -7,6 +7,12 @@
 
     <include layout="@layout/toolbar" />
 
+    <fr.masciulli.drinks.view.SlidingTabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary" />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"

@@ -21,6 +21,7 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsListFragment;
+import fr.masciulli.drinks.view.SlidingTabLayout;
 
 public class MainActivity extends ToolbarActivity {
 
@@ -43,6 +44,10 @@ public class MainActivity extends ToolbarActivity {
     @Optional
     @InjectView(R.id.pager)
     ViewPager mViewPager;
+
+    @Optional
+    @InjectView(R.id.tabs)
+    SlidingTabLayout mSlidingTabLayout;
 
     private MenuItem mRetryAction;
     private boolean mDualPane;
@@ -70,13 +75,14 @@ public class MainActivity extends ToolbarActivity {
                         commit();
             }
         } else {
-            // Create the adapter that will return a fragment for each of the three
-            // primary sections of the app.
             mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-
-            // Set up the ViewPager with the sections adapter.
             mViewPager.setAdapter(mSectionsPagerAdapter);
-            mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
+
+            mSlidingTabLayout.setOnPageChangeListener(mSectionsPagerAdapter);
+            mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
+            mSlidingTabLayout.setDividerColors(getResources().getColor(android.R.color.transparent));
+            mSlidingTabLayout.setCustomTabViewTextColor(getResources().getColor(R.color.white));
+            mSlidingTabLayout.setViewPager(mViewPager);
         }
     }
 

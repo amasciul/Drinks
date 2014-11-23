@@ -3,6 +3,7 @@
     <color name="red">#ffc62828</color>
     <color name="red_dark">#ffB71C1C</color>
     <color name="red_transparent">#55f44000</color>
+    <color name="white">#ffffffff</color>
     <color name="white_transparent">#60ffffff</color>
     <color name="background_holo_light">#fff3f3f3</color>
     <color name="selector">#60ffffff</color>
