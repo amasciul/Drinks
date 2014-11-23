@@ -7,12 +7,12 @@
     android:background="?attr/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:contentInsetStart="0dp">
 
     <fr.masciulli.drinks.view.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary" />
+        android:layout_height="wrap_content" />
 
 </android.support.v7.widget.Toolbar>
