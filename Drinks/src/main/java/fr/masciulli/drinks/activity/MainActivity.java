@@ -22,7 +22,7 @@ import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsListFragment;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ToolbarActivity {
 
     private DrinksListFragment mDrinksFragment;
     private LiquorsListFragment mLiquorsFragment;
@@ -50,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
         mDualPane = getResources().getBoolean(R.bool.dualpane);
@@ -79,6 +78,11 @@ public class MainActivity extends ActionBarActivity {
             mViewPager.setAdapter(mSectionsPagerAdapter);
             mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
         }
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override

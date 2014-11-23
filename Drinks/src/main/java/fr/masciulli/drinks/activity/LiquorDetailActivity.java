@@ -7,13 +7,12 @@ import android.support.v7.app.ActionBarActivity;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.LiquorDetailFragment;
 
-public class LiquorDetailActivity extends ActionBarActivity {
+public class LiquorDetailActivity extends ToolbarActivity {
     private LiquorDetailFragment mDetailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liquor_detail);
 
         if (savedInstanceState == null) {
             mDetailFragment = new LiquorDetailFragment();
@@ -25,5 +24,10 @@ public class LiquorDetailActivity extends ActionBarActivity {
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_liquor_detail;
     }
 }

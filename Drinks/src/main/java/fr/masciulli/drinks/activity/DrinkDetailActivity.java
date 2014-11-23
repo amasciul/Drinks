@@ -6,14 +6,13 @@ import android.support.v7.app.ActionBarActivity;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.DrinkDetailFragment;
 
-public class DrinkDetailActivity extends ActionBarActivity {
+public class DrinkDetailActivity extends ToolbarActivity {
 
     private DrinkDetailFragment mDetailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drink_detail);
 
         if (savedInstanceState == null) {
             mDetailFragment = new DrinkDetailFragment();
@@ -25,5 +24,10 @@ public class DrinkDetailActivity extends ActionBarActivity {
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_drink_detail;
     }
 }
