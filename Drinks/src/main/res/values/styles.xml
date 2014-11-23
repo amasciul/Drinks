@@ -1,16 +1,7 @@
 <resources>
-<!-- Application theme. -->
-<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="android:windowBackground">@color/background_holo_light</item>
-</style>
-
-<style name="MainActivityTheme" parent="AppTheme">
-    <item name="actionBarStyle">@style/ActionBarStyle</item>
-</style>
-
-<style name="ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar.Solid">
-    <item name="displayOptions">useLogo|showHome</item>
-    <item name="logo">@drawable/ic_main</item>
-</style>
-
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/background_holo_light</item>
+        <item name="colorPrimary">@color/holo_red_dark</item>
+        <item name="colorPrimaryDark">@color/holo_red_dark</item>
+    </style>
 </resources>
