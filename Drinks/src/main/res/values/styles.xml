@@ -2,6 +2,6 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/background_holo_light</item>
         <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/red</item>
+        <item name="colorPrimaryDark">@color/red_dark</item>
     </style>
 </resources>
