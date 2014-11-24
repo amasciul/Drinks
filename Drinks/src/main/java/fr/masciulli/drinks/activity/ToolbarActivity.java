@@ -18,7 +18,7 @@ public abstract class ToolbarActivity extends ActionBarActivity {
         setSupportActionBar(mToolbar);
     }
 
-    protected Toolbar getToolbar() {
+    public Toolbar getToolbar() {
         return mToolbar;
     }
 

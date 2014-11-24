@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import fr.masciulli.android_quantizer.lib.ColorQuantizer;
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.activity.ToolbarActivity;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.util.AnimUtils;
 import fr.masciulli.drinks.view.BlurTransformation;
@@ -47,6 +49,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
+
+    private Toolbar mToolbar;
 
     @InjectView(R.id.image)
     ImageView mImageView;
@@ -136,6 +140,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
             }
         }
 
+        mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
+
         return root;
     }
 
@@ -199,6 +205,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         params = (RelativeLayout.LayoutParams) mBlurredImageView.getLayoutParams();
         params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
         mBlurredImageView.setLayoutParams(params);
+
+        mToolbar.getBackground().setAlpha((int) (alpha * 255));
     }
 
     public void refreshUI(Drink drink) {
