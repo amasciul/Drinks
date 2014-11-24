@@ -9,6 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <View android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          android:background="@color/black_transparent" />
+
     <include layout="@layout/toolbar" />
 
 </FrameLayout>
