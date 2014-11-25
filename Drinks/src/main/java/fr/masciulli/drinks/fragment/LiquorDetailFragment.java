@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,6 +42,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.android_quantizer.lib.ColorQuantizer;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
+import fr.masciulli.drinks.activity.ToolbarActivity;
 import fr.masciulli.drinks.adapter.LiquorDetailAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
@@ -86,6 +88,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     private ListView mListView;
     private View mHeaderView;
+    private Toolbar mToolbar;
 
     private Target mTarget = new Target() {
         @Override
@@ -180,6 +183,9 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
+        mToolbar.getBackground().setAlpha(0);
+
         View root = inflater.inflate(R.layout.fragment_liquor_detail, container, false);
 
         setHasOptionsMenu(true);
@@ -354,6 +360,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         float alpha = 2 * (float) -mHeaderView.getTop() / (float) mImageViewHeight;
         if (alpha > 1) {
             alpha = 1;
+        } else if (alpha < 0) {
+            alpha = 0;
         }
         mBlurredImageView.setAlpha(alpha);
 
@@ -361,6 +369,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         mImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
         mBlurredImageView.setTop(mHeaderView.getTop() / 2);
         mBlurredImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
+
+        mToolbar.getBackground().setAlpha((int) (alpha * 255));
     }
 
     @Override
