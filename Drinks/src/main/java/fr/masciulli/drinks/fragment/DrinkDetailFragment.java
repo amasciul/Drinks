@@ -102,6 +102,9 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
+        mToolbar.getBackground().setAlpha(0);
+
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
         ButterKnife.inject(this, root);
 
@@ -139,9 +142,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
                 });
             }
         }
-
-        mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
-        mToolbar.getBackground().setAlpha(0);
 
         return root;
     }
