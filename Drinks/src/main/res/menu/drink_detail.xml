@@ -7,6 +7,6 @@
             app:showAsAction="always"
             android:icon="@drawable/ic_share_white_24dp"
             android:title="@string/share_drink"
-            android:actionProviderClass=
-                    "android.widget.ShareActionProvider" />
+            app:actionProviderClass=
+                    "android.support.v7.widget.ShareActionProvider" />
 </menu>
