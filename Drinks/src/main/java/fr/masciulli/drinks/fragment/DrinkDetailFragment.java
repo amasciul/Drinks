@@ -195,6 +195,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         float alpha = 2 * (float) y / (float) mImageViewHeight;
         if (alpha > 1) {
             alpha = 1;
+        } else if (alpha < 0) {
+            alpha = 0;
         }
         mBlurredImageView.setAlpha(alpha);
 
