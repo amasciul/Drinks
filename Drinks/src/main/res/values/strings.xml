@@ -40,5 +40,6 @@
     <string name="report_mail">alexandre.masciulli@gmail.com</string>
     <string name="unknown_version">Unknown version</string>
     <string name="about_dismiss">OK</string>
+    <string name="share_drink">Share this drink</string>
 
 </resources>
