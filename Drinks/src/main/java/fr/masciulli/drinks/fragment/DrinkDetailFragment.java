@@ -141,6 +141,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         }
 
         mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
+        mToolbar.getBackground().setAlpha(0);
 
         return root;
     }
