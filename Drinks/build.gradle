@@ -7,7 +7,7 @@ buildscript {
         classpath 'com.jakewharton.hugo:hugo-plugin:1.1.0'
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'hugo'
 
 repositories {
@@ -15,8 +15,15 @@ repositories {
 }
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 'android-21'
     buildToolsVersion '21.1.1'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode = 16
+        versionName = "1.1"
+    }
 
     defaultConfig {
         minSdkVersion 14
