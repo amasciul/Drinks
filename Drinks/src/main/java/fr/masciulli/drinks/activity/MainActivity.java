@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,7 @@ import java.util.Locale;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
+import fr.masciulli.drinks.BuildConfig;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
@@ -83,6 +85,15 @@ public class MainActivity extends ToolbarActivity {
             mSlidingTabLayout.setDividerColors(getResources().getColor(android.R.color.transparent));
             mSlidingTabLayout.setCustomTabViewTextColor(getResources().getColor(R.color.white));
             mSlidingTabLayout.setViewPager(mViewPager);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= 21) {
+            // hack to fix bug in appcompat
+            getToolbar().getBackground().setAlpha(255);
         }
     }
 
