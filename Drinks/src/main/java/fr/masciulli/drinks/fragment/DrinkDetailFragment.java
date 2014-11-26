@@ -8,8 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
+import android.support.v4.view.ActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -88,8 +87,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
     private Drink mDrink;
 
-    private ShareActionProvider mShareActionProvider;
-
     private Target mTarget = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -157,15 +154,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.drink_detail, menu);
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, mDrink.name);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(HtmlUtils.getIngredientsHtml(mDrink)));
-        sendIntent.setType("text/plain");
-        setShareIntent(sendIntent);
     }
 
     @OnClick(R.id.wikipedia)
@@ -273,6 +261,15 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
             case android.R.id.home:
                 getActivity().finish();
                 return true;
+            case R.id.menu_item_share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, mDrink.name);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(HtmlUtils.getIngredientsHtml(mDrink)));
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+                return true;
+            default:
         }
         return super.onOptionsItemSelected(item);
     }
@@ -280,12 +277,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private void fakeOnScrollChanged() {
         onScrollChanged(mScrollView, mScrollView.getScrollX(),
                 mScrollView.getScrollY(), mScrollView.getScrollX(), mScrollView.getScrollY());
-    }
-
-    private void setShareIntent(Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
     }
 
     private class QuantizeBitmapTask extends AsyncTask<Bitmap, Void, ArrayList<Integer>> {
