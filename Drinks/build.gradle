@@ -1,18 +1,4 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0-rc1'
-        classpath 'com.jakewharton.hugo:hugo-plugin:1.1.0'
-    }
-}
 apply plugin: 'com.android.application'
-apply plugin: 'hugo'
-
-repositories {
-    mavenCentral()
-}
 
 android {
     compileSdkVersion 'android-21'
