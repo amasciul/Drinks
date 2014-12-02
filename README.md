@@ -8,6 +8,8 @@ An ultra simple app for making cocktails.
 To try Drinks latest beta, join the ["Drinks Android beta testers" Google+ community](https://plus.google.com/communities/117756751911042042036). Alternatively, you can join the [Drinks beta testers Google group](https://groups.google.com/forum/?hl=en#!forum/drinks-beta-testers).
 Feedbacks are more than welcome !
 
+[![Drinks on Play Store](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=fr.masciulli.drinks)
+
 License
 =======
 
