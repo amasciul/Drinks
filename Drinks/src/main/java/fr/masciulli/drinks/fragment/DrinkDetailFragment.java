@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.ActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -24,16 +23,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-import com.squareup.picasso.Transformation;
-
-import java.util.ArrayList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 import fr.masciulli.android_quantizer.lib.ColorQuantizer;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.ToolbarActivity;
@@ -43,6 +38,8 @@ import fr.masciulli.drinks.util.HtmlUtils;
 import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
+
+import java.util.ArrayList;
 
 public class DrinkDetailFragment extends Fragment implements ScrollViewListener {
 
@@ -158,7 +155,9 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
     @OnClick(R.id.wikipedia)
     void goToWikipedia() {
-        if (mDrink == null) return;
+        if (mDrink == null) {
+            return;
+        }
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDrink.wikipedia)));
     }
 
@@ -225,10 +224,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     public void refreshUI(Drink drink) {
         mDrink = drink;
 
-        if (getActivity() == null) return;
+        if (getActivity() == null) {
+            return;
+        }
 
         mHistoryView.setText(drink.history);
-
 
         mIngredientsView.setText(Html.fromHtml(HtmlUtils.getIngredientsHtml(mDrink)));
 

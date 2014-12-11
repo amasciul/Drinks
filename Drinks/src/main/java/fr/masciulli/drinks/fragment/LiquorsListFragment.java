@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
@@ -28,6 +25,8 @@ import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.util.List;
 
 public class LiquorsListFragment extends Fragment implements Callback<List<Liquor>>, ViewPagerScrollListener {
     private static final String STATE_LIST = "liquor";
@@ -82,7 +81,9 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     public void success(List<Liquor> liquors, Response response) {
         mLoadingError = false;
 
-        if (getActivity() == null) return;
+        if (getActivity() == null) {
+            return;
+        }
 
         mProgressBar.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.VISIBLE);
@@ -93,7 +94,9 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     public void failure(RetrofitError retrofitError) {
         mLoadingError = true;
 
-        if (getActivity() == null) return;
+        if (getActivity() == null) {
+            return;
+        }
 
         mProgressBar.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.VISIBLE);
@@ -101,14 +104,18 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
 
     @Override
     public void onScroll(int position, float positionOffset, int positionOffsetPixels) {
-        if (position == getResources().getInteger(R.integer.position_fragment_ingredients)) return;
+        if (position == getResources().getInteger(R.integer.position_fragment_ingredients)) {
+            return;
+        }
 
         int first = mListView.getFirstVisiblePosition();
         int last = mListView.getLastVisiblePosition();
 
         for (int i = 0; i <= last - first; i++) {
             View itemRoot = mListView.getChildAt(i);
-            if (itemRoot == null) continue;
+            if (itemRoot == null) {
+                continue;
+            }
 
             TextView nameView = ButterKnife.findById(itemRoot, R.id.name);
 

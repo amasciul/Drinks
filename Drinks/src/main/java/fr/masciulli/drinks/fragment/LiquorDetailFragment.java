@@ -25,18 +25,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-import com.squareup.picasso.Transformation;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.android_quantizer.lib.ColorQuantizer;
@@ -52,6 +47,9 @@ import fr.masciulli.drinks.view.BlurTransformation;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LiquorDetailFragment extends Fragment implements AbsListView.OnScrollListener {
     private static final int HEADERVIEWS_COUNT = 1;
@@ -127,7 +125,9 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         public void success(List<Drink> drinks, Response response) {
             Log.d(getTag(), "Liquor detail related drinks loading/retrieving has succeeded");
 
-            if (getActivity() == null) return;
+            if (getActivity() == null) {
+                return;
+            }
 
             List<Drink> filteredDrinks = new ArrayList<Drink>();
 
@@ -170,7 +170,9 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             }
             Log.e(getTag(), "Liquor detail related drinks loading has failed : " + message);
 
-            if (getActivity() == null) return;
+            if (getActivity() == null) {
+                return;
+            }
 
             if (error.isNetworkError()) {
                 Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
@@ -247,7 +249,9 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     @OnClick(R.id.wikipedia)
     void goToWikipedia() {
-        if (mLiquor == null) return;
+        if (mLiquor == null) {
+            return;
+        }
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
     }
 
@@ -290,10 +294,11 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_DURATION, ANIM_IMAGE_ENTER_STARTDELAY);
     }
 
-
     public void onLiquorFound(Liquor liquor) {
         mLiquor = liquor;
-        if (getActivity() == null) return;
+        if (getActivity() == null) {
+            return;
+        }
 
         mProgressBar.setVisibility(View.GONE);
 
@@ -321,7 +326,9 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     }
 
     public void refresh(Liquor liquor) {
-        if (getActivity() == null) return;
+        if (getActivity() == null) {
+            return;
+        }
 
         DrinksProvider.getAllDrinks(mDrinksCallback);
         onLiquorFound(liquor);

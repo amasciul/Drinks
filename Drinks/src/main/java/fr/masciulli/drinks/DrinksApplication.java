@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-
 import fr.masciulli.drinks.data.DrinksProvider;
 
 public class DrinksApplication extends Application {

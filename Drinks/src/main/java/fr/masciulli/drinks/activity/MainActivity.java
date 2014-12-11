@@ -8,22 +8,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-
-import java.util.Locale;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
-import fr.masciulli.drinks.BuildConfig;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsListFragment;
 import fr.masciulli.drinks.view.SlidingTabLayout;
+
+import java.util.Locale;
 
 public class MainActivity extends ToolbarActivity {
 

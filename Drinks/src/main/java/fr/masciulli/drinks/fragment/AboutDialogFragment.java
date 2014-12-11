@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -39,7 +38,6 @@ public class AboutDialogFragment extends DialogFragment {
         } catch (PackageManager.NameNotFoundException e) {
             mVersionNameView.setText(getString(R.string.unknown_version));
         }
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(root);

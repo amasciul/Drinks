@@ -1,10 +1,8 @@
 package fr.masciulli.drinks.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.webkit.WebView;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fr.masciulli.drinks.R;

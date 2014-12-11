@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ListView;
-
 import butterknife.ButterKnife;
 import fr.masciulli.drinks.R;
 
@@ -29,7 +28,9 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
 
     public DrinksOnScrollListener(ListView listView, int nameViewPosition) {
         mListView = listView;
-        if (nameViewPosition == NAMEVIEW_POSITION_TOP) mNameViewPosition = nameViewPosition;
+        if (nameViewPosition == NAMEVIEW_POSITION_TOP) {
+            mNameViewPosition = nameViewPosition;
+        }
     }
 
     @Override
@@ -38,7 +39,9 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (totalItemCount == 0) return;
+        if (totalItemCount == 0) {
+            return;
+        }
 
         int lastVisibleItem = firstVisibleItem + visibleItemCount - 1;
 

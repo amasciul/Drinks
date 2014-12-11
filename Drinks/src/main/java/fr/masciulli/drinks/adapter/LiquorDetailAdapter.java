@@ -7,15 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.masciulli.drinks.Holder;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LiquorDetailAdapter extends BaseAdapter {
     private List<Drink> mDrinks = new ArrayList<Drink>();

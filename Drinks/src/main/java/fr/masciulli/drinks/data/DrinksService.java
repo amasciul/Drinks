@@ -1,11 +1,11 @@
 package fr.masciulli.drinks.data;
 
-import java.util.List;
-
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import retrofit.Callback;
 import retrofit.http.GET;
+
+import java.util.List;
 
 public interface DrinksService {
     @GET("/Drinks")

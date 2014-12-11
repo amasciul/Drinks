@@ -16,9 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
@@ -34,6 +31,8 @@ import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import java.util.List;
 
 public class DrinksListFragment extends Fragment implements Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
     private static final String STATE_LIST = "drinks_list";
@@ -87,7 +86,9 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     public void success(List<Drink> drinks, Response response) {
         mLoadingError = false;
 
-        if (getActivity() == null) return;
+        if (getActivity() == null) {
+            return;
+        }
 
         mListView.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.VISIBLE);
@@ -99,7 +100,9 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     public void failure(RetrofitError retrofitError) {
         mLoadingError = true;
 
-        if (getActivity() == null) return;
+        if (getActivity() == null) {
+            return;
+        }
 
         mProgressBar.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.VISIBLE);
@@ -119,7 +122,9 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
         for (int i = 0; i <= last - first; i++) {
             View itemRoot = mListView.getChildAt(i);
-            if (itemRoot == null) continue;
+            if (itemRoot == null) {
+                continue;
+            }
 
             TextView nameView = ButterKnife.findById(itemRoot, R.id.name);
 
@@ -149,7 +154,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         // SearchView configuration
         final MenuItem searchMenuItem = menu.findItem(R.id.search);
 
-        final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
 
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override

@@ -10,16 +10,14 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
+import fr.masciulli.drinks.Holder;
+import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.model.Drink;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import fr.masciulli.drinks.Holder;
-import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
 
 public class DrinksListAdapter extends BaseAdapter implements Filterable {
     private List<Drink> mDrinks = Collections.emptyList();
@@ -67,7 +65,6 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
             update((List<Drink>) filterResults.values, true);
         }
     };
-
 
     public DrinksListAdapter(Context context) {
         mContext = context;
