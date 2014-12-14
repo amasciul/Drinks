@@ -24,7 +24,7 @@ public class DrinksProvider {
 
     public static void updateServer(String server) {
         sRestAdapter = new RestAdapter.Builder()
-                .setServer(server)
+                .setEndpoint(server)
                 .build();
         sService = sRestAdapter.create(DrinksService.class);
     }
