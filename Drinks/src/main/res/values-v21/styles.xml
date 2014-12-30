@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="RedButton">
-        <item name="android:background">@drawable/button_drinks</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:stateListAnimator">@drawable/button_stateanimator</item>
-    </style>
-</resources>
