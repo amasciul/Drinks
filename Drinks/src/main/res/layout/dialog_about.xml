@@ -49,16 +49,12 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/red" />
-
     <Button
         android:id="@+id/ok"
-        android:text="@string/about_dismiss"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_drinks"
-        android:textColor="@color/red" />
+        android:text="@string/about_dismiss"
+        android:textColor="@color/white"
+        android:stateListAnimator="@drawable/button_stateanimator" />
 </LinearLayout>
