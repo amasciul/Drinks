@@ -55,11 +55,9 @@
             android:id="@+id/wikipedia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/RedButton"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/button_drinks"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/red" />
+            android:layout_marginTop="16dp" />
 
         <TextView
             android:id="@+id/drinks_title"
