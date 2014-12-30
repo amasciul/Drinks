@@ -68,35 +68,44 @@ public class AboutDialogFragment extends DialogFragment {
     }
 
     private void runEnterAnimation() {
-        int cx = mOkButton.getWidth() / 2;
-        int cy = mOkButton.getHeight() / 2;
 
-        int finalRadius = Math.max(mOkButton.getWidth()/2, mOkButton.getHeight()/2);
-
-        Animator anim = ViewAnimationUtils.createCircularReveal(mOkButton, cx, cy, 0, finalRadius);
-        anim.setDuration(ANIM_REVEAL_DURATION)
-                .setInterpolator(mDecelerateInterpolator);
         mOkButton.setVisibility(View.VISIBLE);
-        anim.start();
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            int cx = mOkButton.getWidth() / 2;
+            int cy = mOkButton.getHeight() / 2;
+
+            int finalRadius = Math.max(mOkButton.getWidth()/2, mOkButton.getHeight()/2);
+
+            Animator anim = ViewAnimationUtils.createCircularReveal(mOkButton, cx, cy, 0, finalRadius);
+            anim.setDuration(ANIM_REVEAL_DURATION)
+                    .setInterpolator(mDecelerateInterpolator);
+            anim.start();
+        }
+
     }
 
     private void runExitAnimation() {
-        int cx = mOkButton.getWidth() / 2;
-        int cy = mOkButton.getHeight() / 2;
+        if (Build.VERSION.SDK_INT >= 21) {
+            int cx = mOkButton.getWidth() / 2;
+            int cy = mOkButton.getHeight() / 2;
 
-        int initialRadius = Math.max(mOkButton.getWidth() / 2, mOkButton.getHeight() / 2);
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(mOkButton, cx, cy, initialRadius, 0);
+            int initialRadius = Math.max(mOkButton.getWidth() / 2, mOkButton.getHeight() / 2);
+            Animator anim =
+                    ViewAnimationUtils.createCircularReveal(mOkButton, cx, cy, initialRadius, 0);
 
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                mOkButton.setVisibility(View.INVISIBLE);
-                dismiss();
-            }
-        });
-        anim.start();
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mOkButton.setVisibility(View.INVISIBLE);
+                    dismiss();
+                }
+            });
+            anim.start();
+        } else {
+            dismiss();
+        }
     }
 
     @OnClick(R.id.ok)
