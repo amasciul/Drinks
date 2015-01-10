@@ -3,11 +3,13 @@ package fr.masciulli.drinks.fragment;
 import android.animation.TimeInterpolator;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
@@ -329,8 +334,17 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         if (getActivity() == null) {
             return;
         }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if (preferences.contains("drinks_json")) {
+            Gson gson = new Gson();
+            //TODO async
+            List<Drink> drinks = gson.fromJson(preferences.getString("drinks_json", "null"), new TypeToken<List<Drink>>(){}.getType());
 
-        DrinksProvider.getAllDrinks(mDrinksCallback);
+            //TODO do not use retrofit callback
+            mDrinksCallback.success(drinks, null);
+        } else {
+            DrinksProvider.getAllDrinks(mDrinksCallback);
+        }
         onLiquorFound(liquor);
     }
 
