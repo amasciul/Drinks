@@ -153,9 +153,8 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
             mListView.setVisibility(View.VISIBLE);
             mEmptyView.setVisibility(View.VISIBLE);
             mProgressBar.setVisibility(View.GONE);
-        } else {
-            DrinksProvider.getAllLiquors(this);
         }
+        DrinksProvider.getAllLiquors(this);
     }
 
     @Override
