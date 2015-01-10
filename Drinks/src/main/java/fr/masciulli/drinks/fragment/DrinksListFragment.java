@@ -2,7 +2,9 @@ package fr.masciulli.drinks.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +18,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
@@ -32,6 +38,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DrinksListFragment extends Fragment implements Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
@@ -90,10 +97,17 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
             return;
         }
 
+
+        mListAdapter.update(drinks);
         mListView.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
-        mListAdapter.update(drinks);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(drinks);
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        editor.putString("drinks_json", json);
+        editor.commit();
     }
 
     @Override
@@ -142,6 +156,15 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         mProgressBar.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if (preferences.contains("drinks_json")) {
+            Gson gson = new Gson();
+            List<Drink> drinks = gson.fromJson(preferences.getString("drinks_json", "null"), new TypeToken<List<Drink>>(){}.getType());
+            mListAdapter.update(drinks);
+            mListView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
+        }
         DrinksProvider.getAllDrinks(this);
     }
 
