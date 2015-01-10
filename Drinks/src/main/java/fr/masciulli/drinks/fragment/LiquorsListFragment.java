@@ -2,7 +2,9 @@ package fr.masciulli.drinks.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
@@ -88,6 +94,12 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         mProgressBar.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.VISIBLE);
         mListAdapter.update(liquors);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(liquors);
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        editor.putString("liquors_json", json);
+        editor.apply();
     }
 
     @Override
@@ -130,6 +142,18 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         mProgressBar.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if (preferences.contains("liquors_json")) {
+            Gson gson = new Gson();
+            //TODO async
+            List<Liquor> liquors = gson.fromJson(preferences.getString("liquors_json", "null"), new TypeToken<List<Liquor>>() {
+            }.getType());
+            mListAdapter.update(liquors);
+            mListView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
+        }
         DrinksProvider.getAllLiquors(this);
     }
 
