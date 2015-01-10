@@ -159,6 +159,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (preferences.contains("drinks_json")) {
             Gson gson = new Gson();
+            //TODO async
             List<Drink> drinks = gson.fromJson(preferences.getString("drinks_json", "null"), new TypeToken<List<Drink>>(){}.getType());
             mListAdapter.update(drinks);
             mListView.setVisibility(View.VISIBLE);
