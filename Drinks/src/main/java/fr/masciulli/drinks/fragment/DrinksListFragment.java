@@ -107,7 +107,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         String json = gson.toJson(drinks);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
         editor.putString("drinks_json", json);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
