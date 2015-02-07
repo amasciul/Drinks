@@ -1,4 +1,4 @@
-package fr.masciulli.drinks;
+package fr.masciulli.drinks.view;
 
 import android.util.SparseArray;
 import android.view.View;

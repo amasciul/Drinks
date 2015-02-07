@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-import fr.masciulli.drinks.Holder;
+import fr.masciulli.drinks.view.Holder;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 
