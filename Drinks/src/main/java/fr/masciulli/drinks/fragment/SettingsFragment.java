@@ -24,7 +24,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (!isAdded()) {
             return;
         }
-        if (key == getString(R.string.pref_apiendpoint_key)) {
+        if (key.equals(getString(R.string.pref_apiendpoint_key))) {
             String server = sharedPreferences.getString(key, getString(R.string.pref_apiendpoint_default));
             DrinksProvider.updateServer(server);
             Crouton.makeText(getActivity(), getString(R.string.server_updated), Style.INFO).show();
