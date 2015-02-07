@@ -26,7 +26,7 @@ public class DrinksApplication extends Application {
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
                 editor.putInt(versionCodePrefKey, versionCode);
                 editor.putString(apiPrefKey, apiDefaultValue);
-                editor.commit();
+                editor.apply();
             } else {
                 server = PreferenceManager.getDefaultSharedPreferences(this).getString(apiPrefKey, apiDefaultValue);
             }

@@ -211,7 +211,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         setHasOptionsMenu(true);
 
-        mHeaderView = inflater.inflate(R.layout.header_liquor_detail, null);
+        mHeaderView = inflater.inflate(R.layout.header_liquor_detail, mListView, false);
 
         mListView = ButterKnife.findById(root, R.id.list);
         mListView.addHeaderView(mHeaderView);
