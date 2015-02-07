@@ -66,6 +66,11 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
+    private static final String ARG_LIQUOR = "liquor";
+    private static final String STATE_LIQUOR = "liquor";
+    private static final String STATE_DRINKS = "drinks";
+    //TODO move to specific class
+    private static final String PREF_DRINKS_JSON = "drinks_json";
 
     @InjectView(R.id.image)
     ImageView mImageView;
@@ -189,8 +194,12 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         }
     };
 
-    public static LiquorDetailFragment newInstance() {
-        return new LiquorDetailFragment();
+    public static LiquorDetailFragment newInstance(Liquor liquor) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ARG_LIQUOR, liquor);
+        LiquorDetailFragment fragment = new LiquorDetailFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -213,8 +222,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         mDrinkAdapter = new LiquorDetailAdapter(getActivity());
         mListView.setAdapter(mDrinkAdapter);
 
-        Intent intent = getActivity().getIntent();
-        mLiquor = intent.getParcelableExtra("liquor");
+        mLiquor = getArguments().getParcelable(ARG_LIQUOR);
 
         getActivity().setTitle(mLiquor.name);
         Picasso.with(getActivity()).load(mLiquor.imageUrl).into(mTarget);
@@ -228,8 +236,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         if (savedInstanceState != null) {
             mColorBox.setAlpha(1);
-            Liquor liquor = savedInstanceState.getParcelable("liquor");
-            List<Drink> drinks = savedInstanceState.getParcelableArrayList("drinks");
+            Liquor liquor = savedInstanceState.getParcelable(STATE_LIQUOR);
+            List<Drink> drinks = savedInstanceState.getParcelableArrayList(STATE_DRINKS);
             if (liquor != null && drinks != null) {
                 onLiquorFound(mLiquor);
                 mDrinksCallback.success(drinks, null);
@@ -342,10 +350,10 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             return;
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        if (preferences.contains("drinks_json")) {
+        if (preferences.contains(PREF_DRINKS_JSON)) {
             Gson gson = new Gson();
             //TODO async
-            List<Drink> drinks = gson.fromJson(preferences.getString("drinks_json", "null"), new TypeToken<List<Drink>>(){}.getType());
+            List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>(){}.getType());
 
             //TODO do not use retrofit callback
             mDrinksCallback.success(drinks, null);
@@ -407,8 +415,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         // TODO do not use getCount
         if (mLiquor != null && mDrinkAdapter.getCount() > 0) {
-            outState.putParcelable("liquor", mLiquor);
-            outState.putParcelableArrayList("drinks", mDrinkAdapter.getDrinks());
+            outState.putParcelable(STATE_LIQUOR, mLiquor);
+            outState.putParcelableArrayList(STATE_DRINKS, mDrinkAdapter.getDrinks());
         }
     }
 

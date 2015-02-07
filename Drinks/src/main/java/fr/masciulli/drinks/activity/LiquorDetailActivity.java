@@ -3,8 +3,11 @@ package fr.masciulli.drinks.activity;
 import android.os.Bundle;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.LiquorDetailFragment;
+import fr.masciulli.drinks.model.Liquor;
 
 public class LiquorDetailActivity extends ToolbarActivity {
+    public static final String ARG_LIQUOR = "liquor";
+
     private LiquorDetailFragment mDetailFragment;
 
     @Override
@@ -12,7 +15,7 @@ public class LiquorDetailActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            mDetailFragment = LiquorDetailFragment.newInstance();
+            mDetailFragment = LiquorDetailFragment.newInstance((Liquor) getIntent().getParcelableExtra(ARG_LIQUOR));
             getFragmentManager().beginTransaction()
                     .add(R.id.liquor_detail_container, mDetailFragment)
                     .commit();

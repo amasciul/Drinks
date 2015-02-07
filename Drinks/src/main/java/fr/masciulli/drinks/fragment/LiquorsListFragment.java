@@ -83,11 +83,9 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     @OnItemClick(R.id.list)
     public void openLiquorDetail(View view, int position) {
         Liquor liquor = mListAdapter.getItem(position);
-
         Intent intent = new Intent(getActivity(), LiquorDetailActivity.class);
-        intent.putExtra("liquor", liquor);
+        intent.putExtra(LiquorDetailActivity.ARG_LIQUOR, liquor);
         startActivity(intent);
-
     }
 
     @Override
