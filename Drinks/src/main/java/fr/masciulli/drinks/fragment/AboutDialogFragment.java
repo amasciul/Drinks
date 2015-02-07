@@ -108,6 +108,7 @@ public class AboutDialogFragment extends DialogFragment {
         }
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.ok)
     void dismissDialog() {
         runExitAnimation();

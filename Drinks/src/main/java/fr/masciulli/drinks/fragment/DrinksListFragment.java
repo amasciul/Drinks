@@ -80,6 +80,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         return root;
     }
 
+    @SuppressWarnings("unused")
     @OnItemClick(R.id.list)
     public void openDrinkDetail(View view, int position) {
         Drink drink = mListAdapter.getItem(position);

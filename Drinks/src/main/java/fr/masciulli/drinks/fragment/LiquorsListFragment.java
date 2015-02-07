@@ -74,6 +74,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         return root;
     }
 
+    @SuppressWarnings("unused")
     @OnItemClick(R.id.list)
     public void openLiquorDetail(View view, int position) {
         Liquor liquor = mListAdapter.getItem(position);

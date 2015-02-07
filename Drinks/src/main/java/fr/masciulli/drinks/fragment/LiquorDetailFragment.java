@@ -252,6 +252,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         return root;
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.wikipedia)
     void goToWikipedia() {
         if (mLiquor == null) {
@@ -260,6 +261,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
     }
 
+    @SuppressWarnings("unused")
     @OnItemClick(R.id.list)
     void openRelatedDrinkDetail(int position, View view) {
         Drink drink = mDrinkAdapter.getItem(position - HEADERVIEWS_COUNT);

@@ -153,6 +153,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         inflater.inflate(R.menu.drink_detail, menu);
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.wikipedia)
     void goToWikipedia() {
         if (mDrink == null) {
