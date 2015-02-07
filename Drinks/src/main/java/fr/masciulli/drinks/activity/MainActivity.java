@@ -62,8 +62,8 @@ public class MainActivity extends ToolbarActivity {
             mDrinksFragment = (DrinksListFragment) getFragmentManager().findFragmentById(R.id.drinks_list_container);
             mLiquorsFragment = (LiquorsListFragment) getFragmentManager().findFragmentById(R.id.liquors_list_container);
         } else {
-            mDrinksFragment = new DrinksListFragment();
-            mLiquorsFragment = new LiquorsListFragment();
+            mDrinksFragment = DrinksListFragment.newInstance();
+            mLiquorsFragment = LiquorsListFragment.newInstance();
         }
 
         if (mDualPane) {
@@ -211,7 +211,8 @@ public class MainActivity extends ToolbarActivity {
                 startActivity(new Intent(this, LicensesActivity.class));
                 return true;
             case R.id.about:
-                (new AboutDialogFragment()).show(getFragmentManager(), "dialog_about");
+                AboutDialogFragment aboutDialogFragment = AboutDialogFragment.newInstance();
+                aboutDialogFragment.show(getFragmentManager(), "dialog_about");
                 return true;
         }
         return super.onOptionsItemSelected(item);

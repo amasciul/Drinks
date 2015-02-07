@@ -55,6 +55,10 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
     private boolean mLoadingError = false;
 
+    public static DrinksListFragment newInstance() {
+        return new DrinksListFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);

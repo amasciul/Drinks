@@ -11,7 +11,7 @@ public class SettingsActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.content, new SettingsFragment())
+                .replace(R.id.content, SettingsFragment.newInstance())
                 .commit();
 
         getSupportActionBar()

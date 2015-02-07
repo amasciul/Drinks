@@ -12,7 +12,7 @@ public class LiquorDetailActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            mDetailFragment = new LiquorDetailFragment();
+            mDetailFragment = LiquorDetailFragment.newInstance();
             getFragmentManager().beginTransaction()
                     .add(R.id.liquor_detail_container, mDetailFragment)
                     .commit();

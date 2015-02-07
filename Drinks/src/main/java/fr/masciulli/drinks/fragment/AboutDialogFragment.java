@@ -33,6 +33,10 @@ public class AboutDialogFragment extends DialogFragment {
     @InjectView(R.id.ok)
     Button mOkButton;
 
+    public static AboutDialogFragment newInstance() {
+        return new AboutDialogFragment();
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 

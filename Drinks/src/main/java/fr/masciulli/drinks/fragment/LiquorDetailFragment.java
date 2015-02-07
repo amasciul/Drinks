@@ -188,6 +188,10 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         }
     };
 
+    public static LiquorDetailFragment newInstance() {
+        return new LiquorDetailFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mToolbar = ((ToolbarActivity) getActivity()).getToolbar();

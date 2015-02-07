@@ -49,6 +49,10 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
 
     private boolean mLoadingError = false;
 
+    public static LiquorsListFragment newInstance() {
+        return new LiquorsListFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);

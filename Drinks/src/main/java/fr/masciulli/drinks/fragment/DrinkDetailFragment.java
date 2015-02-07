@@ -102,6 +102,10 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         }
     };
 
+    public static DrinkDetailFragment newInstance() {
+        return new DrinkDetailFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mToolbar = ((ToolbarActivity) getActivity()).getToolbar();

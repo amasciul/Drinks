@@ -10,6 +10,11 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    public static SettingsFragment newInstance() {
+        return new SettingsFragment();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
