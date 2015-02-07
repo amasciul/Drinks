@@ -3,22 +3,21 @@ package fr.masciulli.drinks.activity;
 import android.os.Bundle;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.DrinkDetailFragment;
+import fr.masciulli.drinks.model.Drink;
 
 public class DrinkDetailActivity extends ToolbarActivity {
 
-    private DrinkDetailFragment mDetailFragment;
+    public static final String ARG_DRINK = "drink";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            mDetailFragment = DrinkDetailFragment.newInstance();
+            DrinkDetailFragment fragment = DrinkDetailFragment.newInstance((Drink) getIntent().getParcelableExtra(ARG_DRINK));
             getFragmentManager().beginTransaction()
-                    .add(R.id.drink_detail_container, mDetailFragment)
+                    .add(R.id.drink_detail_container, fragment)
                     .commit();
-        } else {
-            mDetailFragment = (DrinkDetailFragment) getFragmentManager().findFragmentById(R.id.drink_detail_container);
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

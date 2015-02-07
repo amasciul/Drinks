@@ -91,7 +91,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         Drink drink = mListAdapter.getItem(position);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
-        intent.putExtra("drink", drink);
+        intent.putExtra(DrinkDetailActivity.ARG_DRINK, drink);
         startActivity(intent);
     }
 

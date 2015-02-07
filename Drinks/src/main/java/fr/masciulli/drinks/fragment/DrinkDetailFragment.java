@@ -43,7 +43,9 @@ import java.util.ArrayList;
 
 public class DrinkDetailFragment extends Fragment implements ScrollViewListener {
 
+    private static final String ARG_DRINK = "drink";
     private static final String STATE_DRINK = "drink";
+
     private static final long ANIM_IMAGE_ENTER_DURATION = 500;
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
@@ -102,8 +104,12 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         }
     };
 
-    public static DrinkDetailFragment newInstance() {
-        return new DrinkDetailFragment();
+    public static DrinkDetailFragment newInstance(Drink drink) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ARG_DRINK, drink);
+        DrinkDetailFragment fragment =  new DrinkDetailFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -116,8 +122,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
         setHasOptionsMenu(true);
 
-        Intent intent = getActivity().getIntent();
-        mDrink = intent.getParcelableExtra("drink");
+        mDrink = getArguments().getParcelable(ARG_DRINK);
 
         getActivity().setTitle(mDrink.name);
         Picasso.with(getActivity()).load(mDrink.imageUrl).into(mTarget);

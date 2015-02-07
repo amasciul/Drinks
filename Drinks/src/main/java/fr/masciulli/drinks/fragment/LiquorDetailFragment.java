@@ -272,7 +272,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         Drink drink = mDrinkAdapter.getItem(position - HEADERVIEWS_COUNT);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
-        intent.putExtra("drink", drink);
+        intent.putExtra(DrinkDetailActivity.ARG_DRINK, drink);
         startActivity(intent);
     }
 
