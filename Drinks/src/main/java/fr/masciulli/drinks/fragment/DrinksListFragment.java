@@ -38,11 +38,11 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DrinksListFragment extends Fragment implements Callback<List<Drink>>, ViewPagerScrollListener, SearchView.OnQueryTextListener {
     private static final String STATE_LIST = "drinks_list";
+    private static final String PREF_DRINKS_JSON = "drinks_json";
 
     @InjectView(R.id.list)
     ListView mListView;
@@ -106,7 +106,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         Gson gson = new Gson();
         String json = gson.toJson(drinks);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-        editor.putString("drinks_json", json);
+        editor.putString(PREF_DRINKS_JSON, json);
         editor.apply();
     }
 
@@ -157,10 +157,10 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         mEmptyView.setVisibility(View.GONE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        if (preferences.contains("drinks_json")) {
+        if (preferences.contains(PREF_DRINKS_JSON)) {
             Gson gson = new Gson();
             //TODO async
-            List<Drink> drinks = gson.fromJson(preferences.getString("drinks_json", "null"), new TypeToken<List<Drink>>(){}.getType());
+            List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>(){}.getType());
             mListAdapter.update(drinks);
             mListView.setVisibility(View.VISIBLE);
             mEmptyView.setVisibility(View.VISIBLE);
