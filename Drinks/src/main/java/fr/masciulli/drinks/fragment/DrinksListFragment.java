@@ -33,6 +33,7 @@ import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.view.DrinksOnScrollListener;
 import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;

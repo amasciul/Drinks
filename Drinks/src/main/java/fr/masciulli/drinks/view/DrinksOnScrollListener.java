@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.fragment;
+package fr.masciulli.drinks.view;
 
 import android.animation.TimeInterpolator;
 import android.view.View;

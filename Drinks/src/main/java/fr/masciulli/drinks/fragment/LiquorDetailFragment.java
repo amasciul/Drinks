@@ -49,6 +49,7 @@ import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.util.AnimUtils;
 import fr.masciulli.drinks.view.BlurTransformation;
+import fr.masciulli.drinks.view.DrinksOnScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
