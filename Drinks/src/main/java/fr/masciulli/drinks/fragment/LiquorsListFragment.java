@@ -36,6 +36,7 @@ import java.util.List;
 
 public class LiquorsListFragment extends Fragment implements Callback<List<Liquor>>, ViewPagerScrollListener {
     private static final String STATE_LIST = "liquor";
+    private static final String PREF_LIQUORS_JSON = "liquors_json";
 
     @InjectView(R.id.list)
     ListView mListView;
@@ -98,7 +99,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         Gson gson = new Gson();
         String json = gson.toJson(liquors);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-        editor.putString("liquors_json", json);
+        editor.putString(PREF_LIQUORS_JSON, json);
         editor.apply();
     }
 
@@ -144,10 +145,10 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        if (preferences.contains("liquors_json")) {
+        if (preferences.contains(PREF_LIQUORS_JSON)) {
             Gson gson = new Gson();
             //TODO async
-            List<Liquor> liquors = gson.fromJson(preferences.getString("liquors_json", "null"), new TypeToken<List<Liquor>>() {
+            List<Liquor> liquors = gson.fromJson(preferences.getString(PREF_LIQUORS_JSON, "null"), new TypeToken<List<Liquor>>() {
             }.getType());
             mListAdapter.update(liquors);
             mListView.setVisibility(View.VISIBLE);
