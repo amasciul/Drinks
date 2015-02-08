@@ -9,6 +9,8 @@ android {
         targetSdkVersion 21
         versionCode = 19
         versionName = "1.2.2"
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
     }
 
     signingConfigs {
