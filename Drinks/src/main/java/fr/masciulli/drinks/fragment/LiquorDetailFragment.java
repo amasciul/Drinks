@@ -65,7 +65,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
     private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
 
-    private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
+    private final TimeInterpolator decelerator = new DecelerateInterpolator();
     private static final String ARG_LIQUOR = "liquor";
     private static final String STATE_LIQUOR = "liquor";
     private static final String STATE_DRINKS = "drinks";
@@ -73,36 +73,36 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     private static final String PREF_DRINKS_JSON = "drinks_json";
 
     @InjectView(R.id.image)
-    ImageView mImageView;
+    ImageView imageView;
     @InjectView(R.id.image_blurred)
-    ImageView mBlurredImageView;
+    ImageView blurredImageView;
     @InjectView(R.id.history)
-    TextView mHistoryView;
+    TextView historyView;
     @InjectView(R.id.progressbar)
-    ProgressBar mProgressBar;
+    ProgressBar progressBar;
     @InjectView(R.id.wikipedia)
-    Button mWikipediaButton;
+    Button wikipediaButton;
     @InjectView(R.id.drinks_title)
-    TextView mDrinksTitleView;
+    TextView drinksTitleView;
     @InjectView(R.id.colorbox)
-    View mColorBox;
+    View colorBox;
     @InjectView(R.id.color1)
-    View mColorView1;
+    View colorView1;
     @InjectView(R.id.color2)
-    View mColorView2;
+    View colorView2;
     @InjectView(R.id.color3)
-    View mColorView3;
+    View colorView3;
     @InjectView(R.id.color4)
-    View mColorView4;
+    View colorView4;
 
-    private ListView mListView;
-    private View mHeaderView;
-    private Toolbar mToolbar;
+    private ListView listView;
+    private View headerView;
+    private Toolbar toolbar;
 
-    private Target mTarget = new Target() {
+    private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            mImageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);
             new QuantizeBitmapTask().execute(bitmap);
         }
 
@@ -117,15 +117,15 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         }
     };
 
-    private LiquorDetailAdapter mDrinkAdapter;
+    private LiquorDetailAdapter drinkAdapter;
 
-    private DrinksOnScrollListener mAnimationOnScrollListener;
+    private DrinksOnScrollListener animationOnScrollListener;
 
-    private Liquor mLiquor;
+    private Liquor liquor;
 
-    private int mImageViewHeight;
+    private int imageViewHeight;
 
-    private Callback<List<Drink>> mDrinksCallback = new Callback<List<Drink>>() {
+    private Callback<List<Drink>> drinksCallback = new Callback<List<Drink>>() {
 
         /**
          * Retrofit callback when drinks loaded
@@ -144,13 +144,13 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
             for (Drink drink : drinks) {
                 for (String ingredient : drink.ingredients) {
-                    if (ingredient.toLowerCase().contains(mLiquor.name.toLowerCase())) {
+                    if (ingredient.toLowerCase().contains(liquor.name.toLowerCase())) {
                         filteredDrinks.add(drink);
                         break;
                     }
 
                     //At this point, we know main name does not match
-                    for (String otherName : mLiquor.otherNames) {
+                    for (String otherName : liquor.otherNames) {
                         if (ingredient.toLowerCase().contains(otherName.toLowerCase())) {
                             filteredDrinks.add(drink);
                             break;
@@ -161,12 +161,12 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             }
 
             if (filteredDrinks.size() > 0) {
-                mDrinksTitleView.setVisibility(View.VISIBLE);
+                drinksTitleView.setVisibility(View.VISIBLE);
             } else {
-                mDrinksTitleView.setVisibility(View.GONE);
+                drinksTitleView.setVisibility(View.GONE);
             }
 
-            mDrinkAdapter.update(filteredDrinks);
+            drinkAdapter.update(filteredDrinks);
         }
 
         @Override
@@ -188,7 +188,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             if (error.isNetworkError()) {
                 Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
             } else {
-                String croutonText = String.format(getString(R.string.liquor_detail_drinks_loading_failed), mLiquor.name);
+                String croutonText = String.format(getString(R.string.liquor_detail_drinks_loading_failed), liquor.name);
                 Crouton.makeText(getActivity(), croutonText, Style.ALERT).show();
             }
         }
@@ -204,61 +204,61 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
-        mToolbar.getBackground().setAlpha(0);
+        toolbar = ((ToolbarActivity) getActivity()).getToolbar();
+        toolbar.getBackground().setAlpha(0);
 
         View root = inflater.inflate(R.layout.fragment_liquor_detail, container, false);
 
         setHasOptionsMenu(true);
 
-        mHeaderView = inflater.inflate(R.layout.header_liquor_detail, mListView, false);
+        headerView = inflater.inflate(R.layout.header_liquor_detail, listView, false);
 
-        mListView = ButterKnife.findById(root, R.id.list);
-        mListView.addHeaderView(mHeaderView);
+        listView = ButterKnife.findById(root, R.id.list);
+        listView.addHeaderView(headerView);
 
         //View injection only done here because header has to be added before
         ButterKnife.inject(this, root);
 
-        mDrinkAdapter = new LiquorDetailAdapter(getActivity());
-        mListView.setAdapter(mDrinkAdapter);
+        drinkAdapter = new LiquorDetailAdapter(getActivity());
+        listView.setAdapter(drinkAdapter);
 
-        mLiquor = getArguments().getParcelable(ARG_LIQUOR);
+        liquor = getArguments().getParcelable(ARG_LIQUOR);
 
-        getActivity().setTitle(mLiquor.name);
-        Picasso.with(getActivity()).load(mLiquor.imageUrl).into(mTarget);
+        getActivity().setTitle(liquor.name);
+        Picasso.with(getActivity()).load(liquor.imageUrl).into(target);
 
         Transformation transformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
-        Picasso.with(getActivity()).load(mLiquor.imageUrl).transform(transformation).into(mBlurredImageView);
+        Picasso.with(getActivity()).load(liquor.imageUrl).transform(transformation).into(blurredImageView);
 
-        mImageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
-        mListView.setOnScrollListener(this);
-        mAnimationOnScrollListener = new DrinksOnScrollListener(mListView);
+        imageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
+        listView.setOnScrollListener(this);
+        animationOnScrollListener = new DrinksOnScrollListener(listView);
 
         if (savedInstanceState != null) {
-            mColorBox.setAlpha(1);
+            colorBox.setAlpha(1);
             Liquor liquor = savedInstanceState.getParcelable(STATE_LIQUOR);
             List<Drink> drinks = savedInstanceState.getParcelableArrayList(STATE_DRINKS);
             if (liquor != null && drinks != null) {
-                onLiquorFound(mLiquor);
-                mDrinksCallback.success(drinks, null);
+                onLiquorFound(this.liquor);
+                drinksCallback.success(drinks, null);
             } else {
-                refresh(mLiquor);
+                refresh(this.liquor);
             }
         } else {
-            ViewTreeObserver observer = mImageView.getViewTreeObserver();
+            ViewTreeObserver observer = imageView.getViewTreeObserver();
             if (observer != null) {
                 observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
                     @Override
                     public boolean onPreDraw() {
-                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        imageView.getViewTreeObserver().removeOnPreDrawListener(this);
                         runEnterAnimation();
 
                         return true;
                     }
                 });
             } else {
-                refresh(mLiquor);
+                refresh(liquor);
             }
         }
 
@@ -268,16 +268,16 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     @SuppressWarnings("unused")
     @OnClick(R.id.wikipedia)
     void goToWikipedia() {
-        if (mLiquor == null) {
+        if (liquor == null) {
             return;
         }
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mLiquor.wikipedia)));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(liquor.wikipedia)));
     }
 
     @SuppressWarnings("unused")
     @OnItemClick(R.id.list)
     void openRelatedDrinkDetail(int position, View view) {
-        Drink drink = mDrinkAdapter.getItem(position - HEADERVIEWS_COUNT);
+        Drink drink = drinkAdapter.getItem(position - HEADERVIEWS_COUNT);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
         intent.putExtra(DrinkDetailActivity.ARG_DRINK, drink);
@@ -289,24 +289,24 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         Runnable refreshRunnable = new Runnable() {
             @Override
             public void run() {
-                refresh(mLiquor);
+                refresh(liquor);
             }
         };
 
-        mImageView.setTranslationY(-mImageView.getHeight());
+        imageView.setTranslationY(-imageView.getHeight());
 
-        ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+        ViewPropertyAnimator animator = imageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
                 setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
                 translationY(0).
-                setInterpolator(sDecelerator);
+                setInterpolator(decelerator);
 
         Runnable animateColorBoxRunnable = new Runnable() {
             @Override
             public void run() {
-                mColorBox.animate()
+                colorBox.animate()
                         .alpha(1)
                         .setDuration(ANIM_COLORBOX_ENTER_DURATION)
-                        .setInterpolator(sDecelerator);
+                        .setInterpolator(decelerator);
             }
         };
 
@@ -315,34 +315,34 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     }
 
     public void onLiquorFound(Liquor liquor) {
-        mLiquor = liquor;
+        this.liquor = liquor;
         if (getActivity() == null) {
             return;
         }
 
-        mProgressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
 
-        mHistoryView.setText(liquor.history);
-        mWikipediaButton.setText(String.format(getString(R.string.liquor_detail_wikipedia), liquor.name));
-        mDrinksTitleView.setText(String.format(getString(R.string.liquor_detail_drinks), liquor.name));
+        historyView.setText(liquor.history);
+        wikipediaButton.setText(String.format(getString(R.string.liquor_detail_wikipedia), liquor.name));
+        drinksTitleView.setText(String.format(getString(R.string.liquor_detail_drinks), liquor.name));
 
-        ViewTreeObserver observer = mListView.getViewTreeObserver();
+        ViewTreeObserver observer = listView.getViewTreeObserver();
         if (observer != null) {
             observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
                 @Override
                 public boolean onPreDraw() {
-                    mListView.getViewTreeObserver().removeOnPreDrawListener(this);
-                    mListView.setAlpha(0);
-                    mListView.animate().setDuration(ANIM_TEXT_ENTER_DURATION).
+                    listView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    listView.setAlpha(0);
+                    listView.animate().setDuration(ANIM_TEXT_ENTER_DURATION).
                             alpha(1).
-                            setInterpolator(sDecelerator);
+                            setInterpolator(decelerator);
 
                     return true;
                 }
             });
         }
-        mListView.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.VISIBLE);
     }
 
     public void refresh(Liquor liquor) {
@@ -356,9 +356,9 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>(){}.getType());
 
             //TODO do not use retrofit callback
-            mDrinksCallback.success(drinks, null);
+            drinksCallback.success(drinks, null);
         } else {
-            DrinksProvider.getAllDrinks(mDrinksCallback);
+            DrinksProvider.getAllDrinks(drinksCallback);
         }
         onLiquorFound(liquor);
     }
@@ -375,7 +375,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
                 getActivity().finish();
                 return true;
             case R.id.retry:
-                refresh(mLiquor);
+                refresh(liquor);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -383,30 +383,30 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     @Override
     public void onScrollStateChanged(AbsListView listView, int state) {
-        if (mAnimationOnScrollListener != null) {
-            mAnimationOnScrollListener.onScrollStateChanged(listView, state);
+        if (animationOnScrollListener != null) {
+            animationOnScrollListener.onScrollStateChanged(listView, state);
         }
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (mAnimationOnScrollListener != null) {
-            mAnimationOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+        if (animationOnScrollListener != null) {
+            animationOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
         }
-        float alpha = 2 * (float) -mHeaderView.getTop() / (float) mImageViewHeight;
+        float alpha = 2 * (float) -headerView.getTop() / (float) imageViewHeight;
         if (alpha > 1) {
             alpha = 1;
         } else if (alpha < 0) {
             alpha = 0;
         }
-        mBlurredImageView.setAlpha(alpha);
+        blurredImageView.setAlpha(alpha);
 
-        mImageView.setTop(mHeaderView.getTop() / 2);
-        mImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
-        mBlurredImageView.setTop(mHeaderView.getTop() / 2);
-        mBlurredImageView.setBottom(mImageViewHeight + mHeaderView.getTop());
+        imageView.setTop(headerView.getTop() / 2);
+        imageView.setBottom(imageViewHeight + headerView.getTop());
+        blurredImageView.setTop(headerView.getTop() / 2);
+        blurredImageView.setBottom(imageViewHeight + headerView.getTop());
 
-        mToolbar.getBackground().setAlpha((int) (alpha * 255));
+        toolbar.getBackground().setAlpha((int) (alpha * 255));
     }
 
     @Override
@@ -414,9 +414,9 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         super.onSaveInstanceState(outState);
 
         // TODO do not use getCount
-        if (mLiquor != null && mDrinkAdapter.getCount() > 0) {
-            outState.putParcelable(STATE_LIQUOR, mLiquor);
-            outState.putParcelableArrayList(STATE_DRINKS, mDrinkAdapter.getDrinks());
+        if (liquor != null && drinkAdapter.getCount() > 0) {
+            outState.putParcelable(STATE_LIQUOR, liquor);
+            outState.putParcelableArrayList(STATE_DRINKS, drinkAdapter.getDrinks());
         }
     }
 
@@ -440,7 +440,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         @Override
         protected void onPostExecute(ArrayList<Integer> colors) {
-            View[] colorViews = new View[]{mColorView1, mColorView2, mColorView3, mColorView4};
+            View[] colorViews = new View[]{colorView1, colorView2, colorView3, colorView4};
             for (int i = 0; i < colors.size() && i < 4; i++) {
                 colorViews[i].setBackgroundColor(colors.get(i));
             }

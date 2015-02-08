@@ -10,7 +10,7 @@ import fr.masciulli.drinks.R;
 public class LicensesActivity extends ToolbarActivity {
 
     @InjectView(R.id.webview)
-    WebView mWebView;
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class LicensesActivity extends ToolbarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mWebView.loadUrl("file:///android_asset/licenses.html");
+        webView.loadUrl("file:///android_asset/licenses.html");
     }
 
     @Override

@@ -20,16 +20,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class DrinksListAdapter extends BaseAdapter implements Filterable {
-    private List<Drink> mDrinks = Collections.emptyList();
-    private List<Drink> mSavedDrinks = Collections.emptyList();
-    private Context mContext;
-    private Filter mFilter = new Filter() {
+    private List<Drink> drinks = Collections.emptyList();
+    private List<Drink> savedDrinks = Collections.emptyList();
+    private Context context;
+    private Filter filter = new Filter() {
 
-        private List<Drink> mFilteredDrinks = new ArrayList<Drink>();
+        private List<Drink> filteredDrinks = new ArrayList<>();
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            mFilteredDrinks.clear();
+            filteredDrinks.clear();
             FilterResults results = new FilterResults();
 
             Log.d("adapter", "performing filtering with " + charSequence);
@@ -38,9 +38,9 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
 
             final List<Drink> ingredientMatchDrinks = new ArrayList<Drink>();
 
-            for (Drink drink : mSavedDrinks) {
+            for (Drink drink : savedDrinks) {
                 if (drink.name.toLowerCase().contains(query)) {
-                    mFilteredDrinks.add(drink);
+                    filteredDrinks.add(drink);
                 } else {
                     // drink name does not match, we check the ingredients
                     for (String ingredient : drink.ingredients) {
@@ -52,10 +52,10 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
                 }
             }
 
-            mFilteredDrinks.addAll(ingredientMatchDrinks);
+            filteredDrinks.addAll(ingredientMatchDrinks);
 
-            results.count = mFilteredDrinks.size();
-            results.values = mFilteredDrinks;
+            results.count = filteredDrinks.size();
+            results.values = filteredDrinks;
 
             return results;
         }
@@ -67,17 +67,17 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
     };
 
     public DrinksListAdapter(Context context) {
-        mContext = context;
+        this.context = context;
     }
 
     @Override
     public int getCount() {
-        return mDrinks.size();
+        return drinks.size();
     }
 
     @Override
     public Drink getItem(int i) {
-        return mDrinks.get(i);
+        return drinks.get(i);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
     public View getView(int i, View root, ViewGroup parent) {
 
         if (root == null) {
-            root = LayoutInflater.from(mContext).inflate(R.layout.item_drinks_list, parent, false);
+            root = LayoutInflater.from(context).inflate(R.layout.item_drinks_list, parent, false);
         }
 
         final ImageView imageView = Holder.get(root, R.id.image);
@@ -98,16 +98,16 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
         final Drink drink = getItem(i);
 
         nameView.setText(drink.name);
-        Picasso.with(mContext).load(drink.imageUrl).into(imageView);
+        Picasso.with(context).load(drink.imageUrl).into(imageView);
 
         return root;
     }
 
     public void update(List<Drink> drinks, boolean dueToFilterOperation) {
-        mDrinks = drinks;
+        this.drinks = drinks;
         notifyDataSetChanged();
         if (!dueToFilterOperation) {
-            mSavedDrinks = new ArrayList<Drink>(drinks);
+            savedDrinks = new ArrayList<>(drinks);
         }
     }
 
@@ -117,10 +117,10 @@ public class DrinksListAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public Filter getFilter() {
-        return mFilter;
+        return filter;
     }
 
     public ArrayList<Drink> getDrinks() {
-        return (ArrayList<Drink>) mSavedDrinks;
+        return (ArrayList<Drink>) savedDrinks;
     }
 }

@@ -14,22 +14,22 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
     public static final int NAMEVIEW_POSITION_TOP = 0;
     public static final int NAMEVIEW_POSITION_BOTTOM = 1;
 
-    private final ListView mListView;
+    private final ListView listView;
 
-    private int mPreviousFirstVisibleItem = -1;
-    private int mPreviousLastVisibleItem = -1;
-    private TimeInterpolator mDecelerateInterpolator = new DecelerateInterpolator();
+    private int previousFirstVisibleItem = -1;
+    private int previousLastVisibleItem = -1;
+    private TimeInterpolator decelerateInterpolator = new DecelerateInterpolator();
 
-    private int mNameViewPosition = NAMEVIEW_POSITION_BOTTOM;
+    private int nameViewPosition = NAMEVIEW_POSITION_BOTTOM;
 
     public DrinksOnScrollListener(ListView listView) {
-        mListView = listView;
+        this.listView = listView;
     }
 
     public DrinksOnScrollListener(ListView listView, int nameViewPosition) {
-        mListView = listView;
+        this.listView = listView;
         if (nameViewPosition == NAMEVIEW_POSITION_TOP) {
-            mNameViewPosition = nameViewPosition;
+            this.nameViewPosition = nameViewPosition;
         }
     }
 
@@ -45,36 +45,36 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
 
         int lastVisibleItem = firstVisibleItem + visibleItemCount - 1;
 
-        if (firstVisibleItem < mPreviousFirstVisibleItem) {
+        if (firstVisibleItem < previousFirstVisibleItem) {
             // first visible item index has decreased : we are scrolling up
-            View root = mListView.getChildAt(0);
+            View root = listView.getChildAt(0);
             View nameView = ButterKnife.findById(root, R.id.name);
             //if (nameView == null) return;
             if (nameView != null) {
-                if (mNameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
+                if (nameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
                     nameView.setTranslationX(nameView.getWidth());
                 } else {
                     nameView.setTranslationX(0 - nameView.getWidth());
                 }
-                nameView.animate().translationX(0).setDuration(DRINKNAME_ANIM_DURATION).setInterpolator(mDecelerateInterpolator);
+                nameView.animate().translationX(0).setDuration(DRINKNAME_ANIM_DURATION).setInterpolator(decelerateInterpolator);
             }
         }
 
-        if (lastVisibleItem > mPreviousLastVisibleItem) {
+        if (lastVisibleItem > previousLastVisibleItem) {
             // first visible item index has decreased : we are scrolling down
-            View root = mListView.getChildAt(visibleItemCount - 1);
+            View root = listView.getChildAt(visibleItemCount - 1);
             View nameView = ButterKnife.findById(root, R.id.name);
             if (nameView != null) {
-                if (mNameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
+                if (nameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
                     nameView.setTranslationX(nameView.getWidth());
                 } else {
                     nameView.setTranslationX(0 - nameView.getWidth());
                 }
-                nameView.animate().translationX(0).setDuration(DRINKNAME_ANIM_DURATION).setInterpolator(mDecelerateInterpolator);
+                nameView.animate().translationX(0).setDuration(DRINKNAME_ANIM_DURATION).setInterpolator(decelerateInterpolator);
             }
         }
 
-        mPreviousFirstVisibleItem = firstVisibleItem;
-        mPreviousLastVisibleItem = lastVisibleItem;
+        previousFirstVisibleItem = firstVisibleItem;
+        previousLastVisibleItem = lastVisibleItem;
     }
 }

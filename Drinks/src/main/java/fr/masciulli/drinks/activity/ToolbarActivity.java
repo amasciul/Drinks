@@ -6,18 +6,18 @@ import android.support.v7.widget.Toolbar;
 import fr.masciulli.drinks.R;
 
 public abstract class ToolbarActivity extends ActionBarActivity {
-    private Toolbar mToolbar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     public Toolbar getToolbar() {
-        return mToolbar;
+        return toolbar;
     }
 
     protected abstract int getLayoutId();

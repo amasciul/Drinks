@@ -16,21 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LiquorDetailAdapter extends BaseAdapter {
-    private List<Drink> mDrinks = new ArrayList<Drink>();
-    private Context mContext;
+    private List<Drink> drinks = new ArrayList<Drink>();
+    private Context context;
 
     public LiquorDetailAdapter(Context context) {
-        mContext = context;
+        this.context = context;
     }
 
     @Override
     public int getCount() {
-        return mDrinks.size();
+        return drinks.size();
     }
 
     @Override
     public Drink getItem(int i) {
-        return mDrinks.get(i);
+        return drinks.get(i);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class LiquorDetailAdapter extends BaseAdapter {
     public View getView(int i, View root, ViewGroup parent) {
 
         if (root == null) {
-            root = LayoutInflater.from(mContext).inflate(R.layout.item_liquor_detail, parent, false);
+            root = LayoutInflater.from(context).inflate(R.layout.item_liquor_detail, parent, false);
         }
 
         final TextView nameView = Holder.get(root, R.id.name);
@@ -51,17 +51,17 @@ public class LiquorDetailAdapter extends BaseAdapter {
         final Drink drink = getItem(i);
 
         nameView.setText(drink.name);
-        Picasso.with(mContext).load(drink.imageUrl).into(imageView);
+        Picasso.with(context).load(drink.imageUrl).into(imageView);
 
         return root;
     }
 
     public void update(List<Drink> drinks) {
-        mDrinks = drinks;
+        this.drinks = drinks;
         notifyDataSetChanged();
     }
 
     public ArrayList<Drink> getDrinks() {
-        return (ArrayList<Drink>) mDrinks;
+        return (ArrayList<Drink>) drinks;
     }
 }

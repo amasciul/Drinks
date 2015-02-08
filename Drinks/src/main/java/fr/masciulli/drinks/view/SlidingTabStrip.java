@@ -35,23 +35,23 @@ class SlidingTabStrip extends LinearLayout {
     private static final byte DEFAULT_DIVIDER_COLOR_ALPHA = 0x20;
     private static final float DEFAULT_DIVIDER_HEIGHT = 0.5f;
 
-    private final int mBottomBorderThickness;
-    private final Paint mBottomBorderPaint;
+    private final int bottomBorderThickness;
+    private final Paint bottomBorderPaint;
 
-    private final int mSelectedIndicatorThickness;
-    private final Paint mSelectedIndicatorPaint;
+    private final int selectedIndicatorThickness;
+    private final Paint selectedIndicatorPaint;
 
-    private final int mDefaultBottomBorderColor;
+    private final int defaultBottomBorderColor;
 
-    private final Paint mDividerPaint;
-    private final float mDividerHeight;
+    private final Paint dividerPaint;
+    private final float dividerHeight;
 
-    private int mSelectedPosition;
-    private float mSelectionOffset;
+    private int selectedPosition;
+    private float selectionOffset;
 
-    private SlidingTabLayout.TabColorizer mCustomTabColorizer;
-    private final SimpleTabColorizer mDefaultTabColorizer;
-    private boolean mBottomBorderPaintEnabled = false;
+    private SlidingTabLayout.TabColorizer customTabColorizer;
+    private final SimpleTabColorizer defaultTabColorizer;
+    private boolean bottomBorderPaintEnabled = false;
 
     SlidingTabStrip(Context context) {
         this(context, null);
@@ -67,48 +67,48 @@ class SlidingTabStrip extends LinearLayout {
         context.getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
         final int themeForegroundColor = outValue.data;
 
-        mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor,
+        defaultBottomBorderColor = setColorAlpha(themeForegroundColor,
                 DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
 
-        mDefaultTabColorizer = new SimpleTabColorizer();
-        mDefaultTabColorizer.setIndicatorColors(DEFAULT_SELECTED_INDICATOR_COLOR);
-        mDefaultTabColorizer.setDividerColors(setColorAlpha(themeForegroundColor,
+        defaultTabColorizer = new SimpleTabColorizer();
+        defaultTabColorizer.setIndicatorColors(DEFAULT_SELECTED_INDICATOR_COLOR);
+        defaultTabColorizer.setDividerColors(setColorAlpha(themeForegroundColor,
                 DEFAULT_DIVIDER_COLOR_ALPHA));
 
-        mBottomBorderThickness = (int) (DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS * density);
-        mBottomBorderPaint = new Paint();
-        mBottomBorderPaint.setColor(mDefaultBottomBorderColor);
+        bottomBorderThickness = (int) (DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS * density);
+        bottomBorderPaint = new Paint();
+        bottomBorderPaint.setColor(defaultBottomBorderColor);
 
-        mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
-        mSelectedIndicatorPaint = new Paint();
+        selectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
+        selectedIndicatorPaint = new Paint();
 
-        mDividerHeight = DEFAULT_DIVIDER_HEIGHT;
-        mDividerPaint = new Paint();
-        mDividerPaint.setStrokeWidth((int) (DEFAULT_DIVIDER_THICKNESS_DIPS * density));
+        dividerHeight = DEFAULT_DIVIDER_HEIGHT;
+        dividerPaint = new Paint();
+        dividerPaint.setStrokeWidth((int) (DEFAULT_DIVIDER_THICKNESS_DIPS * density));
     }
 
     void setCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer) {
-        mCustomTabColorizer = customTabColorizer;
+        this.customTabColorizer = customTabColorizer;
         invalidate();
     }
 
     void setSelectedIndicatorColors(int... colors) {
         // Make sure that the custom colorizer is removed
-        mCustomTabColorizer = null;
-        mDefaultTabColorizer.setIndicatorColors(colors);
+        customTabColorizer = null;
+        defaultTabColorizer.setIndicatorColors(colors);
         invalidate();
     }
 
     void setDividerColors(int... colors) {
         // Make sure that the custom colorizer is removed
-        mCustomTabColorizer = null;
-        mDefaultTabColorizer.setDividerColors(colors);
+        customTabColorizer = null;
+        defaultTabColorizer.setDividerColors(colors);
         invalidate();
     }
 
     void onViewPagerPageChanged(int position, float positionOffset) {
-        mSelectedPosition = position;
-        mSelectionOffset = positionOffset;
+        selectedPosition = position;
+        selectionOffset = positionOffset;
         invalidate();
     }
 
@@ -116,51 +116,51 @@ class SlidingTabStrip extends LinearLayout {
     protected void onDraw(Canvas canvas) {
         final int height = getHeight();
         final int childCount = getChildCount();
-        final int dividerHeightPx = (int) (Math.min(Math.max(0f, mDividerHeight), 1f) * height);
-        final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
-                ? mCustomTabColorizer
-                : mDefaultTabColorizer;
+        final int dividerHeightPx = (int) (Math.min(Math.max(0f, dividerHeight), 1f) * height);
+        final SlidingTabLayout.TabColorizer tabColorizer = customTabColorizer != null
+                ? customTabColorizer
+                : defaultTabColorizer;
 
         // Thick colored underline below the current selection
         if (childCount > 0) {
-            View selectedTitle = getChildAt(mSelectedPosition);
+            View selectedTitle = getChildAt(selectedPosition);
             int left = selectedTitle.getLeft();
             int right = selectedTitle.getRight();
-            int color = tabColorizer.getIndicatorColor(mSelectedPosition);
+            int color = tabColorizer.getIndicatorColor(selectedPosition);
 
-            if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
-                int nextColor = tabColorizer.getIndicatorColor(mSelectedPosition + 1);
+            if (selectionOffset > 0f && selectedPosition < (getChildCount() - 1)) {
+                int nextColor = tabColorizer.getIndicatorColor(selectedPosition + 1);
                 if (color != nextColor) {
-                    color = blendColors(nextColor, color, mSelectionOffset);
+                    color = blendColors(nextColor, color, selectionOffset);
                 }
 
                 // Draw the selection partway between the tabs
-                View nextTitle = getChildAt(mSelectedPosition + 1);
-                left = (int) (mSelectionOffset * nextTitle.getLeft()
-                        + (1.0f - mSelectionOffset) * left);
-                right = (int) (mSelectionOffset * nextTitle.getRight()
-                        + (1.0f - mSelectionOffset) * right);
+                View nextTitle = getChildAt(selectedPosition + 1);
+                left = (int) (selectionOffset * nextTitle.getLeft()
+                        + (1.0f - selectionOffset) * left);
+                right = (int) (selectionOffset * nextTitle.getRight()
+                        + (1.0f - selectionOffset) * right);
             }
 
-            mSelectedIndicatorPaint.setColor(color);
+            selectedIndicatorPaint.setColor(color);
 
-            canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
-                    height, mSelectedIndicatorPaint);
+            canvas.drawRect(left, height - selectedIndicatorThickness, right,
+                    height, selectedIndicatorPaint);
         }
 
         // Thin underline along the entire bottom edge
-        if (mBottomBorderPaintEnabled) {
-            canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height,
-                    mBottomBorderPaint);
+        if (bottomBorderPaintEnabled) {
+            canvas.drawRect(0, height - bottomBorderThickness, getWidth(), height,
+                    bottomBorderPaint);
         }
 
         // Vertical separators between the titles
         int separatorTop = (height - dividerHeightPx) / 2;
         for (int i = 0; i < childCount - 1; i++) {
             View child = getChildAt(i);
-            mDividerPaint.setColor(tabColorizer.getDividerColor(i));
+            dividerPaint.setColor(tabColorizer.getDividerColor(i));
             canvas.drawLine(child.getRight(), separatorTop, child.getRight(),
-                    separatorTop + dividerHeightPx, mDividerPaint);
+                    separatorTop + dividerHeightPx, dividerPaint);
         }
     }
 

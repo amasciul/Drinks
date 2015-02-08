@@ -26,12 +26,12 @@ import fr.masciulli.drinks.R;
 public class AboutDialogFragment extends DialogFragment {
 
     private static final long ANIM_REVEAL_DURATION = 300;
-    private final Interpolator mDecelerateInterpolator = new DecelerateInterpolator();
+    private final Interpolator decelerateInterpolator = new DecelerateInterpolator();
 
     @InjectView(R.id.version_name)
-    TextView mVersionNameView;
+    TextView versionNameView;
     @InjectView(R.id.ok)
-    Button mOkButton;
+    Button okButton;
 
     public static AboutDialogFragment newInstance() {
         return new AboutDialogFragment();
@@ -51,15 +51,15 @@ public class AboutDialogFragment extends DialogFragment {
             if (BuildConfig.DEBUG) {
                 versionNameText += ".dev";
             }
-            mVersionNameView.setText(versionNameText);
+            versionNameView.setText(versionNameText);
         } catch (PackageManager.NameNotFoundException e) {
-            mVersionNameView.setText(getString(R.string.unknown_version));
+            versionNameView.setText(getString(R.string.unknown_version));
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(root);
 
-        mOkButton.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        okButton.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -73,17 +73,17 @@ public class AboutDialogFragment extends DialogFragment {
 
     private void runEnterAnimation() {
 
-        mOkButton.setVisibility(View.VISIBLE);
+        okButton.setVisibility(View.VISIBLE);
 
         if (Build.VERSION.SDK_INT >= 21) {
-            int cx = mOkButton.getWidth() / 2;
-            int cy = mOkButton.getHeight() / 2;
+            int cx = okButton.getWidth() / 2;
+            int cy = okButton.getHeight() / 2;
 
-            int finalRadius = Math.max(mOkButton.getWidth()/2, mOkButton.getHeight()/2);
+            int finalRadius = Math.max(okButton.getWidth()/2, okButton.getHeight()/2);
 
-            Animator anim = ViewAnimationUtils.createCircularReveal(mOkButton, cx, cy, 0, finalRadius);
+            Animator anim = ViewAnimationUtils.createCircularReveal(okButton, cx, cy, 0, finalRadius);
             anim.setDuration(ANIM_REVEAL_DURATION)
-                    .setInterpolator(mDecelerateInterpolator);
+                    .setInterpolator(decelerateInterpolator);
             anim.start();
         }
 
@@ -91,18 +91,18 @@ public class AboutDialogFragment extends DialogFragment {
 
     private void runExitAnimation() {
         if (Build.VERSION.SDK_INT >= 21) {
-            int cx = mOkButton.getWidth() / 2;
-            int cy = mOkButton.getHeight() / 2;
+            int cx = okButton.getWidth() / 2;
+            int cy = okButton.getHeight() / 2;
 
-            int initialRadius = Math.max(mOkButton.getWidth() / 2, mOkButton.getHeight() / 2);
+            int initialRadius = Math.max(okButton.getWidth() / 2, okButton.getHeight() / 2);
             Animator anim =
-                    ViewAnimationUtils.createCircularReveal(mOkButton, cx, cy, initialRadius, 0);
+                    ViewAnimationUtils.createCircularReveal(okButton, cx, cy, initialRadius, 0);
 
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    mOkButton.setVisibility(View.INVISIBLE);
+                    okButton.setVisibility(View.INVISIBLE);
                     dismiss();
                 }
             });

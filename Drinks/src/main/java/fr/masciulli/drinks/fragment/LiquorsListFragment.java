@@ -40,15 +40,15 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     private static final String PREF_LIQUORS_JSON = "liquors_json";
 
     @InjectView(R.id.list)
-    ListView mListView;
+    ListView listView;
     @InjectView(android.R.id.empty)
-    View mEmptyView;
+    View emptyView;
     @InjectView(R.id.progressbar)
-    ProgressBar mProgressBar;
+    ProgressBar progressBar;
 
-    private LiquorListAdapter mListAdapter;
+    private LiquorListAdapter listAdapter;
 
-    private boolean mLoadingError = false;
+    private boolean loadingError = false;
 
     public static LiquorsListFragment newInstance() {
         return new LiquorsListFragment();
@@ -60,15 +60,15 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         final View root = inflater.inflate(R.layout.fragment_liquors_list, container, false);
         ButterKnife.inject(this, root);
 
-        mListView.setEmptyView(mEmptyView);
-        mListAdapter = new LiquorListAdapter(getActivity());
-        mListView.setOnScrollListener(new DrinksOnScrollListener(mListView, DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
-        mListView.setAdapter(mListAdapter);
+        listView.setEmptyView(emptyView);
+        listAdapter = new LiquorListAdapter(getActivity());
+        listView.setOnScrollListener(new DrinksOnScrollListener(listView, DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
+        listView.setAdapter(listAdapter);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
                 List<Liquor> savedLiquors = savedInstanceState.getParcelableArrayList(STATE_LIST);
-                mListAdapter.update(savedLiquors);
+                listAdapter.update(savedLiquors);
             } else {
                 refresh();
             }
@@ -82,7 +82,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     @SuppressWarnings("unused")
     @OnItemClick(R.id.list)
     public void openLiquorDetail(View view, int position) {
-        Liquor liquor = mListAdapter.getItem(position);
+        Liquor liquor = listAdapter.getItem(position);
         Intent intent = new Intent(getActivity(), LiquorDetailActivity.class);
         intent.putExtra(LiquorDetailActivity.ARG_LIQUOR, liquor);
         startActivity(intent);
@@ -90,15 +90,15 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
 
     @Override
     public void success(List<Liquor> liquors, Response response) {
-        mLoadingError = false;
+        loadingError = false;
 
         if (getActivity() == null) {
             return;
         }
 
-        mProgressBar.setVisibility(View.GONE);
-        mEmptyView.setVisibility(View.VISIBLE);
-        mListAdapter.update(liquors);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        listAdapter.update(liquors);
 
         Gson gson = new Gson();
         String json = gson.toJson(liquors);
@@ -109,14 +109,14 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
 
     @Override
     public void failure(RetrofitError retrofitError) {
-        mLoadingError = true;
+        loadingError = true;
 
         if (getActivity() == null) {
             return;
         }
 
-        mProgressBar.setVisibility(View.GONE);
-        mEmptyView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -125,11 +125,11 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
             return;
         }
 
-        int first = mListView.getFirstVisiblePosition();
-        int last = mListView.getLastVisiblePosition();
+        int first = listView.getFirstVisiblePosition();
+        int last = listView.getLastVisiblePosition();
 
         for (int i = 0; i <= last - first; i++) {
-            View itemRoot = mListView.getChildAt(i);
+            View itemRoot = listView.getChildAt(i);
             if (itemRoot == null) {
                 continue;
             }
@@ -144,8 +144,8 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     }
 
     private void refresh() {
-        mProgressBar.setVisibility(View.GONE);
-        mEmptyView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -154,10 +154,10 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
             //TODO async
             List<Liquor> liquors = gson.fromJson(preferences.getString(PREF_LIQUORS_JSON, "null"), new TypeToken<List<Liquor>>() {
             }.getType());
-            mListAdapter.update(liquors);
-            mListView.setVisibility(View.VISIBLE);
-            mEmptyView.setVisibility(View.VISIBLE);
-            mProgressBar.setVisibility(View.GONE);
+            listAdapter.update(liquors);
+            listView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
         DrinksProvider.getAllLiquors(this);
     }
@@ -166,7 +166,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        if (mLoadingError) {
+        if (loadingError) {
             ((MainActivity) getActivity()).setRefreshActionVisible(true);
         }
     }
@@ -185,8 +185,8 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if (mListAdapter.getCount() > 0) {
-            outState.putParcelableArrayList(STATE_LIST, mListAdapter.getLiquors());
+        if (listAdapter.getCount() > 0) {
+            outState.putParcelableArrayList(STATE_LIST, listAdapter.getLiquors());
         }
     }
 }

@@ -51,45 +51,45 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
     private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
 
-    private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
+    private static final TimeInterpolator decelerator = new DecelerateInterpolator();
 
-    private Toolbar mToolbar;
+    private Toolbar toolbar;
 
     @InjectView(R.id.image)
-    ImageView mImageView;
+    ImageView imageView;
     @InjectView(R.id.image_blurred)
-    ImageView mBlurredImageView;
+    ImageView blurredImageView;
     @InjectView(R.id.history)
-    TextView mHistoryView;
+    TextView historyView;
     @InjectView(R.id.scroll)
-    ObservableScrollView mScrollView;
+    ObservableScrollView scrollView;
     @InjectView(R.id.ingredients)
-    TextView mIngredientsView;
+    TextView ingredientsView;
     @InjectView(R.id.instructions)
-    TextView mInstructionsView;
+    TextView instructionsView;
     @InjectView(R.id.wikipedia)
-    Button mWikipediaButton;
+    Button wikipediaButton;
     @InjectView(R.id.colorbox)
-    View mColorBox;
+    View colorBox;
     @InjectView(R.id.color1)
-    View mColorView1;
+    View colorView1;
     @InjectView(R.id.color2)
-    View mColorView2;
+    View colorView2;
     @InjectView(R.id.color3)
-    View mColorView3;
+    View colorView3;
     @InjectView(R.id.color4)
-    View mColorView4;
+    View colorView4;
 
-    private int mImageViewHeight;
+    private int imageViewHeight;
 
-    private Transformation mTransformation;
+    private Transformation transformation;
 
-    private Drink mDrink;
+    private Drink drink;
 
-    private Target mTarget = new Target() {
+    private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            mImageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);
             new QuantizeBitmapTask().execute(bitmap);
         }
 
@@ -114,39 +114,39 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
-        mToolbar.getBackground().setAlpha(0);
+        toolbar = ((ToolbarActivity) getActivity()).getToolbar();
+        toolbar.getBackground().setAlpha(0);
 
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
         ButterKnife.inject(this, root);
 
         setHasOptionsMenu(true);
 
-        mDrink = getArguments().getParcelable(ARG_DRINK);
+        drink = getArguments().getParcelable(ARG_DRINK);
 
-        getActivity().setTitle(mDrink.name);
-        Picasso.with(getActivity()).load(mDrink.imageUrl).into(mTarget);
+        getActivity().setTitle(drink.name);
+        Picasso.with(getActivity()).load(drink.imageUrl).into(target);
 
-        mTransformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
-        Picasso.with(getActivity()).load(mDrink.imageUrl).transform(mTransformation).into(mBlurredImageView);
+        transformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
+        Picasso.with(getActivity()).load(drink.imageUrl).transform(transformation).into(blurredImageView);
 
-        mImageViewHeight = (int) getResources().getDimension(R.dimen.drink_detail_recipe_margin);
-        mScrollView.setScrollViewListener(this);
+        imageViewHeight = (int) getResources().getDimension(R.dimen.drink_detail_recipe_margin);
+        scrollView.setScrollViewListener(this);
 
         if (savedInstanceState != null) {
-            mColorBox.setAlpha(1);
+            colorBox.setAlpha(1);
             Drink drink = savedInstanceState.getParcelable(STATE_DRINK);
             if (drink != null) {
                 refreshUI(drink);
             }
         } else {
-            ViewTreeObserver observer = mImageView.getViewTreeObserver();
+            ViewTreeObserver observer = imageView.getViewTreeObserver();
             if (observer != null) {
                 observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
                     @Override
                     public boolean onPreDraw() {
-                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        imageView.getViewTreeObserver().removeOnPreDrawListener(this);
                         runEnterAnimation();
                         return true;
                     }
@@ -165,10 +165,10 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     @SuppressWarnings("unused")
     @OnClick(R.id.wikipedia)
     void goToWikipedia() {
-        if (mDrink == null) {
+        if (drink == null) {
             return;
         }
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mDrink.wikipedia)));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(drink.wikipedia)));
     }
 
     private void runEnterAnimation() {
@@ -176,23 +176,23 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         Runnable refreshRunnable = new Runnable() {
             @Override
             public void run() {
-                refreshUI(mDrink);
+                refreshUI(drink);
             }
         };
-        mImageView.setTranslationY(-mImageView.getHeight());
+        imageView.setTranslationY(-imageView.getHeight());
 
-        ViewPropertyAnimator animator = mImageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+        ViewPropertyAnimator animator = imageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
                 setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
                 translationY(0).
-                setInterpolator(sDecelerator);
+                setInterpolator(decelerator);
 
         Runnable animateColorBoxRunnable = new Runnable() {
             @Override
             public void run() {
-                mColorBox.animate()
+                colorBox.animate()
                         .alpha(1)
                         .setDuration(ANIM_COLORBOX_ENTER_DURATION)
-                        .setInterpolator(sDecelerator);
+                        .setInterpolator(decelerator);
             }
         };
 
@@ -205,64 +205,64 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if (mDrink != null) {
-            outState.putParcelable(STATE_DRINK, mDrink);
+        if (drink != null) {
+            outState.putParcelable(STATE_DRINK, drink);
         }
     }
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        float alpha = 2 * (float) y / (float) mImageViewHeight;
+        float alpha = 2 * (float) y / (float) imageViewHeight;
         if (alpha > 1) {
             alpha = 1;
         } else if (alpha < 0) {
             alpha = 0;
         }
-        mBlurredImageView.setAlpha(alpha);
+        blurredImageView.setAlpha(alpha);
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mImageView.getLayoutParams();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
         params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
-        mImageView.setLayoutParams(params);
+        imageView.setLayoutParams(params);
 
-        params = (RelativeLayout.LayoutParams) mBlurredImageView.getLayoutParams();
+        params = (RelativeLayout.LayoutParams) blurredImageView.getLayoutParams();
         params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
-        mBlurredImageView.setLayoutParams(params);
+        blurredImageView.setLayoutParams(params);
 
-        mToolbar.getBackground().setAlpha((int) (alpha * 255));
+        toolbar.getBackground().setAlpha((int) (alpha * 255));
     }
 
     public void refreshUI(Drink drink) {
-        mDrink = drink;
+        this.drink = drink;
 
         if (getActivity() == null) {
             return;
         }
 
-        mHistoryView.setText(drink.history);
+        historyView.setText(drink.history);
 
-        mIngredientsView.setText(Html.fromHtml(HtmlUtils.getIngredientsHtml(mDrink)));
+        ingredientsView.setText(Html.fromHtml(HtmlUtils.getIngredientsHtml(this.drink)));
 
-        mInstructionsView.setText(drink.instructions);
-        mWikipediaButton.setText(String.format(getString(R.string.drink_detail_wikipedia), drink.name));
+        instructionsView.setText(drink.instructions);
+        wikipediaButton.setText(String.format(getString(R.string.drink_detail_wikipedia), drink.name));
 
-        ViewTreeObserver observer = mScrollView.getViewTreeObserver();
+        ViewTreeObserver observer = scrollView.getViewTreeObserver();
         if (observer != null) {
             observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
                 @Override
                 public boolean onPreDraw() {
-                    mScrollView.getViewTreeObserver().removeOnPreDrawListener(this);
-                    mScrollView.setAlpha(0);
-                    mScrollView.animate().setDuration(ANIM_TEXT_ENTER_DURATION).
+                    scrollView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    scrollView.setAlpha(0);
+                    scrollView.animate().setDuration(ANIM_TEXT_ENTER_DURATION).
                             alpha(1).
-                            setInterpolator(sDecelerator);
-                    // Fake a onScrollChangedCall to apply changes to mBlurredImageView and mImageView.
+                            setInterpolator(decelerator);
+                    // Fake a onScrollChangedCall to apply changes to blurredImageView and imageView.
                     fakeOnScrollChanged();
                     return true;
                 }
             });
         }
-        mScrollView.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -274,8 +274,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
             case R.id.menu_item_share:
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, mDrink.name);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(HtmlUtils.getIngredientsHtml(mDrink)));
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.name);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(HtmlUtils.getIngredientsHtml(drink)));
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
                 return true;
@@ -285,8 +285,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     }
 
     private void fakeOnScrollChanged() {
-        onScrollChanged(mScrollView, mScrollView.getScrollX(),
-                mScrollView.getScrollY(), mScrollView.getScrollX(), mScrollView.getScrollY());
+        onScrollChanged(scrollView, scrollView.getScrollX(),
+                scrollView.getScrollY(), scrollView.getScrollX(), scrollView.getScrollY());
     }
 
     private class QuantizeBitmapTask extends AsyncTask<Bitmap, Void, ArrayList<Integer>> {
@@ -308,7 +308,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
         @Override
         protected void onPostExecute(ArrayList<Integer> colors) {
-            View[] colorViews = new View[]{mColorView1, mColorView2, mColorView3, mColorView4};
+            View[] colorViews = new View[]{colorView1, colorView2, colorView3, colorView4};
             for (int i = 0; i < colors.size() && i < 4; i++) {
                 colorViews[i].setBackgroundColor(colors.get(i));
             }

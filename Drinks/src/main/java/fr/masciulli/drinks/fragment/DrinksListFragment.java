@@ -46,15 +46,15 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     private static final String PREF_DRINKS_JSON = "drinks_json";
 
     @InjectView(R.id.list)
-    ListView mListView;
+    ListView listView;
     @InjectView(R.id.progressbar)
-    ProgressBar mProgressBar;
+    ProgressBar progressBar;
     @InjectView(android.R.id.empty)
-    View mEmptyView;
+    View emptyView;
 
-    private DrinksListAdapter mListAdapter;
+    private DrinksListAdapter listAdapter;
 
-    private boolean mLoadingError = false;
+    private boolean loadingError = false;
 
     public static DrinksListFragment newInstance() {
         return new DrinksListFragment();
@@ -66,15 +66,15 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         final View root = inflater.inflate(R.layout.fragment_drinks_list, container, false);
         ButterKnife.inject(this, root);
 
-        mListView.setEmptyView(mEmptyView);
-        mListAdapter = new DrinksListAdapter(getActivity());
-        mListView.setAdapter(mListAdapter);
-        mListView.setOnScrollListener(new DrinksOnScrollListener(mListView));
+        listView.setEmptyView(emptyView);
+        listAdapter = new DrinksListAdapter(getActivity());
+        listView.setAdapter(listAdapter);
+        listView.setOnScrollListener(new DrinksOnScrollListener(listView));
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
                 List<Drink> savedDrinks = savedInstanceState.getParcelableArrayList(STATE_LIST);
-                mListAdapter.update(savedDrinks);
+                listAdapter.update(savedDrinks);
             } else {
                 refresh();
             }
@@ -88,7 +88,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     @SuppressWarnings("unused")
     @OnItemClick(R.id.list)
     public void openDrinkDetail(View view, int position) {
-        Drink drink = mListAdapter.getItem(position);
+        Drink drink = listAdapter.getItem(position);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
         intent.putExtra(DrinkDetailActivity.ARG_DRINK, drink);
@@ -97,17 +97,17 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
     @Override
     public void success(List<Drink> drinks, Response response) {
-        mLoadingError = false;
+        loadingError = false;
 
         if (getActivity() == null) {
             return;
         }
 
 
-        mListAdapter.update(drinks);
-        mListView.setVisibility(View.VISIBLE);
-        mEmptyView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
+        listAdapter.update(drinks);
+        listView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
 
         Gson gson = new Gson();
         String json = gson.toJson(drinks);
@@ -118,14 +118,14 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
     @Override
     public void failure(RetrofitError retrofitError) {
-        mLoadingError = true;
+        loadingError = true;
 
         if (getActivity() == null) {
             return;
         }
 
-        mProgressBar.setVisibility(View.GONE);
-        mEmptyView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).setRefreshActionVisible(true);
 
         if (retrofitError.isNetworkError()) {
@@ -137,11 +137,11 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
     @Override
     public void onScroll(int position, float positionOffset, int positionOffsetPixels) {
-        int first = mListView.getFirstVisiblePosition();
-        int last = mListView.getLastVisiblePosition();
+        int first = listView.getFirstVisiblePosition();
+        int last = listView.getLastVisiblePosition();
 
         for (int i = 0; i <= last - first; i++) {
-            View itemRoot = mListView.getChildAt(i);
+            View itemRoot = listView.getChildAt(i);
             if (itemRoot == null) {
                 continue;
             }
@@ -159,18 +159,18 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     }
 
     private void refresh() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mEmptyView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (preferences.contains(PREF_DRINKS_JSON)) {
             Gson gson = new Gson();
             //TODO async
             List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>(){}.getType());
-            mListAdapter.update(drinks);
-            mListView.setVisibility(View.VISIBLE);
-            mEmptyView.setVisibility(View.VISIBLE);
-            mProgressBar.setVisibility(View.GONE);
+            listAdapter.update(drinks);
+            listView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
         DrinksProvider.getAllDrinks(this);
     }
@@ -200,7 +200,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
             }
         });
 
-        if (mLoadingError) {
+        if (loadingError) {
             ((MainActivity) getActivity()).setRefreshActionVisible(true);
         }
 
@@ -216,8 +216,8 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
     @Override
     public boolean onQueryTextChange(String s) {
-        if (mListView != null) {
-            mListAdapter.getFilter().filter(s);
+        if (listView != null) {
+            listAdapter.getFilter().filter(s);
         }
         return true;
     }
@@ -226,8 +226,8 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if (mListAdapter.getCount() > 0) {
-            outState.putParcelableArrayList(STATE_LIST, mListAdapter.getDrinks());
+        if (listAdapter.getCount() > 0) {
+            outState.putParcelableArrayList(STATE_LIST, listAdapter.getDrinks());
         }
     }
 

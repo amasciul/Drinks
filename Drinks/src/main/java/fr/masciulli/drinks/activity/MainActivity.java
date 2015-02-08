@@ -24,8 +24,8 @@ import java.util.Locale;
 
 public class MainActivity extends ToolbarActivity {
 
-    private DrinksListFragment mDrinksFragment;
-    private LiquorsListFragment mLiquorsFragment;
+    private DrinksListFragment drinksListFragment;
+    private LiquorsListFragment liquorsListFragment;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -35,53 +35,53 @@ public class MainActivity extends ToolbarActivity {
      * intensive, it may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    SectionsPagerAdapter sectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     @Optional
     @InjectView(R.id.pager)
-    ViewPager mViewPager;
+    ViewPager viewPager;
 
     @Optional
     @InjectView(R.id.tabs)
-    SlidingTabLayout mSlidingTabLayout;
+    SlidingTabLayout slidingTabLayout;
 
-    private MenuItem mRetryAction;
-    private boolean mDualPane;
+    private MenuItem retryAction;
+    private boolean dualPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.inject(this);
 
-        mDualPane = getResources().getBoolean(R.bool.dualpane);
+        dualPane = getResources().getBoolean(R.bool.dualpane);
 
-        if (mDualPane && savedInstanceState != null) {
-            mDrinksFragment = (DrinksListFragment) getFragmentManager().findFragmentById(R.id.drinks_list_container);
-            mLiquorsFragment = (LiquorsListFragment) getFragmentManager().findFragmentById(R.id.liquors_list_container);
+        if (dualPane && savedInstanceState != null) {
+            drinksListFragment = (DrinksListFragment) getFragmentManager().findFragmentById(R.id.drinks_list_container);
+            liquorsListFragment = (LiquorsListFragment) getFragmentManager().findFragmentById(R.id.liquors_list_container);
         } else {
-            mDrinksFragment = DrinksListFragment.newInstance();
-            mLiquorsFragment = LiquorsListFragment.newInstance();
+            drinksListFragment = DrinksListFragment.newInstance();
+            liquorsListFragment = LiquorsListFragment.newInstance();
         }
 
-        if (mDualPane) {
+        if (dualPane) {
             if (savedInstanceState == null) {
                 getFragmentManager().beginTransaction().
-                        add(R.id.drinks_list_container, mDrinksFragment).
-                        add(R.id.liquors_list_container, mLiquorsFragment).
+                        add(R.id.drinks_list_container, drinksListFragment).
+                        add(R.id.liquors_list_container, liquorsListFragment).
                         commit();
             }
         } else {
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-            mViewPager.setAdapter(mSectionsPagerAdapter);
+            sectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+            viewPager.setAdapter(sectionsPagerAdapter);
 
-            mSlidingTabLayout.setOnPageChangeListener(mSectionsPagerAdapter);
-            mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
-            mSlidingTabLayout.setDividerColors(getResources().getColor(android.R.color.transparent));
-            mSlidingTabLayout.setCustomTabViewTextColor(getResources().getColor(R.color.white));
-            mSlidingTabLayout.setViewPager(mViewPager);
+            slidingTabLayout.setOnPageChangeListener(sectionsPagerAdapter);
+            slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
+            slidingTabLayout.setDividerColors(getResources().getColor(android.R.color.transparent));
+            slidingTabLayout.setCustomTabViewTextColor(getResources().getColor(R.color.white));
+            slidingTabLayout.setViewPager(viewPager);
         }
     }
 
@@ -103,7 +103,7 @@ public class MainActivity extends ToolbarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        mRetryAction = menu.findItem(R.id.retry);
+        retryAction = menu.findItem(R.id.retry);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -125,9 +125,9 @@ public class MainActivity extends ToolbarActivity {
             // getItem is called to instantiate the fragment for the given page.
 
             if (position == mDrinksPosition) {
-                return mDrinksFragment;
+                return drinksListFragment;
             } else if (position == mLiquorsPosition) {
-                return mLiquorsFragment;
+                return liquorsListFragment;
             }
 
             return null;
@@ -137,9 +137,9 @@ public class MainActivity extends ToolbarActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             Object fragment = super.instantiateItem(container, position);
             if (position == mDrinksPosition) {
-                mDrinksFragment = (DrinksListFragment) fragment;
+                drinksListFragment = (DrinksListFragment) fragment;
             } else if (position == mLiquorsPosition) {
-                mLiquorsFragment = (LiquorsListFragment) fragment;
+                liquorsListFragment = (LiquorsListFragment) fragment;
             }
             return fragment;
         }
@@ -147,9 +147,9 @@ public class MainActivity extends ToolbarActivity {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             if (position == mDrinksPosition) {
-                mDrinksFragment = null;
+                drinksListFragment = null;
             } else if (position == mLiquorsPosition) {
-                mLiquorsFragment = null;
+                liquorsListFragment = null;
             }
             super.destroyItem(container, position, object);
         }
@@ -174,11 +174,11 @@ public class MainActivity extends ToolbarActivity {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if (mDrinksFragment != null) {
-                mDrinksFragment.onScroll(position, positionOffset, positionOffsetPixels);
+            if (drinksListFragment != null) {
+                drinksListFragment.onScroll(position, positionOffset, positionOffsetPixels);
             }
-            if (mLiquorsFragment != null) {
-                mLiquorsFragment.onScroll(position, positionOffset, positionOffsetPixels);
+            if (liquorsListFragment != null) {
+                liquorsListFragment.onScroll(position, positionOffset, positionOffsetPixels);
             }
         }
 
@@ -219,8 +219,8 @@ public class MainActivity extends ToolbarActivity {
     }
 
     public void setRefreshActionVisible(boolean visibility) {
-        if (mRetryAction != null) {
-            mRetryAction.setVisible(visibility);
+        if (retryAction != null) {
+            retryAction.setVisible(visibility);
         }
     }
 

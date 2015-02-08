@@ -6,17 +6,17 @@ import com.squareup.picasso.Transformation;
 import fr.masciulli.drinks.util.Blur;
 
 public class BlurTransformation implements Transformation {
-    private Context mContext;
-    private int mRadius;
+    private Context context;
+    private int radius;
 
     public BlurTransformation(Context context, int radius) {
-        mContext = context;
-        mRadius = radius;
+        this.context = context;
+        this.radius = radius;
     }
 
     @Override
     public Bitmap transform(Bitmap bitmap) {
-        Bitmap blurred = Blur.fastblur(mContext, bitmap, mRadius);
+        Bitmap blurred = Blur.fastblur(context, bitmap, radius);
         bitmap.recycle();
         return blurred;
     }
