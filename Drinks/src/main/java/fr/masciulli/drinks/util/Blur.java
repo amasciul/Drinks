@@ -15,7 +15,7 @@ public class Blur {
     private static final String TAG = "Blur";
 
     @SuppressLint("NewApi")
-    public static Bitmap fastblur(Context context, Bitmap sentBitmap, int radius) {
+    public static Bitmap blur(Context context, Bitmap sentBitmap, int radius) {
 
         if (VERSION.SDK_INT > 16) {
             Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
