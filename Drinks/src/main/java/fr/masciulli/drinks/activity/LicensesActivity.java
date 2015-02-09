@@ -3,19 +3,17 @@ package fr.masciulli.drinks.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import fr.masciulli.drinks.R;
 
 public class LicensesActivity extends ToolbarActivity {
 
-    @InjectView(R.id.webview)
-    WebView webView;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.inject(this);
+
+        webView = (WebView) findViewById(R.id.webview);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

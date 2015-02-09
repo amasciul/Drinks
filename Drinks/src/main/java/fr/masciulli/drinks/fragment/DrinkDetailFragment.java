@@ -23,9 +23,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
@@ -54,31 +51,18 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private static final TimeInterpolator decelerator = new DecelerateInterpolator();
 
     private Toolbar toolbar;
-
-    @InjectView(R.id.image)
-    ImageView imageView;
-    @InjectView(R.id.image_blurred)
-    ImageView blurredImageView;
-    @InjectView(R.id.history)
-    TextView historyView;
-    @InjectView(R.id.scroll)
-    ObservableScrollView scrollView;
-    @InjectView(R.id.ingredients)
-    TextView ingredientsView;
-    @InjectView(R.id.instructions)
-    TextView instructionsView;
-    @InjectView(R.id.wikipedia)
-    Button wikipediaButton;
-    @InjectView(R.id.colorbox)
-    View colorBox;
-    @InjectView(R.id.color1)
-    View colorView1;
-    @InjectView(R.id.color2)
-    View colorView2;
-    @InjectView(R.id.color3)
-    View colorView3;
-    @InjectView(R.id.color4)
-    View colorView4;
+    private ImageView imageView;
+    private ImageView blurredImageView;
+    private TextView historyView;
+    private ObservableScrollView scrollView;
+    private TextView ingredientsView;
+    private TextView instructionsView;
+    private Button wikipediaButton;
+    private View colorBox;
+    private View colorView1;
+    private View colorView2;
+    private View colorView3;
+    private View colorView4;
 
     private int imageViewHeight;
 
@@ -118,7 +102,26 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         toolbar.getBackground().setAlpha(0);
 
         View root = inflater.inflate(R.layout.fragment_drink_detail, container, false);
-        ButterKnife.inject(this, root);
+
+        imageView = (ImageView) root.findViewById(R.id.image);
+        blurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
+        historyView = (TextView) root.findViewById(R.id.history);
+        scrollView = (ObservableScrollView) root.findViewById(R.id.scroll);
+        ingredientsView = (TextView) root.findViewById(R.id.ingredients);
+        instructionsView = (TextView) root.findViewById(R.id.instructions);
+        wikipediaButton = (Button) root.findViewById(R.id.wikipedia);
+        colorBox = root.findViewById(R.id.colorbox);
+        colorView1 = root.findViewById(R.id.color1);
+        colorView2 = root.findViewById(R.id.color2);
+        colorView3 = root.findViewById(R.id.color3);
+        colorView4 = root.findViewById(R.id.color4);
+
+        wikipediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToWikipedia();
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -162,9 +165,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         inflater.inflate(R.menu.drink_detail, menu);
     }
 
-    @SuppressWarnings("unused")
-    @OnClick(R.id.wikipedia)
-    void goToWikipedia() {
+    private void goToWikipedia() {
         if (drink == null) {
             return;
         }

@@ -11,9 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
@@ -40,12 +37,7 @@ public class MainActivity extends ToolbarActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    @Optional
-    @InjectView(R.id.pager)
     ViewPager viewPager;
-
-    @Optional
-    @InjectView(R.id.tabs)
     SlidingTabLayout slidingTabLayout;
 
     private MenuItem retryAction;
@@ -54,7 +46,9 @@ public class MainActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.inject(this);
+
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.tabs);
 
         dualPane = getResources().getBoolean(R.bool.dualpane);
 

@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,9 +19,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnItemClick;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.LiquorDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
@@ -39,12 +37,9 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     private static final String STATE_LIST = "liquor";
     private static final String PREF_LIQUORS_JSON = "liquors_json";
 
-    @InjectView(R.id.list)
-    ListView listView;
-    @InjectView(android.R.id.empty)
-    View emptyView;
-    @InjectView(R.id.progressbar)
-    ProgressBar progressBar;
+    private ListView listView;
+    private View emptyView;
+    private ProgressBar progressBar;
 
     private LiquorListAdapter listAdapter;
 
@@ -58,12 +53,22 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         final View root = inflater.inflate(R.layout.fragment_liquors_list, container, false);
-        ButterKnife.inject(this, root);
+
+        listView = (ListView) root.findViewById(R.id.list);
+        emptyView = root.findViewById(android.R.id.empty);
+        progressBar = (ProgressBar) root.findViewById(R.id.progressbar);;
 
         listView.setEmptyView(emptyView);
         listAdapter = new LiquorListAdapter(getActivity());
         listView.setOnScrollListener(new DrinksOnScrollListener(listView, DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
         listView.setAdapter(listAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                openLiquorDetail(position);
+            }
+        });
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
@@ -79,9 +84,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         return root;
     }
 
-    @SuppressWarnings("unused")
-    @OnItemClick(R.id.list)
-    public void openLiquorDetail(View view, int position) {
+    private void openLiquorDetail(int position) {
         Liquor liquor = listAdapter.getItem(position);
         Intent intent = new Intent(getActivity(), LiquorDetailActivity.class);
         intent.putExtra(LiquorDetailActivity.ARG_LIQUOR, liquor);
@@ -134,7 +137,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
                 continue;
             }
 
-            TextView nameView = ButterKnife.findById(itemRoot, R.id.name);
+            TextView nameView = (TextView) itemRoot.findViewById(R.id.name);
 
             int textWidth = nameView.getWidth();
 

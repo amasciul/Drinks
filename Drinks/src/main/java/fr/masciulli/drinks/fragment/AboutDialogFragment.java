@@ -17,9 +17,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import fr.masciulli.drinks.BuildConfig;
 import fr.masciulli.drinks.R;
 
@@ -28,10 +25,8 @@ public class AboutDialogFragment extends DialogFragment {
     private static final long ANIM_REVEAL_DURATION = 300;
     private final Interpolator decelerateInterpolator = new DecelerateInterpolator();
 
-    @InjectView(R.id.version_name)
-    TextView versionNameView;
-    @InjectView(R.id.ok)
-    Button okButton;
+    private TextView versionNameView;
+    private Button okButton;
 
     public static AboutDialogFragment newInstance() {
         return new AboutDialogFragment();
@@ -43,7 +38,16 @@ public class AboutDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View root = inflater.inflate(R.layout.dialog_about, null);
-        ButterKnife.inject(this, root);
+
+        versionNameView = (TextView) root.findViewById(R.id.version_name);
+        okButton = (Button) root.findViewById(R.id.ok);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismissDialog();
+            }
+        });
 
         try {
             PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
@@ -112,9 +116,7 @@ public class AboutDialogFragment extends DialogFragment {
         }
     }
 
-    @SuppressWarnings("unused")
-    @OnClick(R.id.ok)
-    void dismissDialog() {
+    private void dismissDialog() {
         runExitAnimation();
     }
 }

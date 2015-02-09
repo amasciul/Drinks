@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import butterknife.ButterKnife;
 import fr.masciulli.drinks.R;
 
 public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
@@ -48,7 +47,7 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
         if (firstVisibleItem < previousFirstVisibleItem) {
             // first visible item index has decreased : we are scrolling up
             View root = listView.getChildAt(0);
-            View nameView = ButterKnife.findById(root, R.id.name);
+            View nameView = root.findViewById(R.id.name);
             //if (nameView == null) return;
             if (nameView != null) {
                 if (nameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
@@ -63,7 +62,7 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
         if (lastVisibleItem > previousLastVisibleItem) {
             // first visible item index has decreased : we are scrolling down
             View root = listView.getChildAt(visibleItemCount - 1);
-            View nameView = ButterKnife.findById(root, R.id.name);
+            View nameView = root.findViewById(R.id.name);
             if (nameView != null) {
                 if (nameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
                     nameView.setTranslationX(nameView.getWidth());

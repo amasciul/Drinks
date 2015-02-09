@@ -22,15 +22,12 @@ import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
-import butterknife.OnItemClick;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -72,28 +69,17 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     //TODO move to specific class
     private static final String PREF_DRINKS_JSON = "drinks_json";
 
-    @InjectView(R.id.image)
-    ImageView imageView;
-    @InjectView(R.id.image_blurred)
-    ImageView blurredImageView;
-    @InjectView(R.id.history)
-    TextView historyView;
-    @InjectView(R.id.progressbar)
-    ProgressBar progressBar;
-    @InjectView(R.id.wikipedia)
-    Button wikipediaButton;
-    @InjectView(R.id.drinks_title)
-    TextView drinksTitleView;
-    @InjectView(R.id.colorbox)
-    View colorBox;
-    @InjectView(R.id.color1)
-    View colorView1;
-    @InjectView(R.id.color2)
-    View colorView2;
-    @InjectView(R.id.color3)
-    View colorView3;
-    @InjectView(R.id.color4)
-    View colorView4;
+    private ImageView imageView;
+    private ImageView blurredImageView;
+    private TextView historyView;
+    private ProgressBar progressBar;
+    private Button wikipediaButton;
+    private TextView drinksTitleView;
+    private View colorBox;
+    private View colorView1;
+    private View colorView2;
+    private View colorView3;
+    private View colorView4;
 
     private ListView listView;
     private View headerView;
@@ -213,14 +199,30 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         headerView = inflater.inflate(R.layout.header_liquor_detail, listView, false);
 
-        listView = ButterKnife.findById(root, R.id.list);
-        listView.addHeaderView(headerView);
+        listView = (ListView) root.findViewById(R.id.list);
+        imageView = (ImageView) root.findViewById(R.id.image);
+        blurredImageView = (ImageView) root.findViewById(R.id.image_blurred);
+        progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
-        //View injection only done here because header has to be added before
-        ButterKnife.inject(this, root);
+        historyView = (TextView) headerView.findViewById(R.id.history);
+        wikipediaButton = (Button) headerView.findViewById(R.id.wikipedia);
+        drinksTitleView = (TextView) headerView.findViewById(R.id.drinks_title);
+        colorBox = headerView.findViewById(R.id.colorbox);
+        colorView1 = headerView.findViewById(R.id.color1);
+        colorView2 = headerView.findViewById(R.id.color2);
+        colorView3 = headerView.findViewById(R.id.color3);
+        colorView4 = headerView.findViewById(R.id.color4);
+
+        listView.addHeaderView(headerView);
 
         drinkAdapter = new LiquorDetailAdapter(getActivity());
         listView.setAdapter(drinkAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                openRelatedDrinkDetail(position);
+            }
+        });
 
         liquor = getArguments().getParcelable(ARG_LIQUOR);
 
@@ -229,6 +231,13 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         Transformation transformation = new BlurTransformation(getActivity(), getResources().getInteger(R.integer.blur_radius));
         Picasso.with(getActivity()).load(liquor.imageUrl).transform(transformation).into(blurredImageView);
+
+        wikipediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToWikipedia();
+            }
+        });
 
         imageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
         listView.setOnScrollListener(this);
@@ -265,18 +274,14 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         return root;
     }
 
-    @SuppressWarnings("unused")
-    @OnClick(R.id.wikipedia)
-    void goToWikipedia() {
+    private void goToWikipedia() {
         if (liquor == null) {
             return;
         }
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(liquor.wikipedia)));
     }
 
-    @SuppressWarnings("unused")
-    @OnItemClick(R.id.list)
-    void openRelatedDrinkDetail(int position, View view) {
+    private void openRelatedDrinkDetail(int position) {
         Drink drink = drinkAdapter.getItem(position - HEADERVIEWS_COUNT);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);

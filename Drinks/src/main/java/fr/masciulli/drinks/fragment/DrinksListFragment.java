@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,9 +23,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnItemClick;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
@@ -45,11 +43,8 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     private static final String STATE_LIST = "drinks_list";
     private static final String PREF_DRINKS_JSON = "drinks_json";
 
-    @InjectView(R.id.list)
     ListView listView;
-    @InjectView(R.id.progressbar)
     ProgressBar progressBar;
-    @InjectView(android.R.id.empty)
     View emptyView;
 
     private DrinksListAdapter listAdapter;
@@ -64,12 +59,22 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         final View root = inflater.inflate(R.layout.fragment_drinks_list, container, false);
-        ButterKnife.inject(this, root);
+
+        listView = (ListView) root.findViewById(R.id.list);
+        progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
+        emptyView = root.findViewById(android.R.id.empty);
 
         listView.setEmptyView(emptyView);
         listAdapter = new DrinksListAdapter(getActivity());
         listView.setAdapter(listAdapter);
         listView.setOnScrollListener(new DrinksOnScrollListener(listView));
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                openDrinkDetail(position);
+            }
+        });
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
@@ -85,9 +90,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         return root;
     }
 
-    @SuppressWarnings("unused")
-    @OnItemClick(R.id.list)
-    public void openDrinkDetail(View view, int position) {
+    private void openDrinkDetail(int position) {
         Drink drink = listAdapter.getItem(position);
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
@@ -146,7 +149,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
                 continue;
             }
 
-            TextView nameView = ButterKnife.findById(itemRoot, R.id.name);
+            TextView nameView = (TextView) itemRoot.findViewById(R.id.name);
 
             // TODO get screenWidth somewhere else (always the same)
             int screenWidth = ((ViewGroup) nameView.getParent()).getWidth();
