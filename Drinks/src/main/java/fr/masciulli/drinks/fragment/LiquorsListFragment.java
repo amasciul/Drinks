@@ -56,9 +56,8 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
 
         listView = (ListView) root.findViewById(R.id.list);
         emptyView = root.findViewById(android.R.id.empty);
-        progressBar = (ProgressBar) root.findViewById(R.id.progressbar);;
+        progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
-        listView.setEmptyView(emptyView);
         listAdapter = new LiquorListAdapter(getActivity());
         listView.setOnScrollListener(new DrinksOnScrollListener(listView, DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
         listView.setAdapter(listAdapter);
@@ -73,7 +72,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
                 List<Liquor> savedLiquors = savedInstanceState.getParcelableArrayList(STATE_LIST);
-                listAdapter.update(savedLiquors);
+                updateList(savedLiquors);
             } else {
                 refresh();
             }
@@ -82,6 +81,17 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         }
 
         return root;
+    }
+
+    private void updateList(List<Liquor> liquors) {
+        listAdapter.update(liquors);
+        if (listAdapter.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void openLiquorDetail(int position) {
@@ -100,8 +110,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         }
 
         progressBar.setVisibility(View.GONE);
-        emptyView.setVisibility(View.VISIBLE);
-        listAdapter.update(liquors);
+        updateList(liquors);
 
         Gson gson = new Gson();
         String json = gson.toJson(liquors);
@@ -147,8 +156,8 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     }
 
     private void refresh() {
-        progressBar.setVisibility(View.GONE);
-        emptyView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
         ((MainActivity) getActivity()).setRefreshActionVisible(false);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -157,9 +166,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
             //TODO async
             List<Liquor> liquors = gson.fromJson(preferences.getString(PREF_LIQUORS_JSON, "null"), new TypeToken<List<Liquor>>() {
             }.getType());
-            listAdapter.update(liquors);
-            listView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.VISIBLE);
+            updateList(liquors);
             progressBar.setVisibility(View.GONE);
         }
         DrinksProvider.getAllLiquors(this);
