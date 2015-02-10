@@ -64,7 +64,6 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
         emptyView = root.findViewById(android.R.id.empty);
 
-        listView.setEmptyView(emptyView);
         listAdapter = new DrinksListAdapter(getActivity());
         listView.setAdapter(listAdapter);
         listView.setOnScrollListener(new DrinksOnScrollListener(listView));
@@ -79,7 +78,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
                 List<Drink> savedDrinks = savedInstanceState.getParcelableArrayList(STATE_LIST);
-                listAdapter.update(savedDrinks);
+                updateList(savedDrinks);
             } else {
                 refresh();
             }
@@ -88,6 +87,17 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         }
 
         return root;
+    }
+
+    private void updateList(List<Drink> drinks) {
+        listAdapter.update(drinks);
+        if (listAdapter.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void openDrinkDetail(int position) {
@@ -107,9 +117,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         }
 
 
-        listAdapter.update(drinks);
-        listView.setVisibility(View.VISIBLE);
-        emptyView.setVisibility(View.VISIBLE);
+        updateList(drinks);
         progressBar.setVisibility(View.GONE);
 
         Gson gson = new Gson();
@@ -170,9 +178,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
             Gson gson = new Gson();
             //TODO async
             List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>(){}.getType());
-            listAdapter.update(drinks);
-            listView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.VISIBLE);
+            updateList(drinks);
             progressBar.setVisibility(View.GONE);
         }
         DrinksProvider.getAllDrinks(this);

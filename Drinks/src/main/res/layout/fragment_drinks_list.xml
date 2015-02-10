@@ -11,11 +11,15 @@
         android:id="@+id/progressbar"
         android:visibility="gone" />
 
-    <ViewStub
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/empty"
+        android:visibility="gone"
+        android:text="@string/drinks_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@android:id/empty"
-        android:layout="@layout/empty_view_drinks_list" />
+        android:gravity="center"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif-light" />
 
     <ListView
         android:layout_width="match_parent"
