@@ -5,14 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,7 +25,6 @@ import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.LiquorListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Liquor;
-import fr.masciulli.drinks.view.DrinksOnScrollListener;
 import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -37,11 +36,11 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     private static final String STATE_LIST = "liquor";
     private static final String PREF_LIQUORS_JSON = "liquors_json";
 
-    private ListView listView;
+    private RecyclerView recyclerView;
     private View emptyView;
     private ProgressBar progressBar;
 
-    private LiquorListAdapter listAdapter;
+    private LiquorListAdapter adapter;
 
     private boolean loadingError = false;
 
@@ -54,20 +53,21 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         setHasOptionsMenu(true);
         final View root = inflater.inflate(R.layout.fragment_liquors_list, container, false);
 
-        listView = (ListView) root.findViewById(R.id.list);
+        recyclerView = (RecyclerView) root.findViewById(R.id.list);
         emptyView = root.findViewById(android.R.id.empty);
         progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
-        listAdapter = new LiquorListAdapter(getActivity());
-        listView.setOnScrollListener(new DrinksOnScrollListener(listView, DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
-        listView.setAdapter(listAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter = new LiquorListAdapter(getActivity());
+        adapter.setOnItemClickListener(new LiquorListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public void onClick(View view, int position) {
                 openLiquorDetail(position);
             }
         });
+
+        recyclerView.setAdapter(adapter);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(STATE_LIST)) {
@@ -84,18 +84,18 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     }
 
     private void updateList(List<Liquor> liquors) {
-        listAdapter.update(liquors);
-        if (listAdapter.isEmpty()) {
+        adapter.update(liquors);
+        if (adapter.getItemCount() == 0) {
             emptyView.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         } else {
             emptyView.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
     }
 
     private void openLiquorDetail(int position) {
-        Liquor liquor = listAdapter.getItem(position);
+        Liquor liquor = adapter.getLiquors().get(position);
         Intent intent = new Intent(getActivity(), LiquorDetailActivity.class);
         intent.putExtra(LiquorDetailActivity.ARG_LIQUOR, liquor);
         startActivity(intent);
@@ -137,11 +137,13 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
             return;
         }
 
-        int first = listView.getFirstVisiblePosition();
-        int last = listView.getLastVisiblePosition();
+        LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+        int first = manager.findFirstVisibleItemPosition();
+        int last = manager.findLastVisibleItemPosition();
 
         for (int i = 0; i <= last - first; i++) {
-            View itemRoot = listView.getChildAt(i);
+            View itemRoot = recyclerView.getChildAt(i);
             if (itemRoot == null) {
                 continue;
             }
@@ -195,8 +197,8 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if (listAdapter.getCount() > 0) {
-            outState.putParcelableArrayList(STATE_LIST, listAdapter.getLiquors());
+        if (adapter.getItemCount() > 0) {
+            outState.putParcelableArrayList(STATE_LIST, adapter.getLiquors());
         }
     }
 }
