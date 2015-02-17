@@ -25,6 +25,7 @@ import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.LiquorListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.view.DrinksOnScrollListener;
 import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -58,6 +59,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setOnScrollListener(new DrinksOnScrollListener(DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
 
         adapter = new LiquorListAdapter(getActivity());
         adapter.setOnItemClickListener(new LiquorListAdapter.OnItemClickListener() {

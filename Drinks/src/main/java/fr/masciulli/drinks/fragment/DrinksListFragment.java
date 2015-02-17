@@ -66,7 +66,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
         listAdapter = new DrinksListAdapter(getActivity());
         listView.setAdapter(listAdapter);
-        listView.setOnScrollListener(new DrinksOnScrollListener(listView));
+        //TODO once recycler, set scroll listener
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

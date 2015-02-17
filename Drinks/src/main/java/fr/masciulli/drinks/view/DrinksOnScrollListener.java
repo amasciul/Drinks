@@ -1,19 +1,19 @@
 package fr.masciulli.drinks.view;
 
 import android.animation.TimeInterpolator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import fr.masciulli.drinks.R;
 
-public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
+public class DrinksOnScrollListener extends RecyclerView.OnScrollListener {
     private static final long DRINKNAME_ANIM_DURATION = 600;
 
     public static final int NAMEVIEW_POSITION_TOP = 0;
     public static final int NAMEVIEW_POSITION_BOTTOM = 1;
-
-    private final ListView listView;
 
     private int previousFirstVisibleItem = -1;
     private int previousLastVisibleItem = -1;
@@ -21,32 +21,33 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
 
     private int nameViewPosition = NAMEVIEW_POSITION_BOTTOM;
 
-    public DrinksOnScrollListener(ListView listView) {
-        this.listView = listView;
+    public DrinksOnScrollListener() {
     }
 
-    public DrinksOnScrollListener(ListView listView, int nameViewPosition) {
-        this.listView = listView;
+    public DrinksOnScrollListener(int nameViewPosition) {
         if (nameViewPosition == NAMEVIEW_POSITION_TOP) {
             this.nameViewPosition = nameViewPosition;
         }
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-    }
+    public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
 
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int totalItemCount = recyclerView.getAdapter().getItemCount();
+
         if (totalItemCount == 0) {
             return;
         }
 
-        int lastVisibleItem = firstVisibleItem + visibleItemCount - 1;
+        LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+        int firstVisibleItem = manager.findFirstVisibleItemPosition();
+        int lastVisibleItem = manager.findLastVisibleItemPosition();
+        int visibleItemCount = lastVisibleItem - firstVisibleItem + 1;
 
         if (firstVisibleItem < previousFirstVisibleItem) {
             // first visible item index has decreased : we are scrolling up
-            View root = listView.getChildAt(0);
+            View root = recyclerView.getChildAt(0);
             View nameView = root.findViewById(R.id.name);
             //if (nameView == null) return;
             if (nameView != null) {
@@ -61,7 +62,7 @@ public class DrinksOnScrollListener implements AbsListView.OnScrollListener {
 
         if (lastVisibleItem > previousLastVisibleItem) {
             // first visible item index has decreased : we are scrolling down
-            View root = listView.getChildAt(visibleItemCount - 1);
+            View root = recyclerView.getChildAt(visibleItemCount - 1);
             View nameView = root.findViewById(R.id.name);
             if (nameView != null) {
                 if (nameViewPosition == NAMEVIEW_POSITION_BOTTOM) {
