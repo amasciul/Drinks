@@ -38,14 +38,14 @@
             android:text="@string/about_description" />
 
         <TextView
+            android:id="@+id/madeinfrance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/text_dark"
             android:gravity="center_horizontal"
-            android:textSize="12sp"
-            android:text="@string/about_madeinfrance" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 

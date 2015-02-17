@@ -10,6 +10,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -23,10 +25,14 @@ import fr.masciulli.drinks.R;
 public class AboutDialogFragment extends DialogFragment {
 
     private static final long ANIM_REVEAL_DURATION = 300;
+    private static final int FRANCE_STRING_START = 8;
+    private static final int FRANCE_STRING_END = 14;
+
     private final Interpolator decelerateInterpolator = new DecelerateInterpolator();
 
     private TextView versionNameView;
     private Button okButton;
+    private TextView madeInFranceView;
 
     public static AboutDialogFragment newInstance() {
         return new AboutDialogFragment();
@@ -41,6 +47,13 @@ public class AboutDialogFragment extends DialogFragment {
 
         versionNameView = (TextView) root.findViewById(R.id.version_name);
         okButton = (Button) root.findViewById(R.id.ok);
+        madeInFranceView = (TextView) root.findViewById(R.id.madeinfrance);
+
+        ImageSpan span = new ImageSpan(getActivity(), R.drawable.france);
+        SpannableString text = new SpannableString(getString(R.string.about_madeinfrance));
+        text.setSpan(span, FRANCE_STRING_START, FRANCE_STRING_END, 0);
+
+        madeInFranceView.setText(text);
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
