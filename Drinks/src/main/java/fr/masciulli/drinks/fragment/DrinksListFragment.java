@@ -118,7 +118,6 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
             return;
         }
 
-
         updateList(drinks);
         progressBar.setVisibility(View.GONE);
 
