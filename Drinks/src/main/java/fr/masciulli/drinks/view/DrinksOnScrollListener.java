@@ -5,8 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.AbsListView;
-import android.widget.ListView;
 import fr.masciulli.drinks.R;
 
 public class DrinksOnScrollListener extends RecyclerView.OnScrollListener {
