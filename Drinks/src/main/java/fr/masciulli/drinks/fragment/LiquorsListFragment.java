@@ -61,7 +61,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setOnScrollListener(new DrinksOnScrollListener(DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
 
-        adapter = new LiquorListAdapter(getActivity());
+        adapter = new LiquorListAdapter();
         adapter.setOnItemClickListener(new LiquorListAdapter.OnItemClickListener() {
             @Override
             public void onClick(View view, int position) {

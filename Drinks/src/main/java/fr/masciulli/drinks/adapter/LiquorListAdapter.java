@@ -1,6 +1,5 @@
 package fr.masciulli.drinks.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,7 @@ import java.util.List;
 
 public class LiquorListAdapter extends RecyclerView.Adapter<LiquorListAdapter.ViewHolder> {
     private List<Liquor> liquors = new ArrayList<Liquor>();
-    private Context context;
     private OnItemClickListener onItemClickListener;
-
-    public LiquorListAdapter(Context context) {
-        this.context = context;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,7 +28,7 @@ public class LiquorListAdapter extends RecyclerView.Adapter<LiquorListAdapter.Vi
         final Liquor liquor = liquors.get(position);
 
         holder.nameView.setText(liquor.name);
-        Picasso.with(context).load(liquor.imageUrl).into(holder.imageView);
+        Picasso.with(holder.imageView.getContext()).load(liquor.imageUrl).into(holder.imageView);
         if (onItemClickListener != null) {
             holder.rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
