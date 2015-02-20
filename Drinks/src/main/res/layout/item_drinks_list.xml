@@ -21,23 +21,14 @@
             android:scaleType="centerCrop"
             android:id="@+id/image" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/item_drink_name">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="4dp"
-                android:textColor="@color/text_dark"
-                android:layout_gravity="right"
-                android:textSize="28sp"
-                android:fontFamily="sans-serif-light" />
-
-        </FrameLayout>
+            android:layout_gravity="bottom|right"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="28sp" />
 
         <View
             android:layout_width="match_parent"
