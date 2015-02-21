@@ -30,9 +30,8 @@
         android:layout_width="match_parent"
         android:id="@+id/list"
         android:headerDividersEnabled="false"
+        android:drawSelectorOnTop="true"
         android:visibility="invisible"
-        android:divider="@null"
-        android:listSelector="@drawable/list_selectors"
-        android:drawSelectorOnTop="true" />
+        android:divider="@null" />
 
 </RelativeLayout>

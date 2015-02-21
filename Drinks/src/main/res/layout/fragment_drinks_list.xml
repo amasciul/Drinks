@@ -21,13 +21,10 @@
         android:textSize="18sp"
         android:fontFamily="sans-serif-light" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list"
-        android:divider="@null"
-        android:listSelector="@drawable/list_selectors"
-        android:drawSelectorOnTop="true"
-        android:visibility="gone" />
+        android:scrollbars="vertical"/>
 
 </FrameLayout>

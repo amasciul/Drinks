@@ -241,7 +241,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
         imageViewHeight = (int) getResources().getDimension(R.dimen.liquor_detail_recipe_margin);
         listView.setOnScrollListener(this);
-        animationOnScrollListener = new DrinksOnScrollListener(listView);
+        //animationOnScrollListener = new DrinksOnScrollListener(listView);
 
         if (savedInstanceState != null) {
             colorBox.setAlpha(1);
@@ -389,14 +389,15 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     @Override
     public void onScrollStateChanged(AbsListView listView, int state) {
         if (animationOnScrollListener != null) {
-            animationOnScrollListener.onScrollStateChanged(listView, state);
+            //TODO once recycler, call scroll
         }
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         if (animationOnScrollListener != null) {
-            animationOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+            //animationOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+            //TODO once recycler, call scroll
         }
         float alpha = 2 * (float) -headerView.getTop() / (float) imageViewHeight;
         if (alpha > 1) {

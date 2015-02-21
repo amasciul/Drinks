@@ -4,5 +4,4 @@
     <dimen name="drink_detail_recipe_margin">250dp</dimen>
     <dimen name="liquor_detail_recipe_margin">250dp</dimen>
     <dimen name="list_item_vertical_margin">0dp</dimen>
-    <dimen name="margin_drink_detail">16dp</dimen>
 </resources>
