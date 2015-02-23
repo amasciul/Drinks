@@ -20,6 +20,7 @@ import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -221,11 +222,11 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         }
         blurredImageView.setAlpha(alpha);
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) imageView.getLayoutParams();
         params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
         imageView.setLayoutParams(params);
 
-        params = (RelativeLayout.LayoutParams) blurredImageView.getLayoutParams();
+        params = (FrameLayout.LayoutParams) blurredImageView.getLayoutParams();
         params.setMargins(params.leftMargin, -y / 2, params.rightMargin, params.bottomMargin);
         blurredImageView.setLayoutParams(params);
 
