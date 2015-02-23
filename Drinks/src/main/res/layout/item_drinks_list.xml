@@ -21,14 +21,22 @@
             android:scaleType="centerCrop"
             android:id="@+id/image" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            android:textSize="28sp" />
+            android:layout_gravity="bottom"
+            android:background="@drawable/item_gradient_bottomup">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textSize="28sp" />
+
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"

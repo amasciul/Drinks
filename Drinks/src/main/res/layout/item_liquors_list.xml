@@ -20,14 +20,21 @@
             android:scaleType="centerCrop"
             android:id="@+id/image" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            android:textSize="28sp" />
+            android:background="@drawable/item_gradient_topdown">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textSize="28sp" />
+
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
