@@ -83,12 +83,12 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
 
         @Override
         public void onBitmapFailed(Drawable errorDrawable) {
-
+            // no-op
         }
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+            // no-op
         }
     };
 
