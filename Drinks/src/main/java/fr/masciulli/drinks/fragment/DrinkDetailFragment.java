@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.fragment;
 
+import android.animation.Animator;
 import android.animation.TimeInterpolator;
 import android.app.Fragment;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -15,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
@@ -22,8 +25,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
@@ -144,6 +147,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
                 refreshUI(drink);
             }
         } else {
+            imageView.setVisibility(View.INVISIBLE);
             ViewTreeObserver observer = imageView.getViewTreeObserver();
             if (observer != null) {
                 observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -174,33 +178,71 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     }
 
     private void runEnterAnimation() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            int cx = imageView.getWidth() / 2;
+            int cy = imageView.getHeight() / 2;
 
-        Runnable refreshRunnable = new Runnable() {
-            @Override
-            public void run() {
-                refreshUI(drink);
-            }
-        };
-        imageView.setTranslationY(-imageView.getHeight());
+            // OMG some Pythagorean theorem
+            int finalRadius = (int) Math.sqrt(Math.pow(imageView.getWidth(), 2) + Math.pow(imageView.getHeight(), 2)) / 2;
 
-        ViewPropertyAnimator animator = imageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
-                setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
-                translationY(0).
-                setInterpolator(decelerator);
+            Animator animator = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
+            animator.setDuration(ANIM_IMAGE_ENTER_DURATION);
+            animator.setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY);
+            animator.setInterpolator(decelerator);
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    imageView.setVisibility(View.VISIBLE);
+                    refreshUI(drink);
+                }
 
-        Runnable animateColorBoxRunnable = new Runnable() {
-            @Override
-            public void run() {
-                colorBox.animate()
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    colorBox.animate()
                         .alpha(1)
                         .setDuration(ANIM_COLORBOX_ENTER_DURATION)
                         .setInterpolator(decelerator);
-            }
-        };
+                }
 
-        AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
-        AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_STARTDELAY, ANIM_IMAGE_ENTER_DURATION);
+                @Override
+                public void onAnimationCancel(Animator animation) {
 
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            animator.start();
+        } else {
+            imageView.setVisibility(View.VISIBLE);
+            Runnable refreshRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    refreshUI(drink);
+                }
+            };
+            imageView.setTranslationY(-imageView.getHeight());
+
+            ViewPropertyAnimator animator = imageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+                    setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
+                    translationY(0).
+                    setInterpolator(decelerator);
+
+            Runnable animateColorBoxRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    colorBox.animate()
+                            .alpha(1)
+                            .setDuration(ANIM_COLORBOX_ENTER_DURATION)
+                            .setInterpolator(decelerator);
+                }
+            };
+
+            AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
+            AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_STARTDELAY, ANIM_IMAGE_ENTER_DURATION);
+        }
     }
 
     @Override
