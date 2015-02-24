@@ -90,8 +90,6 @@ public class AboutDialogFragment extends DialogFragment {
 
     private void runEnterAnimation() {
 
-        okButton.setVisibility(View.VISIBLE);
-
         if (Build.VERSION.SDK_INT >= 21) {
             int cx = okButton.getWidth() / 2;
             int cy = okButton.getHeight() / 2;
