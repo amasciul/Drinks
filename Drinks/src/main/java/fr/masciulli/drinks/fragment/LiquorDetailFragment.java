@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.fragment;
 
+import android.animation.Animator;
 import android.animation.TimeInterpolator;
 import android.app.Fragment;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
@@ -248,12 +251,13 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             Liquor liquor = savedInstanceState.getParcelable(STATE_LIQUOR);
             List<Drink> drinks = savedInstanceState.getParcelableArrayList(STATE_DRINKS);
             if (liquor != null && drinks != null) {
-                onLiquorFound(this.liquor);
+                refreshUI(this.liquor);
                 drinksCallback.success(drinks, null);
             } else {
                 refresh(this.liquor);
             }
         } else {
+            imageView.setVisibility(View.INVISIBLE);
             ViewTreeObserver observer = imageView.getViewTreeObserver();
             if (observer != null) {
                 observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -262,7 +266,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
                     public boolean onPreDraw() {
                         imageView.getViewTreeObserver().removeOnPreDrawListener(this);
                         runEnterAnimation();
-
                         return true;
                     }
                 });
@@ -291,35 +294,75 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
     private void runEnterAnimation() {
 
-        Runnable refreshRunnable = new Runnable() {
-            @Override
-            public void run() {
-                refresh(liquor);
-            }
-        };
+        if (Build.VERSION.SDK_INT >= 21) {
+            int cx = imageView.getWidth() / 2;
+            int cy = imageView.getHeight() / 2;
 
-        imageView.setTranslationY(-imageView.getHeight());
+            // OMG some Pythagorean theorem
+            int finalRadius = (int) Math.sqrt(Math.pow(imageView.getWidth(), 2) + Math.pow(imageView.getHeight(), 2)) / 2;
 
-        ViewPropertyAnimator animator = imageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
-                setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
-                translationY(0).
-                setInterpolator(decelerator);
+            Animator animator = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
+            animator.setDuration(ANIM_IMAGE_ENTER_DURATION);
+            animator.setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY);
+            animator.setInterpolator(decelerator);
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    imageView.setVisibility(View.VISIBLE);
+                    refresh(liquor);
+                }
 
-        Runnable animateColorBoxRunnable = new Runnable() {
-            @Override
-            public void run() {
-                colorBox.animate()
-                        .alpha(1)
-                        .setDuration(ANIM_COLORBOX_ENTER_DURATION)
-                        .setInterpolator(decelerator);
-            }
-        };
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    colorBox.animate()
+                            .alpha(1)
+                            .setDuration(ANIM_COLORBOX_ENTER_DURATION)
+                            .setInterpolator(decelerator);
+                }
 
-        AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
-        AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_DURATION, ANIM_IMAGE_ENTER_STARTDELAY);
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            animator.start();
+        } else {
+            imageView.setVisibility(View.VISIBLE);
+            Runnable refreshRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    refresh(liquor);
+                }
+            };
+
+            imageView.setTranslationY(-imageView.getHeight());
+
+            ViewPropertyAnimator animator = imageView.animate().setDuration(ANIM_IMAGE_ENTER_DURATION).
+                    setStartDelay(ANIM_IMAGE_ENTER_STARTDELAY).
+                    translationY(0).
+                    setInterpolator(decelerator);
+
+            Runnable animateColorBoxRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    colorBox.animate()
+                            .alpha(1)
+                            .setDuration(ANIM_COLORBOX_ENTER_DURATION)
+                            .setInterpolator(decelerator);
+                }
+            };
+
+            AnimUtils.scheduleStartAction(animator, refreshRunnable, ANIM_IMAGE_ENTER_STARTDELAY);
+            AnimUtils.scheduleEndAction(animator, animateColorBoxRunnable, ANIM_IMAGE_ENTER_DURATION, ANIM_IMAGE_ENTER_STARTDELAY);
+        }
     }
 
-    public void onLiquorFound(Liquor liquor) {
+    public void refreshUI(Liquor liquor) {
         this.liquor = liquor;
         if (getActivity() == null) {
             return;
@@ -365,7 +408,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         } else {
             DrinksProvider.getAllDrinks(drinksCallback);
         }
-        onLiquorFound(liquor);
+        refreshUI(liquor);
     }
 
     @Override
@@ -418,7 +461,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         // TODO do not use getCount
         if (liquor != null && drinkAdapter.getCount() > 0) {
             outState.putParcelable(STATE_LIQUOR, liquor);
@@ -429,7 +471,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     private class QuantizeBitmapTask extends AsyncTask<Bitmap, Void, ArrayList<Integer>> {
         @Override
         protected ArrayList<Integer> doInBackground(Bitmap... bitmaps) {
-
             Bitmap originalBitmap = bitmaps[0];
 
             int originalWidth = originalBitmap.getWidth();
@@ -437,11 +478,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
             Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / 16, originalHeight / 16, true);
 
-            ArrayList<Integer> quantizedColors = new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
-
             //TODO figure out why only two colors for some images
-
-            return quantizedColors;
+            return new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
         }
 
         @Override
