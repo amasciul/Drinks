@@ -1,4 +1,3 @@
 <resources>
     <dimen name="drink_image_height">300dp</dimen>
-    <dimen name="margin_drink_detail">64dp</dimen>
 </resources>

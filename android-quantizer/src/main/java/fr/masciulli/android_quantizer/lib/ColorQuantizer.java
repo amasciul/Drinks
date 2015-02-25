@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ColorQuantizer {
-    public static final int DEFAULT_DIVISIONS_NUMBER = 2;
+    private static final int DEFAULT_DIVISIONS_NUMBER = 2;
 
     private ArrayList<Integer>[][][] mHistogram;
     private int mDivisionsNumber;

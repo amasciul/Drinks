@@ -64,6 +64,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
     private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
+    private static final int IMAGE_SCALE_FACTOR = 16;
 
     private final TimeInterpolator decelerator = new DecelerateInterpolator();
     private static final String ARG_LIQUOR = "liquor";
@@ -476,7 +477,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             int originalWidth = originalBitmap.getWidth();
             int originalHeight = originalBitmap.getHeight();
 
-            Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / 16, originalHeight / 16, true);
+            Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / IMAGE_SCALE_FACTOR, originalHeight / IMAGE_SCALE_FACTOR, true);
 
             //TODO figure out why only two colors for some images
             return new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();

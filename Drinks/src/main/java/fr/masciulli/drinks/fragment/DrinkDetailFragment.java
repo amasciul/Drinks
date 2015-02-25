@@ -51,6 +51,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
     private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
+    private static final int IMAGE_SCALE_FACTOR = 16;
 
     private static final TimeInterpolator decelerator = new DecelerateInterpolator();
 
@@ -343,11 +344,9 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
             int originalWidth = originalBitmap.getWidth();
             int originalHeight = originalBitmap.getHeight();
 
-            Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / 16, originalHeight / 16, true);
+            Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / IMAGE_SCALE_FACTOR, originalHeight / IMAGE_SCALE_FACTOR, true);
 
-            ArrayList<Integer> quantizedColors = new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
-
-            return quantizedColors;
+           return new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
         }
 
         @Override

@@ -43,9 +43,9 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
     private static final String STATE_LIST = "drinks_list";
     private static final String PREF_DRINKS_JSON = "drinks_json";
 
-    RecyclerView recyclerView;
-    ProgressBar progressBar;
-    View emptyView;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private View emptyView;
 
     private DrinksListAdapter adapter;
 
