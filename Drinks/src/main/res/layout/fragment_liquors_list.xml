@@ -10,7 +10,7 @@
         android:id="@+id/progressbar"
         android:visibility="gone" />
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
         android:id="@android:id/empty"
         android:text="@string/liquors_empty"
         android:layout_width="match_parent"

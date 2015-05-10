@@ -2,6 +2,7 @@ package fr.masciulli.drinks.fragment;
 
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -293,6 +294,7 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         startActivity(intent);
     }
 
+    @TargetApi(21)
     private void runEnterAnimation() {
 
         if (Build.VERSION.SDK_INT >= 21) {

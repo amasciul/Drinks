@@ -2,6 +2,7 @@ package fr.masciulli.drinks.fragment;
 
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -178,6 +179,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(drink.wikipedia)));
     }
 
+    @TargetApi(21)
     private void runEnterAnimation() {
         if (Build.VERSION.SDK_INT >= 21) {
             int cx = imageView.getWidth() / 2;

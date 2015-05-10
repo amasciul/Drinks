@@ -11,7 +11,7 @@
         android:id="@+id/progressbar"
         android:visibility="gone" />
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
         android:id="@android:id/empty"
         android:visibility="gone"
         android:text="@string/drinks_empty"
