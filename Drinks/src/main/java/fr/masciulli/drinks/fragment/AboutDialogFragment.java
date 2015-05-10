@@ -88,6 +88,7 @@ public class AboutDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    @SuppressWarnings("NewApi")
     private void runEnterAnimation() {
 
         if (Build.VERSION.SDK_INT >= 21) {
@@ -104,6 +105,7 @@ public class AboutDialogFragment extends DialogFragment {
 
     }
 
+    @SuppressWarnings("NewApi")
     private void runExitAnimation() {
         if (Build.VERSION.SDK_INT >= 21) {
             int cx = okButton.getWidth() / 2;
