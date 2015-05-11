@@ -5,12 +5,18 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+
+import com.squareup.leakcanary.LeakCanary;
+
 import fr.masciulli.drinks.data.DrinksProvider;
 
 public class DrinksApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LeakCanary.install(this);
+
         String apiPrefKey = getString(R.string.pref_apiendpoint_key);
         String versionCodePrefKey = getString(R.string.pref_versioncode_key);
         String apiDefaultValue = getString(R.string.pref_apiendpoint_default);
