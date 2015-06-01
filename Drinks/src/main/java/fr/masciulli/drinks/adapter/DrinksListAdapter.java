@@ -108,7 +108,7 @@ public class DrinksListAdapter extends RecyclerView.Adapter<DrinksListAdapter.Vi
     }
 
     public ArrayList<Drink> getDrinks() {
-        return (ArrayList<Drink>) savedDrinks;
+        return (ArrayList<Drink>) drinks;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
