@@ -9,10 +9,10 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -40,7 +39,6 @@ import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import fr.masciulli.android_quantizer.lib.ColorQuantizer;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.activity.ToolbarActivity;
@@ -65,7 +63,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
     private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
-    private static final int IMAGE_SCALE_FACTOR = 16;
 
     private final TimeInterpolator decelerator = new DecelerateInterpolator();
     private static final String ARG_LIQUOR = "liquor";
@@ -94,7 +91,15 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             imageView.setImageBitmap(bitmap);
-            new QuantizeBitmapTask().execute(bitmap);
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    colorView1.setBackgroundColor(palette.getVibrantColor(0));
+                    colorView2.setBackgroundColor(palette.getLightVibrantColor(0));
+                    colorView3.setBackgroundColor(palette.getDarkVibrantColor(0));
+                    colorView4.setBackgroundColor(palette.getMutedColor(0));
+                }
+            });
         }
 
         @Override
@@ -302,7 +307,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
             int cy = imageView.getHeight() / 2;
 
             // OMG some Pythagorean theorem
-            int finalRadius = (int) Math.sqrt(Math.pow(imageView.getWidth(), 2) + Math.pow(imageView.getHeight(), 2)) / 2;
+            int finalRadius =
+                    (int) Math.sqrt(Math.pow(imageView.getWidth(), 2) + Math.pow(imageView.getHeight(), 2)) / 2;
 
             Animator animator = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
             animator.setDuration(ANIM_IMAGE_ENTER_DURATION);
@@ -404,7 +410,8 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         if (preferences.contains(PREF_DRINKS_JSON)) {
             Gson gson = new Gson();
             //TODO async
-            List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>(){}.getType());
+            List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>() {
+            }.getType());
 
             //TODO do not use retrofit callback
             drinksCallback.success(drinks, null);
@@ -468,29 +475,6 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
         if (liquor != null && drinkAdapter.getCount() > 0) {
             outState.putParcelable(STATE_LIQUOR, liquor);
             outState.putParcelableArrayList(STATE_DRINKS, drinkAdapter.getDrinks());
-        }
-    }
-
-    private class QuantizeBitmapTask extends AsyncTask<Bitmap, Void, ArrayList<Integer>> {
-        @Override
-        protected ArrayList<Integer> doInBackground(Bitmap... bitmaps) {
-            Bitmap originalBitmap = bitmaps[0];
-
-            int originalWidth = originalBitmap.getWidth();
-            int originalHeight = originalBitmap.getHeight();
-
-            Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / IMAGE_SCALE_FACTOR, originalHeight / IMAGE_SCALE_FACTOR, true);
-
-            //TODO figure out why only two colors for some images
-            return new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Integer> colors) {
-            View[] colorViews = new View[]{colorView1, colorView2, colorView3, colorView4};
-            for (int i = 0; i < colors.size() && i < 4; i++) {
-                colorViews[i].setBackgroundColor(colors.get(i));
-            }
         }
     }
 }

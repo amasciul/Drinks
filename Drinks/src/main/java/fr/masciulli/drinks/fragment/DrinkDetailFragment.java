@@ -8,9 +8,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -27,11 +27,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
-import fr.masciulli.android_quantizer.lib.ColorQuantizer;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.ToolbarActivity;
 import fr.masciulli.drinks.model.Drink;
@@ -40,8 +38,6 @@ import fr.masciulli.drinks.util.HtmlUtils;
 import fr.masciulli.drinks.view.BlurTransformation;
 import fr.masciulli.drinks.view.ObservableScrollView;
 import fr.masciulli.drinks.view.ScrollViewListener;
-
-import java.util.ArrayList;
 
 public class DrinkDetailFragment extends Fragment implements ScrollViewListener {
 
@@ -52,7 +48,6 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private static final long ANIM_TEXT_ENTER_DURATION = 500;
     private static final long ANIM_IMAGE_ENTER_STARTDELAY = 300;
     private static final long ANIM_COLORBOX_ENTER_DURATION = 200;
-    private static final int IMAGE_SCALE_FACTOR = 16;
 
     private static final TimeInterpolator decelerator = new DecelerateInterpolator();
 
@@ -80,7 +75,15 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             imageView.setImageBitmap(bitmap);
-            new QuantizeBitmapTask().execute(bitmap);
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    colorView1.setBackgroundColor(palette.getVibrantColor(0));
+                    colorView2.setBackgroundColor(palette.getLightVibrantColor(0));
+                    colorView3.setBackgroundColor(palette.getDarkVibrantColor(0));
+                    colorView4.setBackgroundColor(palette.getMutedColor(0));
+                }
+            });
         }
 
         @Override
@@ -97,7 +100,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     public static DrinkDetailFragment newInstance(Drink drink) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(ARG_DRINK, drink);
-        DrinkDetailFragment fragment =  new DrinkDetailFragment();
+        DrinkDetailFragment fragment = new DrinkDetailFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -186,7 +189,8 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
             int cy = imageView.getHeight() / 2;
 
             // OMG some Pythagorean theorem
-            int finalRadius = (int) Math.sqrt(Math.pow(imageView.getWidth(), 2) + Math.pow(imageView.getHeight(), 2)) / 2;
+            int finalRadius =
+                    (int) Math.sqrt(Math.pow(imageView.getWidth(), 2) + Math.pow(imageView.getHeight(), 2)) / 2;
 
             Animator animator = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
             animator.setDuration(ANIM_IMAGE_ENTER_DURATION);
@@ -202,9 +206,9 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     colorBox.animate()
-                        .alpha(1)
-                        .setDuration(ANIM_COLORBOX_ENTER_DURATION)
-                        .setInterpolator(decelerator);
+                            .alpha(1)
+                            .setDuration(ANIM_COLORBOX_ENTER_DURATION)
+                            .setInterpolator(decelerator);
                 }
 
                 @Override
@@ -334,29 +338,5 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     private void fakeOnScrollChanged() {
         onScrollChanged(scrollView, scrollView.getScrollX(),
                 scrollView.getScrollY(), scrollView.getScrollX(), scrollView.getScrollY());
-    }
-
-    private class QuantizeBitmapTask extends AsyncTask<Bitmap, Void, ArrayList<Integer>> {
-
-        @Override
-        protected ArrayList<Integer> doInBackground(Bitmap... bitmaps) {
-
-            Bitmap originalBitmap = bitmaps[0];
-
-            int originalWidth = originalBitmap.getWidth();
-            int originalHeight = originalBitmap.getHeight();
-
-            Bitmap bitmap = Bitmap.createScaledBitmap(originalBitmap, originalWidth / IMAGE_SCALE_FACTOR, originalHeight / IMAGE_SCALE_FACTOR, true);
-
-           return new ColorQuantizer().load(bitmap).quantize().getQuantizedColors();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Integer> colors) {
-            View[] colorViews = new View[]{colorView1, colorView2, colorView3, colorView4};
-            for (int i = 0; i < colors.size() && i < 4; i++) {
-                colorViews[i].setBackgroundColor(colors.get(i));
-            }
-        }
     }
 }
