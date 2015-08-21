@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,8 +38,6 @@ import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.activity.ToolbarActivity;
@@ -181,11 +180,13 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
                 return;
             }
 
-            if (error.isNetworkError()) {
-                Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-            } else {
-                String croutonText = String.format(getString(R.string.liquor_detail_drinks_loading_failed), liquor.name);
-                Crouton.makeText(getActivity(), croutonText, Style.ALERT).show();
+            View view = getView();
+            if (view != null) {
+                if (error.getKind() == RetrofitError.Kind.NETWORK) {
+                    Snackbar.make(view, R.string.network_error, Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(view, R.string.list_loading_failed, Snackbar.LENGTH_SHORT).show();
+                }
             }
         }
     };

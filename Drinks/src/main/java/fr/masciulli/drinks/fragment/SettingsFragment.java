@@ -4,8 +4,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.data.DrinksProvider;
 
@@ -32,7 +32,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (key.equals(getString(R.string.pref_apiendpoint_key))) {
             String server = sharedPreferences.getString(key, getString(R.string.pref_apiendpoint_default));
             DrinksProvider.updateServer(server);
-            Crouton.makeText(getActivity(), getString(R.string.server_updated), Style.INFO).show();
+
+            View view = getView();
+            if (view != null) {
+                Snackbar.make(view, R.string.server_updated, Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 }

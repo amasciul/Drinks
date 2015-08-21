@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -23,8 +24,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
@@ -139,11 +138,15 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         emptyView.setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).setRefreshActionVisible(true);
 
-        if (retrofitError.isNetworkError()) {
-            Crouton.makeText(getActivity(), getString(R.string.network_error), Style.ALERT).show();
-        } else {
-            Crouton.makeText(getActivity(), getString(R.string.list_loading_failed), Style.ALERT).show();
+        View view = getView();
+        if (view != null) {
+            if (retrofitError.getKind() == RetrofitError.Kind.NETWORK) {
+                Snackbar.make(view, R.string.network_error, Snackbar.LENGTH_SHORT).show();
+            } else {
+                Snackbar.make(view, R.string.list_loading_failed, Snackbar.LENGTH_SHORT).show();
+            }
         }
+
     }
 
     @Override
