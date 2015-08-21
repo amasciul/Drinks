@@ -64,7 +64,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         emptyView = root.findViewById(android.R.id.empty);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setOnScrollListener(new DrinksOnScrollListener());
+        recyclerView.addOnScrollListener(new DrinksOnScrollListener());
 
         adapter = new DrinksListAdapter();
         adapter.setOnItemClickListener(new DrinksListAdapter.OnItemClickListener() {

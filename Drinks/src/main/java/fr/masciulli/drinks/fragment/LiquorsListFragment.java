@@ -59,7 +59,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setOnScrollListener(new DrinksOnScrollListener(DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
+        recyclerView.addOnScrollListener(new DrinksOnScrollListener(DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
 
         adapter = new LiquorListAdapter();
         adapter.setOnItemClickListener(new LiquorListAdapter.OnItemClickListener() {
