@@ -10,7 +10,6 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 
 import fr.masciulli.drinks.R;
@@ -21,7 +20,6 @@ import fr.masciulli.drinks.fragment.LiquorsListFragment;
 import java.util.Locale;
 
 public class MainActivity extends ToolbarActivity {
-    private View toolbarLayout;
     private ViewPager viewPager;
 
     private DrinksListFragment drinksListFragment;
@@ -31,39 +29,22 @@ public class MainActivity extends ToolbarActivity {
 
 
     private MenuItem retryAction;
-    private boolean dualPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        toolbarLayout = findViewById(R.id.toolbar_layout);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
-        dualPane = getResources().getBoolean(R.bool.dualpane);
+        drinksListFragment = DrinksListFragment.newInstance();
+        liquorsListFragment = LiquorsListFragment.newInstance();
 
-        if (dualPane && savedInstanceState != null) {
-            drinksListFragment = (DrinksListFragment) getFragmentManager().findFragmentById(R.id.drinks_list_container);
-            liquorsListFragment = (LiquorsListFragment) getFragmentManager().findFragmentById(R.id.liquors_list_container);
-        } else {
-            drinksListFragment = DrinksListFragment.newInstance();
-            liquorsListFragment = LiquorsListFragment.newInstance();
-        }
+        sectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        viewPager.setAdapter(sectionsPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(sectionsPagerAdapter);
 
-        if (dualPane) {
-            if (savedInstanceState == null) {
-                getFragmentManager().beginTransaction().
-                        add(R.id.drinks_list_container, drinksListFragment).
-                        add(R.id.liquors_list_container, liquorsListFragment).
-                        commit();
-            }
-        } else {
-            sectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-            viewPager.setAdapter(sectionsPagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
-            viewPager.addOnPageChangeListener(sectionsPagerAdapter);
-        }
     }
 
     @Override
