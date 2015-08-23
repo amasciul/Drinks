@@ -3,7 +3,7 @@
 
     <string name="app_name">Drinks</string>
     <string name="action_settings">Settings</string>
-    <string name="title_drinks">Drinks</string>
+    <string name="title_drinks">Cocktails</string>
     <string name="title_liquors">Liquors</string>
     <string name="detail_ingredients">Ingredients</string>
     <string name="detail_recipe">Recipe</string>

@@ -4,41 +4,31 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.fragment.AboutDialogFragment;
 import fr.masciulli.drinks.fragment.DrinksListFragment;
 import fr.masciulli.drinks.fragment.LiquorsListFragment;
-import fr.masciulli.drinks.view.SlidingTabLayout;
 
 import java.util.Locale;
 
 public class MainActivity extends ToolbarActivity {
+    private View toolbarLayout;
+    private ViewPager viewPager;
 
     private DrinksListFragment drinksListFragment;
     private LiquorsListFragment liquorsListFragment;
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-     * will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     SectionsPagerAdapter sectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    ViewPager viewPager;
-    SlidingTabLayout slidingTabLayout;
 
     private MenuItem retryAction;
     private boolean dualPane;
@@ -48,7 +38,8 @@ public class MainActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.tabs);
+        toolbarLayout = findViewById(R.id.toolbar_layout);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
         dualPane = getResources().getBoolean(R.bool.dualpane);
 
@@ -70,21 +61,8 @@ public class MainActivity extends ToolbarActivity {
         } else {
             sectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
             viewPager.setAdapter(sectionsPagerAdapter);
-
-            slidingTabLayout.setOnPageChangeListener(sectionsPagerAdapter);
-            slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
-            slidingTabLayout.setDividerColors(getResources().getColor(android.R.color.transparent));
-            slidingTabLayout.setCustomTabViewTextColor(getResources().getColor(R.color.white));
-            slidingTabLayout.setViewPager(viewPager);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (Build.VERSION.SDK_INT >= 21) {
-            // hack to fix bug in appcompat
-            getToolbar().getBackground().setAlpha(255);
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.addOnPageChangeListener(sectionsPagerAdapter);
         }
     }
 
@@ -95,7 +73,6 @@ public class MainActivity extends ToolbarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         retryAction = menu.findItem(R.id.retry);
         return super.onCreateOptionsMenu(menu);
@@ -156,7 +133,6 @@ public class MainActivity extends ToolbarActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
-            //TODO repace 0 and 1 by values in resources
             switch (position) {
                 case 0:
                     return getString(R.string.title_drinks).toUpperCase(l);

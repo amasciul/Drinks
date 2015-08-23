@@ -4,6 +4,7 @@
     <color name="red_dark">#ffb71c1c</color>
     <color name="red_darker">#ffa11919</color>
     <color name="white">#ffffffff</color>
+    <color name="white_transparent">#7fffffff</color>
     <color name="background_holo_light">#fff3f3f3</color>
     <color name="text_dark">#ff333333</color>
 </resources>
