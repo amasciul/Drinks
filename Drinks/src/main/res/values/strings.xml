@@ -36,5 +36,6 @@
     <string name="unknown_version">Unknown version</string>
     <string name="about_dismiss">OK</string>
     <string name="share_drink">Share this drink</string>
+    <string name="detail_history">History</string>
 
 </resources>
