@@ -6,5 +6,6 @@
     <color name="white">#ffffffff</color>
     <color name="white_transparent">#7fffffff</color>
     <color name="background_holo_light">#fff3f3f3</color>
-    <color name="text_dark">#ff333333</color>
+    <color name="black">#FF212121</color>
+    <color name="gray_dark">#FF616161</color>
 </resources>

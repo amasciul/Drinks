@@ -16,23 +16,20 @@
             android:text="@string/about_drinks"
             android:textSize="48sp"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/red"
-            android:fontFamily="sans-serif-light" />
+            android:textColor="@color/red" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/text_dark"
+            android:textColor="@color/gray_dark"
             android:id="@+id/version_name" />
 
         <TextView
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/text_dark"
+            android:textColor="@color/gray_dark"
             android:gravity="center_horizontal"
             android:textSize="18sp"
             android:text="@string/about_description" />
@@ -42,8 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/text_dark"
+            android:textColor="@color/gray_dark"
             android:gravity="center_horizontal"
             android:textSize="12sp" />
 
