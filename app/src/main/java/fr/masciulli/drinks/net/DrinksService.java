@@ -7,6 +7,6 @@ import retrofit.Call;
 import retrofit.http.GET;
 
 public interface DrinksService {
-    @GET("/Drinks")
+    @GET("/api/Drinks")
     Call<List<Drink>> getDrinks();
 }

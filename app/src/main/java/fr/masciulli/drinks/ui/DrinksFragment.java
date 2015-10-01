@@ -50,7 +50,11 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>> {
 
     @Override
     public void onResponse(Response<List<Drink>> response, Retrofit retrofit) {
-        adapter.setDrinks(response.body());
+        if (response.isSuccess()) {
+            adapter.setDrinks(response.body());
+        } else {
+            Log.e(TAG, "Couldn't retrieve drinks : " + response.message());
+        }
     }
 
     @Override

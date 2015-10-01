@@ -9,7 +9,7 @@ import retrofit.Retrofit;
 
 public class DrinksProvider {
     private DrinksService retrofit = new Retrofit.Builder()
-            .baseUrl("http://drinks-api.appspot.com/api")
+            .baseUrl("http://drinks-api.appspot.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(DrinksService.class);
