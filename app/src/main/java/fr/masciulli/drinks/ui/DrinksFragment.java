@@ -2,8 +2,10 @@ package fr.masciulli.drinks.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +38,8 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_drinks, container, false);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        int columnCount = getResources().getInteger(R.integer.column_count);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));
         adapter = new DrinksAdapter();
         recyclerView.setAdapter(adapter);
         return root;
