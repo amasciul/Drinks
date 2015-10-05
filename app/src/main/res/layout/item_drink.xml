@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="4dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="2dp">
 
     <fr.masciulli.drinks.ui.RatioImageView
         android:id="@+id/image"
@@ -14,7 +16,13 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</FrameLayout>
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:background="@color/blue_gray"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="Mint Julep" />
+</LinearLayout>
