@@ -1,11 +1,15 @@
 package fr.masciulli.drinks.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,11 +31,38 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Drink drink = drinks.get(position);
         holder.nameView.setText(drink.name);
         holder.imageView.setRatio(drink.ratio);
-        Picasso.with(holder.itemView.getContext()).load(drink.imageUrl).into(holder.imageView);
+        Picasso.with(holder.itemView.getContext())
+                .load(drink.imageUrl)
+                .into(holder.imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) holder.imageView.getDrawable()).getBitmap();
+                        colorItem(holder, bitmap);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+    }
+
+    private void colorItem(final ViewHolder holder, Bitmap bitmap) {
+        int defaultBackground = holder.itemView
+                .getContext()
+                .getResources()
+                .getColor(R.color.blue_gray);
+
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                holder.nameView.setBackgroundColor(palette.getMutedColor(defaultBackground));
+            }
+        });
     }
 
     @Override
