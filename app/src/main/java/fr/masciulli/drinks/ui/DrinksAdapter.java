@@ -1,7 +1,10 @@
 package fr.masciulli.drinks.ui;
 
+import android.annotation.TargetApi;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,11 +54,19 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
                 });
     }
 
+    @TargetApi(23)
     private void colorItem(final ViewHolder holder, Bitmap bitmap) {
-        int defaultBackground = holder.itemView
+        final int defaultBackground;
+
+        Resources resources = holder.itemView
                 .getContext()
-                .getResources()
-                .getColor(R.color.blue_gray);
+                .getResources();
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            defaultBackground = resources.getColor(R.color.blue_gray, null);
+        } else {
+            defaultBackground = resources.getColor(R.color.blue_gray);
+        }
 
         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
             @Override
