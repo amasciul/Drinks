@@ -16,7 +16,9 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 
 public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder> {
-    private List<Drink> drinks = new ArrayList<>();
+    private ArrayList<Drink> drinks = new ArrayList<>();
+    private ArrayList<Drink> filteredDrinks = new ArrayList<>();
+
     private float[] ratios = new float[]{0.75f, 4.0f / 3.0f};
 
     @Override
@@ -28,7 +30,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Drink drink = drinks.get(position);
+        Drink drink = filteredDrinks.get(position);
         holder.nameView.setText(drink.name);
         holder.imageView.setRatio(drink.ratio);
         Picasso.with(holder.itemView.getContext())
@@ -38,20 +40,49 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return drinks.size();
+        return filteredDrinks.size();
     }
 
     public void setDrinks(List<Drink> drinks) {
-        this.drinks = drinks;
+        this.filteredDrinks.clear();
+        this.drinks.clear();
+
+        this.drinks.addAll(drinks);
+        this.filteredDrinks.addAll(drinks);
+
         fakeRatios();
         notifyDataSetChanged();
     }
 
     private void fakeRatios() {
-        //TODO remove this and use ratios given by server
+        // TODO remove this and use ratios given by server
         for (Drink drink : drinks) {
             drink.ratio = ratios[new Random().nextInt(2)];
         }
+    }
+
+    public void filter(String text) {
+        filteredDrinks.clear();
+        text = text.toLowerCase();
+        for (Drink drink : drinks) {
+            if (drink.name.toLowerCase().contains(text)) {
+                filteredDrinks.add(drink);
+            } else {
+                for (String ingredient : drink.ingredients) {
+                    if (ingredient.toLowerCase().contains(text)) {
+                        filteredDrinks.add(drink);
+                        break;
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void clearFilter() {
+        filteredDrinks.clear();
+        filteredDrinks.addAll(drinks);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
