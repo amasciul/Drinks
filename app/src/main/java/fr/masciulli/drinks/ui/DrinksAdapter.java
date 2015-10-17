@@ -1,18 +1,11 @@
 package fr.masciulli.drinks.ui;
 
-import android.annotation.TargetApi;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,40 +33,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
         holder.imageView.setRatio(drink.ratio);
         Picasso.with(holder.itemView.getContext())
                 .load(drink.imageUrl)
-                .into(holder.imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Bitmap bitmap = ((BitmapDrawable) holder.imageView.getDrawable()).getBitmap();
-                        colorItem(holder, bitmap);
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
-    }
-
-    @TargetApi(23)
-    private void colorItem(final ViewHolder holder, Bitmap bitmap) {
-        final int defaultBackground;
-
-        Resources resources = holder.itemView
-                .getContext()
-                .getResources();
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            defaultBackground = resources.getColor(R.color.blue_gray, null);
-        } else {
-            defaultBackground = resources.getColor(R.color.blue_gray);
-        }
-
-        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                holder.nameView.setBackgroundColor(palette.getMutedColor(defaultBackground));
-            }
-        });
+                .into(holder.imageView);
     }
 
     @Override
