@@ -10,7 +10,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
@@ -56,8 +55,9 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
 
     private void fakeRatios() {
         // TODO remove this and use ratios given by server
-        for (Drink drink : drinks) {
-            drink.ratio = ratios[new Random().nextInt(2)];
+        for (int i = 0, size = drinks.size(); i < size; i++) {
+            Drink drink = drinks.get(i);
+            drink.ratio = ratios[i % ratios.length];
         }
     }
 
