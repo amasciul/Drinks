@@ -28,6 +28,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private static final String TAG = DrinksFragment.class.getSimpleName();
 
     private RecyclerView recyclerView;
+    private View emptyView;
 
     private DrinksProvider provider;
     private DrinksAdapter adapter;
@@ -43,6 +44,8 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_drinks, container, false);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
+        emptyView = root.findViewById(R.id.empty);
+
         int columnCount = getResources().getInteger(R.integer.column_count);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));
         adapter = new DrinksAdapter();
@@ -83,7 +86,20 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     @Override
     public boolean onQueryTextChange(String newText) {
         adapter.filter(newText);
+        if (adapter.getItemCount() == 0) {
+            showEmptyView();
+        } else {
+            hideEmptyView();
+        }
         return false;
+    }
+
+    private void showEmptyView() {
+        emptyView.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyView() {
+        emptyView.setVisibility(View.GONE);
     }
 
     @Override
