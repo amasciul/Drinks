@@ -9,6 +9,7 @@ import java.util.List;
 public class Drink implements Parcelable {
     public String name;
     public String imageUrl;
+    public String history;
     public float ratio;
     public String wikipedia;
     public String instructions;
@@ -17,6 +18,7 @@ public class Drink implements Parcelable {
     public Drink(Parcel source) {
         name = source.readString();
         imageUrl = source.readString();
+        history = source.readString();
         wikipedia = source.readString();
         instructions = source.readString();
         source.readStringList(ingredients);
@@ -31,6 +33,7 @@ public class Drink implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(imageUrl);
+        dest.writeString(history);
         dest.writeString(wikipedia);
         dest.writeString(instructions);
         dest.writeStringList(ingredients);
