@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.ui;
+package fr.masciulli.drinks.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.ui.fragment.DrinksFragment;
+import fr.masciulli.drinks.ui.fragment.LiquorsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static final int POSITION_DRINKS = 0;

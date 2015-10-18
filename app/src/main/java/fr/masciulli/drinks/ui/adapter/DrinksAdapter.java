@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.ui;
+package fr.masciulli.drinks.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import java.util.List;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.ui.view.RatioImageView;
 
 public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder> {
     private static float[] ratios = new float[]{0.75f, 4.0f / 3.0f};

@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.ui;
+package fr.masciulli.drinks.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +20,9 @@ import java.util.List;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.net.DrinksProvider;
+import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
+import fr.masciulli.drinks.ui.adapter.ItemClickListener;
+import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;

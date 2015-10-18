@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.ui;
+package fr.masciulli.drinks.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

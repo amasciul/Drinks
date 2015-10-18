@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.ui;
+package fr.masciulli.drinks.ui.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

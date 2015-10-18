@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.ui;
+package fr.masciulli.drinks.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
