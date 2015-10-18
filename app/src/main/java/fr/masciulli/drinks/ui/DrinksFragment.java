@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private static final String TAG = DrinksFragment.class.getSimpleName();
 
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private View emptyView;
 
     private DrinksProvider provider;
@@ -42,6 +44,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_drinks, container, false);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
+        progressBar = (ProgressBar) root.findViewById(R.id.progress_bar);
         emptyView = root.findViewById(R.id.empty);
 
         int columnCount = getResources().getInteger(R.integer.column_count);
@@ -55,14 +58,23 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        loadDrinks();
+    }
+
+    private void loadDrinks() {
+        recyclerView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
         provider.getDrinks(this);
     }
 
     @Override
     public void onResponse(Response<List<Drink>> response, Retrofit retrofit) {
+        progressBar.setVisibility(View.GONE);
         if (response.isSuccess()) {
+            recyclerView.setVisibility(View.VISIBLE);
             adapter.setDrinks(response.body());
         } else {
+            // TODO display error view
             Log.e(TAG, "Couldn't retrieve drinks : " + response.message());
         }
     }
@@ -70,6 +82,8 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     @Override
     public void onFailure(Throwable t) {
         Log.e(TAG, "Couldn't retrieve drinks", t);
+        // TODO display error view
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
