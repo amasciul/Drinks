@@ -15,10 +15,12 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 
 public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder> {
+    private static float[] ratios = new float[]{0.75f, 4.0f / 3.0f};
+
     private ArrayList<Drink> drinks = new ArrayList<>();
     private ArrayList<Drink> filteredDrinks = new ArrayList<>();
 
-    private float[] ratios = new float[]{0.75f, 4.0f / 3.0f};
+    private ItemClickListener<Drink> listener;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -28,18 +30,29 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        Drink drink = filteredDrinks.get(position);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final Drink drink = filteredDrinks.get(position);
         holder.nameView.setText(drink.name);
         holder.imageView.setRatio(drink.ratio);
         Picasso.with(holder.itemView.getContext())
                 .load(drink.imageUrl)
                 .into(holder.imageView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(position, drink);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return filteredDrinks.size();
+    }
+
+    public void setItemClickListener(ItemClickListener<Drink> listener) {
+        this.listener = listener;
     }
 
     public void setDrinks(List<Drink> drinks) {

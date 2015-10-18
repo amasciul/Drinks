@@ -22,7 +22,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class DrinksFragment extends Fragment implements Callback<List<Drink>>, SearchView.OnQueryTextListener {
+public class DrinksFragment extends Fragment implements Callback<List<Drink>>, SearchView.OnQueryTextListener, ItemClickListener<Drink> {
     private static final String TAG = DrinksFragment.class.getSimpleName();
 
     private RecyclerView recyclerView;
@@ -47,6 +47,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         int columnCount = getResources().getInteger(R.integer.column_count);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));
         adapter = new DrinksAdapter();
+        adapter.setItemClickListener(this);
         recyclerView.setAdapter(adapter);
         return root;
     }
@@ -69,6 +70,11 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     @Override
     public void onFailure(Throwable t) {
         Log.e(TAG, "Couldn't retrieve drinks", t);
+    }
+
+    @Override
+    public void onItemClick(int position, Drink drink) {
+        // TODO open detail activity
     }
 
     @Override
