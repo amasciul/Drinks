@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -88,7 +89,9 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
 
     @Override
     public void onItemClick(int position, Drink drink) {
-        // TODO open detail activity
+        Intent intent = new Intent(getActivity(), DrinkActivity.class);
+        intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
+        startActivity(intent);
     }
 
     @Override
