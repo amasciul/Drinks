@@ -22,15 +22,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <fr.masciulli.drinks.ui.view.RatioImageView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:imageRatio="1.78" />
+                android:layout_height="wrap_content">
+
+                <fr.masciulli.drinks.ui.view.RatioImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:imageRatio="1.78" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse" />
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/history"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         </LinearLayout>
     </ScrollView>

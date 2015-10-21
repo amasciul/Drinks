@@ -6,4 +6,8 @@
         <item name="colorAccent">@color/blue</item>
     </style>
 
+    <style name="AppTheme.Overlay">
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
 </resources>
