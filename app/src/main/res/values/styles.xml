@@ -4,10 +4,12 @@
         <item name="colorPrimary">@color/brown</item>
         <item name="colorPrimaryDark">@color/brown_dark</item>
         <item name="colorAccent">@color/blue</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
-    <style name="AppTheme.Overlay">
-        <item name="windowActionBarOverlay">true</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>
