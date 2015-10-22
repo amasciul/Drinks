@@ -2,4 +2,5 @@
     <string name="app_name">Drinks</string>
     <string name="action_search">Search</string>
     <string name="drinks_empty">No drinks found</string>
+    <string name="content_description_drink">Drink picture</string>
 </resources>
