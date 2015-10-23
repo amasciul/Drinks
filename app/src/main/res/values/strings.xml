@@ -3,6 +3,6 @@
     <string name="action_search">Search</string>
     <string name="drinks_empty">No drinks found</string>
     <string name="content_description_drink">Drink picture</string>
-    <string name="network_error">Couldn\'t reach network, give it an another try</string>
-    <string name="refresh">Refresh</string>
+    <string name="network_error">Couldn\'t reach network</string>
+    <string name="refresh">Try again</string>
 </resources>
