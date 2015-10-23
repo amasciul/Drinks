@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="brown">#795548</color>
-    <color name="brown_dark">#6D4C41</color>
-    <color name="blue">#03A9F4</color>
+    <color name="cyan">#00ACC1</color>
+    <color name="cyan_dark">#0097A7</color>
+    <color name="green">#4CAF50</color>
     <color name="white">#FFFFFF</color>
     <color name="black_transparent">#77000000</color>
 </resources>

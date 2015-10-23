@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import java.util.List;
@@ -20,9 +21,9 @@ import java.util.List;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.net.DrinksProvider;
+import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
-import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -33,6 +34,8 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private View emptyView;
+    private View errorView;
+    private Button refreshButton;
 
     private DrinksProvider provider;
     private DrinksAdapter adapter;
@@ -50,6 +53,15 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
         progressBar = (ProgressBar) root.findViewById(R.id.progress_bar);
         emptyView = root.findViewById(R.id.empty);
+        errorView = root.findViewById(R.id.error);
+        refreshButton = (Button) root.findViewById(R.id.refresh);
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadDrinks();
+            }
+        });
 
         int columnCount = getResources().getInteger(R.integer.column_count);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));
@@ -66,19 +78,17 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     }
 
     private void loadDrinks() {
-        recyclerView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+        displayLoadingState();
         provider.getDrinks(this);
     }
 
     @Override
     public void onResponse(Response<List<Drink>> response, Retrofit retrofit) {
-        progressBar.setVisibility(View.GONE);
         if (response.isSuccess()) {
-            recyclerView.setVisibility(View.VISIBLE);
             adapter.setDrinks(response.body());
+            displayNormalState();
         } else {
-            // TODO display error view
+            displayErrorState();
             Log.e(TAG, "Couldn't retrieve drinks : " + response.message());
         }
     }
@@ -86,8 +96,25 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     @Override
     public void onFailure(Throwable t) {
         Log.e(TAG, "Couldn't retrieve drinks", t);
-        // TODO display error view
+        displayErrorState();
+    }
+
+    void displayLoadingState() {
+        errorView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    void displayErrorState() {
+        errorView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    void displayNormalState() {
+        errorView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override

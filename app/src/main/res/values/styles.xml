@@ -1,10 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/brown</item>
-        <item name="colorPrimaryDark">@color/brown_dark</item>
-        <item name="colorAccent">@color/blue</item>
+        <item name="colorPrimary">@color/cyan</item>
+        <item name="colorPrimaryDark">@color/cyan_dark</item>
+        <item name="colorAccent">@color/green</item>
         <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorButtonNormal" tools:targetApi="lollipop">?attr/colorAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
