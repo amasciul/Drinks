@@ -1,10 +1,14 @@
 package fr.masciulli.drinks.ui.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +22,12 @@ public class DrinkActivity extends AppCompatActivity {
 
     public static final String EXTRA_DRINK = "extra_drink";
     private Drink drink;
+    
+    private ImageView imageView;
+    private TextView historyView;
+    private TextView instructionsView;
+    private TextView ingredientsView;
+    private Button wikipediaButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +40,29 @@ public class DrinkActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(drink.name);
 
-        ImageView imageView = (ImageView) findViewById(R.id.image);
-        TextView historyView = (TextView) findViewById(R.id.history);
-        TextView instructionsView = (TextView) findViewById(R.id.instructions);
-        TextView ingredientsView = (TextView) findViewById(R.id.ingredients);
+        imageView = (ImageView) findViewById(R.id.image);
+        historyView = (TextView) findViewById(R.id.history);
+        instructionsView = (TextView) findViewById(R.id.instructions);
+        ingredientsView = (TextView) findViewById(R.id.ingredients);
+        wikipediaButton = (Button) findViewById(R.id.wikipedia);
 
+        setupViews();
+    }
+
+    private void setupViews() {
         Picasso.with(this).load(drink.imageUrl).into(imageView);
         historyView.setText(drink.history);
         instructionsView.setText(drink.instructions);
         ingredientsView.setText(parseIngredients());
+        wikipediaButton.setText(getString(R.string.wikipedia, drink.name));
+        wikipediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(drink.wikipedia));
+                startActivity(intent);
+            }
+        });
     }
 
     private Spanned parseIngredients() {
