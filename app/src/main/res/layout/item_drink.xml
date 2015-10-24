@@ -13,12 +13,17 @@
         android:scaleType="centerCrop"
         app:priority="width" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/gradient" />
+
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="bottom"
-        android:background="@color/black_transparent"
         android:gravity="center_vertical"
         android:paddingLeft="16dp"
         android:textColor="@android:color/white"
