@@ -25,8 +25,7 @@
     </style>
 
     <style name="FlatButton.TextAppearance" parent="TextAppearance.AppCompat.Button">
-        <item name="android:textColor">?android:attr/colorAccent</item>
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
-
 
 </resources>
