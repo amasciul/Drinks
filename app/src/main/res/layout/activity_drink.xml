@@ -21,6 +21,12 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/gradient" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
