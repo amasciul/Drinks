@@ -24,6 +24,7 @@ import fr.masciulli.drinks.net.DrinksProvider;
 import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
+import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -39,6 +40,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
 
     private DrinksProvider provider;
     private DrinksAdapter adapter;
+    private Call<List<Drink>> call;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,15 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
 
     private void loadDrinks() {
         displayLoadingState();
-        provider.getDrinks(this);
+        cancelPreviousCall();
+        call = provider.getDrinks();
+        call.enqueue(this);
+    }
+
+    private void cancelPreviousCall() {
+        if (call != null) {
+            call.cancel();
+        }
     }
 
     @Override
@@ -163,5 +173,11 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     public void onDestroyOptionsMenu() {
         adapter.clearFilter();
         super.onDestroyOptionsMenu();
+    }
+
+    @Override
+    public void onDestroy() {
+        cancelPreviousCall();
+        super.onDestroy();
     }
 }
