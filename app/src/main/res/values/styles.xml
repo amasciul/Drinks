@@ -4,7 +4,7 @@
         <item name="colorPrimary">@color/cyan</item>
         <item name="colorPrimaryDark">@color/cyan_dark</item>
         <item name="colorAccent">@color/green</item>
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,7 +13,7 @@
     </style>
 
     <style name="AppTheme.NoActionBar.WhiteBackground">
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="FlatButton">

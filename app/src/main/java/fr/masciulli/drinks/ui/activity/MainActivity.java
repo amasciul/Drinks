@@ -1,6 +1,7 @@
 package fr.masciulli.drinks.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,7 +19,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
+
         pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -32,9 +36,22 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position) {
+                    case POSITION_DRINKS:
+                        return getString(R.string.title_drinks);
+                    case POSITION_LIQUORS:
+                        return getString(R.string.title_liquors);
+                }
+                throw new IndexOutOfBoundsException("No fragment for position " + position);
+            }
+
+            @Override
             public int getCount() {
                 return 2;
             }
         });
+
+        tabLayout.setupWithViewPager(pager);
     }
 }

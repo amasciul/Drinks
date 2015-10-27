@@ -7,4 +7,6 @@
     <string name="refresh">Try again</string>
     <string name="history">History</string>
     <string name="wikipedia">See %1$s on Wikipedia</string>
+    <string name="title_drinks">Drinks</string>
+    <string name="title_liquors">Liquors</string>
 </resources>
