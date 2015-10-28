@@ -20,7 +20,7 @@ import java.util.List;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
-import fr.masciulli.drinks.net.DrinksProvider;
+import fr.masciulli.drinks.net.DataProvider;
 import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
@@ -38,7 +38,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private View errorView;
     private Button refreshButton;
 
-    private DrinksProvider provider;
+    private DataProvider provider;
     private DrinksAdapter adapter;
     private Call<List<Drink>> call;
 
@@ -46,7 +46,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        provider = new DrinksProvider();
+        provider = new DataProvider();
     }
 
     @Override

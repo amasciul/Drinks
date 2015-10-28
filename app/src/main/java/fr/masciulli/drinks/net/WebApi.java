@@ -6,7 +6,7 @@ import fr.masciulli.drinks.model.Drink;
 import retrofit.Call;
 import retrofit.http.GET;
 
-public interface DrinksService {
+public interface WebApi {
     @GET("/api/Drinks")
     Call<List<Drink>> getDrinks();
 }
