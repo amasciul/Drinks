@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
@@ -77,13 +78,13 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
 
     public void filter(String text) {
         filteredDrinks.clear();
-        text = text.toLowerCase();
+        text = text.toLowerCase(Locale.US);
         for (Drink drink : drinks) {
-            if (drink.name.toLowerCase().contains(text)) {
+            if (drink.name.toLowerCase(Locale.US).contains(text)) {
                 filteredDrinks.add(drink);
             } else {
                 for (String ingredient : drink.ingredients) {
-                    if (ingredient.toLowerCase().contains(text)) {
+                    if (ingredient.toLowerCase(Locale.US).contains(text)) {
                         filteredDrinks.add(drink);
                         break;
                     }
