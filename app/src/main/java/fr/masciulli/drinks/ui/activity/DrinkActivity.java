@@ -22,7 +22,7 @@ public class DrinkActivity extends AppCompatActivity {
 
     public static final String EXTRA_DRINK = "extra_drink";
     private Drink drink;
-    
+
     private ImageView imageView;
     private TextView historyView;
     private TextView instructionsView;
