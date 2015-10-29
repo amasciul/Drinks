@@ -38,7 +38,7 @@ public class DrinkActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(drink.name);
+        setTitle(drink.getName());
 
         imageView = (ImageView) findViewById(R.id.image);
         historyView = (TextView) findViewById(R.id.history);
@@ -50,16 +50,16 @@ public class DrinkActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        Picasso.with(this).load(drink.imageUrl).into(imageView);
-        historyView.setText(drink.history);
-        instructionsView.setText(drink.instructions);
+        Picasso.with(this).load(drink.getImageUrl()).into(imageView);
+        historyView.setText(drink.getHistory());
+        instructionsView.setText(drink.getInstructions());
         ingredientsView.setText(parseIngredients());
-        wikipediaButton.setText(getString(R.string.wikipedia, drink.name));
+        wikipediaButton.setText(getString(R.string.wikipedia, drink.getName()));
         wikipediaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(drink.wikipedia));
+                intent.setData(Uri.parse(drink.getWikipedia()));
                 startActivity(intent);
             }
         });
@@ -68,10 +68,10 @@ public class DrinkActivity extends AppCompatActivity {
     private Spanned parseIngredients() {
         StringBuilder builder = new StringBuilder();
         int i = 0;
-        for (String ingredient : drink.ingredients) {
+        for (String ingredient : drink.getIngredients()) {
             builder.append("&#8226; ");
             builder.append(ingredient);
-            if (++i < drink.ingredients.size()) {
+            if (++i < drink.getIngredients().size()) {
                 builder.append("<br>");
             }
         }

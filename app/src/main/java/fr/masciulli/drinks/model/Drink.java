@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Drink implements Parcelable {
-    public String name;
-    public String imageUrl;
-    public String history;
-    public float ratio;
-    public String wikipedia;
-    public String instructions;
-    public List<String> ingredients = new ArrayList<>();
+    private String name;
+
+    private String imageUrl;
+    private String history;
+    private float ratio;
+    private String wikipedia;
+    private String instructions;
+    private List<String> ingredients = new ArrayList<>();
 
     public Drink(Parcel source) {
         name = source.readString();
@@ -39,6 +40,34 @@ public class Drink implements Parcelable {
         dest.writeStringList(ingredients);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getHistory() {
+        return history;
+    }
+
+    public float getRatio() {
+        return ratio;
+    }
+
+    public String getWikipedia() {
+        return wikipedia;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
     public static final Creator<Drink> CREATOR = new Creator<Drink>() {
         @Override
         public Drink createFromParcel(Parcel source) {
@@ -50,4 +79,8 @@ public class Drink implements Parcelable {
             return new Drink[size];
         }
     };
+
+    public void setRatio(float ratio) {
+        this.ratio = ratio;
+    }
 }

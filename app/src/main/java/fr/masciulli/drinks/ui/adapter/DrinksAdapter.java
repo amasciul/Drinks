@@ -34,10 +34,10 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Drink drink = filteredDrinks.get(position);
-        holder.nameView.setText(drink.name);
-        holder.imageView.setRatio(drink.ratio);
+        holder.nameView.setText(drink.getName());
+        holder.imageView.setRatio(drink.getRatio());
         Picasso.with(holder.itemView.getContext())
-                .load(drink.imageUrl)
+                .load(drink.getImageUrl())
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
         // TODO remove this and use ratios given by server
         for (int i = 0, size = drinks.size(); i < size; i++) {
             Drink drink = drinks.get(i);
-            drink.ratio = ratios[i % ratios.length];
+            drink.setRatio(ratios[i % ratios.length]);
         }
     }
 
@@ -80,10 +80,10 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
         filteredDrinks.clear();
         text = text.toLowerCase(Locale.US);
         for (Drink drink : drinks) {
-            if (drink.name.toLowerCase(Locale.US).contains(text)) {
+            if (drink.getName().toLowerCase(Locale.US).contains(text)) {
                 filteredDrinks.add(drink);
             } else {
-                for (String ingredient : drink.ingredients) {
+                for (String ingredient : drink.getIngredients()) {
                     if (ingredient.toLowerCase(Locale.US).contains(text)) {
                         filteredDrinks.add(drink);
                         break;
