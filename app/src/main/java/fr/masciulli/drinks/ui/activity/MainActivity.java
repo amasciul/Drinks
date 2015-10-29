@@ -34,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
                         return new DrinksFragment();
                     case POSITION_LIQUORS:
                         return new LiquorsFragment();
+                    default:
+                        throw new IndexOutOfBoundsException("No fragment for position " + position);
                 }
-                throw new IndexOutOfBoundsException("No fragment for position " + position);
             }
 
             @Override
@@ -45,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
                         return getString(R.string.title_drinks);
                     case POSITION_LIQUORS:
                         return getString(R.string.title_liquors);
+                    default:
+                        throw new IndexOutOfBoundsException("No fragment for position " + position);
                 }
-                throw new IndexOutOfBoundsException("No fragment for position " + position);
             }
 
             @Override
