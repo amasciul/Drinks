@@ -3,6 +3,7 @@ package fr.masciulli.drinks.net;
 import java.util.List;
 
 import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.model.Liquor;
 import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -16,5 +17,9 @@ public class DataProvider {
 
     public Call<List<Drink>> getDrinks() {
         return retrofit.getDrinks();
+    }
+
+    public Call<List<Liquor>> getLiquors() {
+        return retrofit.getLiquors();
     }
 }
