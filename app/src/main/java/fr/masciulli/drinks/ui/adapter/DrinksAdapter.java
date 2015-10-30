@@ -43,7 +43,9 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(position, drink);
+                if (listener != null) {
+                    listener.onItemClick(position, drink);
+                }
             }
         });
     }
