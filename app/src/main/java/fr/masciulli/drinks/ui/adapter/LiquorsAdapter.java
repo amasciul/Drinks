@@ -14,19 +14,28 @@ import java.util.List;
 
 public class LiquorsAdapter extends RecyclerView.Adapter<LiquorsAdapter.ViewHolder> {
 
-    private ItemClickListener<Liquor> itemClickListener;
+    private ItemClickListener<Liquor> listener;
     private List<Liquor> liquors = new ArrayList<>();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_liquor, parent, false);
+        View rootView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_liquor, parent, false);
         return new ViewHolder(rootView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Liquor liquor = liquors.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final Liquor liquor = liquors.get(position);
         holder.nameView.setText(liquor.getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(position, liquor);
+                }
+            }
+        });
     }
 
     @Override
@@ -34,8 +43,8 @@ public class LiquorsAdapter extends RecyclerView.Adapter<LiquorsAdapter.ViewHold
         return liquors.size();
     }
 
-    public void setItemClickListener(ItemClickListener<Liquor> itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    public void setItemClickListener(ItemClickListener<Liquor> listener) {
+        this.listener = listener;
     }
 
     public void setLiquors(List<Liquor> liquors) {

@@ -122,7 +122,8 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     }
 
     @Override
-    public void onItemClick(int position, Liquor item) {
+    public void onItemClick(int position, Liquor liquor) {
+        Log.d(TAG, liquor.getName() + " clicked");
         //TODO open liquor detail
     }
 }
