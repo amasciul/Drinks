@@ -28,7 +28,6 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private View emptyView;
     private View errorView;
 
     private LiquorsAdapter adapter;
@@ -46,7 +45,6 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
         View rootView =  inflater.inflate(R.layout.fragment_liquors, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
-        emptyView = rootView.findViewById(R.id.empty);
         errorView = rootView.findViewById(R.id.error);
         Button refreshButton = (Button) rootView.findViewById(R.id.refresh);
 
@@ -123,6 +121,6 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
 
     @Override
     public void onItemClick(int position, Liquor item) {
-
+        //TODO open liquor detail
     }
 }
