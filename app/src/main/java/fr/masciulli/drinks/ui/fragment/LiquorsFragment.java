@@ -13,6 +13,7 @@ import java.util.List;
 
 import android.widget.Button;
 import android.widget.ProgressBar;
+
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.DataProvider;
@@ -23,7 +24,8 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,ItemClickListener<Liquor> {
+public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
+        ItemClickListener<Liquor> {
     private static final String TAG = LiquorsFragment.class.getSimpleName();
 
     private RecyclerView recyclerView;
@@ -42,7 +44,7 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_liquors, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_liquors, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         errorView = rootView.findViewById(R.id.error);
