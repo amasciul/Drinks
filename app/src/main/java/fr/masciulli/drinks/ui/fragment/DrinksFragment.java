@@ -36,7 +36,6 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private ProgressBar progressBar;
     private View emptyView;
     private View errorView;
-    private Button refreshButton;
 
     private DataProvider provider;
     private DrinksAdapter adapter;
@@ -51,12 +50,12 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_drinks, container, false);
-        recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
-        progressBar = (ProgressBar) root.findViewById(R.id.progress_bar);
-        emptyView = root.findViewById(R.id.empty);
-        errorView = root.findViewById(R.id.error);
-        refreshButton = (Button) root.findViewById(R.id.refresh);
+        View rootView = inflater.inflate(R.layout.fragment_drinks, container, false);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        emptyView = rootView.findViewById(R.id.empty);
+        errorView = rootView.findViewById(R.id.error);
+        Button refreshButton = (Button) rootView.findViewById(R.id.refresh);
 
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +69,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         adapter = new DrinksAdapter();
         adapter.setItemClickListener(this);
         recyclerView.setAdapter(adapter);
-        return root;
+        return rootView;
     }
 
     @Override
