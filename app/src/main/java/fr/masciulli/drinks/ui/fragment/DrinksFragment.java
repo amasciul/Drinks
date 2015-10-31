@@ -40,6 +40,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private DataProvider provider;
     private DrinksAdapter adapter;
     private Call<List<Drink>> call;
+    private boolean drinksLoaded = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,14 +74,17 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        loadDrinks();
+    public void onStart() {
+        super.onStart();
+        if (!drinksLoaded) {
+            loadDrinks();
+        }
     }
 
     private void loadDrinks() {
         displayLoadingState();
         cancelPreviousCall();
+        drinksLoaded = false;
         call = provider.getDrinks();
         call.enqueue(this);
     }
@@ -94,6 +98,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     @Override
     public void onResponse(Response<List<Drink>> response, Retrofit retrofit) {
         if (response.isSuccess()) {
+            drinksLoaded = true;
             adapter.setDrinks(response.body());
             displayNormalState();
         } else {
@@ -175,8 +180,8 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         cancelPreviousCall();
-        super.onDestroy();
+        super.onStop();
     }
 }
