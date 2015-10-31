@@ -4,6 +4,7 @@
     <string name="drinks_empty">No drinks found</string>
     <string name="liquors_empty">No liquors found</string>
     <string name="content_description_drink">Drink picture</string>
+    <string name="content_description_liquor">Liquor picture</string>
     <string name="network_error">Couldn\'t reach network</string>
     <string name="refresh">Try again</string>
     <string name="history">History</string>

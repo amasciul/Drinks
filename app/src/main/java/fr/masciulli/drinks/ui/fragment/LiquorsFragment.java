@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.DataProvider;
+import fr.masciulli.drinks.ui.activity.LiquorActivity;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorsAdapter;
 import retrofit.Call;
@@ -128,7 +130,8 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
 
     @Override
     public void onItemClick(int position, Liquor liquor) {
-        Log.d(TAG, liquor.getName() + " clicked");
-        //TODO open liquor detail
+        Intent intent = new Intent(getActivity(), LiquorActivity.class);
+        intent.putExtra(LiquorActivity.EXTRA_LIQUOR, liquor);
+        startActivity(intent);
     }
 }
