@@ -176,6 +176,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     @Override
     public void onDestroyOptionsMenu() {
         adapter.clearFilter();
+        hideEmptyView();
         super.onDestroyOptionsMenu();
     }
 
