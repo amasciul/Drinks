@@ -35,6 +35,7 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     private LiquorsAdapter adapter;
     private DataProvider provider;
     private Call<List<Liquor>> call;
+    private boolean liquorsLoaded = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,14 +68,17 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        loadLiquors();
+    public void onStart() {
+        super.onStart();
+        if (!liquorsLoaded) {
+            loadLiquors();
+        }
     }
 
     private void loadLiquors() {
         displayLoadingState();
         cancelPreviousCall();
+        liquorsLoaded = false;
         call = provider.getLiquors();
         call.enqueue(this);
     }
@@ -89,6 +93,7 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     public void onResponse(Response<List<Liquor>> response, Retrofit retrofit) {
         Log.d(TAG, response.body().toString());
         if (response.isSuccess()) {
+            liquorsLoaded = true;
             adapter.setLiquors(response.body());
             displayNormalState();
         } else {
