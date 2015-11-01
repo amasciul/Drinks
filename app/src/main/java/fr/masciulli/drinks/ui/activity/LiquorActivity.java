@@ -28,7 +28,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 public class LiquorActivity extends AppCompatActivity implements Callback<List<Drink>> {
-    private final static String TAG = LiquorActivity.class.getSimpleName();
+    private static final String TAG = LiquorActivity.class.getSimpleName();
     public static final String EXTRA_LIQUOR = "extra_liquor";
 
     private Liquor liquor;
