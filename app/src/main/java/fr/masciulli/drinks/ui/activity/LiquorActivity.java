@@ -1,26 +1,22 @@
 package fr.masciulli.drinks.ui.activity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
 
 public class LiquorActivity extends AppCompatActivity {
     public static final String EXTRA_LIQUOR = "extra_liquor";
 
-    private ImageView imageView;
-    private TextView historyView;
-    private Button wikipediaButton;
+    private RecyclerView recyclerView;
     private Liquor liquor;
 
     @Override
@@ -35,24 +31,33 @@ public class LiquorActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(liquor.getName());
 
-        imageView = (ImageView) findViewById(R.id.image);
-        historyView = (TextView) findViewById(R.id.history);
-        wikipediaButton = (Button) findViewById(R.id.wikipedia);
+        ImageView imageView = (ImageView) findViewById(R.id.image);
+        Picasso.with(this).load(liquor.getImageUrl()).into(imageView);
 
-        setupViews();
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        initRecyclerView();
     }
 
-    private void setupViews() {
-        historyView.setText(liquor.getHistory());
-        wikipediaButton.setText(getString(R.string.wikipedia, liquor.getName()));
-        wikipediaButton.setOnClickListener(new View.OnClickListener() {
+    private void initRecyclerView() {
+        final LiquorRelatedAdapter adapter = new LiquorRelatedAdapter(liquor);
+        final int columnCount = getResources().getInteger(R.integer.column_count);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, columnCount);
+
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(liquor.getWikipedia()));
-                startActivity(intent);
+            public int getSpanSize(int position) {
+                switch (adapter.getItemViewType(position)) {
+                    case LiquorRelatedAdapter.TYPE_HEADER:
+                        return columnCount;
+                    case LiquorRelatedAdapter.TYPE_DRINK:
+                        return 1;
+                    default:
+                        throw new IllegalArgumentException("Unknown view type");
+                }
             }
         });
-        Picasso.with(this).load(liquor.getImageUrl()).into(imageView);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 }
