@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
@@ -116,13 +117,14 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
         List<Drink> related = new ArrayList<>();
         for (Drink drink : drinks) {
             for (String ingredient : drink.getIngredients()) {
-                if (ingredient.contains(liquor.getName())) {
+                String lowerCaseIngredient = ingredient.toLowerCase(Locale.US);
+                if (lowerCaseIngredient.contains(liquor.getName().toLowerCase(Locale.US))) {
                     related.add(drink);
                     break;
                 }
                 boolean matches = false;
                 for (String name : liquor.getOtherNames()) {
-                    if (ingredient.contains(name)) {
+                    if (lowerCaseIngredient.contains(name.toLowerCase(Locale.US))) {
                         related.add(drink);
                         matches = true;
                         break;
