@@ -37,20 +37,15 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private View emptyView;
     private View errorView;
 
-    private DataProvider provider;
+    private DataProvider provider = new DataProvider();
     private DrinksAdapter adapter;
     private Call<List<Drink>> call;
     private boolean drinksLoaded = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        provider = new DataProvider();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+
         View rootView = inflater.inflate(R.layout.fragment_drinks, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
