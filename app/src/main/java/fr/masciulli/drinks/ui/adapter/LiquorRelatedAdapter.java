@@ -22,15 +22,11 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_DRINK = 1;
 
-    private final Liquor liquor;
+    private Liquor liquor;
     private List<Drink> drinks = new ArrayList<>();
 
     private ItemClickListener<Liquor> wikipediaClickListener;
-
-    public LiquorRelatedAdapter(Liquor liquor, ItemClickListener<Liquor> wikipediaClickListener) {
-        this.liquor = liquor;
-        this.wikipediaClickListener = wikipediaClickListener;
-    }
+    private ItemClickListener<Drink> drinkClickListener;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,20 +53,28 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
                 headerViewHolder.historyView.setText(liquor.getHistory());
                 headerViewHolder.wikipediaButton
                         .setText(context.getString(R.string.wikipedia, liquor.getName()));
-                headerViewHolder.wikipediaButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (wikipediaClickListener != null) {
+                if (wikipediaClickListener != null) {
+                    headerViewHolder.wikipediaButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
                             wikipediaClickListener.onItemClick(position, liquor);
                         }
-                    }
-                });
+                    });
+                }
                 return;
 
             case TYPE_DRINK:
-                Drink drink = drinks.get(position - 1);
+                final Drink drink = drinks.get(position - 1);
                 DrinkViewHolder drinkViewHolder = (DrinkViewHolder) holder;
                 drinkViewHolder.nameView.setText(drink.getName());
+                if (drinkClickListener != null) {
+                    drinkViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            drinkClickListener.onItemClick(position, drink);
+                        }
+                    });
+                }
                 Picasso.with(context).load(drink.getImageUrl()).into(drinkViewHolder.imageView);
                 return;
             default:
@@ -88,10 +92,23 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
         return position == 0 ? TYPE_HEADER : TYPE_DRINK;
     }
 
+    public void setLiquor(Liquor liquor) {
+        this.liquor = liquor;
+        notifyItemChanged(0);
+    }
+
     public void setRelatedDrinks(List<Drink> drinks) {
         this.drinks.clear();
         this.drinks.addAll(drinks);
         notifyItemRangeChanged(1, drinks.size());
+    }
+
+    public void setWikipediaClickListener(ItemClickListener<Liquor> listener) {
+        wikipediaClickListener = listener;
+    }
+
+    public void setDrinkClickListener(ItemClickListener<Drink> listener) {
+        drinkClickListener = listener;
     }
 
     public abstract class ViewHolder extends RecyclerView.ViewHolder {

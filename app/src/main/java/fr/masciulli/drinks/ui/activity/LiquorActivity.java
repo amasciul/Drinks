@@ -59,10 +59,19 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     }
 
     private void setupRecyclerView() {
-        adapter = new LiquorRelatedAdapter(liquor, new ItemClickListener<Liquor>() {
+        adapter = new LiquorRelatedAdapter();
+        adapter.setLiquor(liquor);
+        adapter.setWikipediaClickListener(new ItemClickListener<Liquor>() {
             @Override
-            public void onItemClick(int position, Liquor item) {
+            public void onItemClick(int position, Liquor liquor) {
                 onWikipediaClick();
+            }
+        });
+
+        adapter.setDrinkClickListener(new ItemClickListener<Drink>() {
+            @Override
+            public void onItemClick(int position, Drink drink) {
+                onDrinkClick(drink);
             }
         });
 
@@ -90,6 +99,12 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     private void onWikipediaClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(liquor.getWikipedia()));
+        startActivity(intent);
+    }
+
+    private void onDrinkClick(Drink drink) {
+        Intent intent = new Intent(this, DrinkActivity.class);
+        intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
         startActivity(intent);
     }
 
