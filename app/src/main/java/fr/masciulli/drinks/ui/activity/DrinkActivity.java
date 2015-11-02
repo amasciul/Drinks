@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -76,5 +79,29 @@ public class DrinkActivity extends AppCompatActivity {
             }
         }
         return Html.fromHtml(builder.toString());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_drink, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            shareDrink();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void shareDrink() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.getName());
+        sendIntent.putExtra(Intent.EXTRA_TEXT, parseIngredients());
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 }
