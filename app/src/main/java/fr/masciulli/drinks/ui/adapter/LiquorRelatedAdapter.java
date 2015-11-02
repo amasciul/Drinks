@@ -45,41 +45,49 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        Context context = holder.itemView.getContext();
+    public void onBindViewHolder(ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_HEADER:
-                HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-                headerViewHolder.historyView.setText(liquor.getHistory());
-                headerViewHolder.wikipediaButton
-                        .setText(context.getString(R.string.wikipedia, liquor.getName()));
-                if (wikipediaClickListener != null) {
-                    headerViewHolder.wikipediaButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            wikipediaClickListener.onItemClick(position, liquor);
-                        }
-                    });
-                }
+                bindHeaderHolder((HeaderViewHolder) holder, position);
                 return;
-
             case TYPE_DRINK:
-                final Drink drink = drinks.get(position - 1);
-                DrinkViewHolder drinkViewHolder = (DrinkViewHolder) holder;
-                drinkViewHolder.nameView.setText(drink.getName());
-                if (drinkClickListener != null) {
-                    drinkViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            drinkClickListener.onItemClick(position, drink);
-                        }
-                    });
-                }
-                Picasso.with(context).load(drink.getImageUrl()).into(drinkViewHolder.imageView);
+                bindDrinkHolder((DrinkViewHolder) holder, position);
                 return;
             default:
                 throw new IllegalArgumentException("Unknown view type");
         }
+    }
+
+    private void bindHeaderHolder(HeaderViewHolder holder, final int position) {
+        Context context = holder.itemView.getContext();
+
+        holder.historyView.setText(liquor.getHistory());
+        holder.wikipediaButton
+                .setText(context.getString(R.string.wikipedia, liquor.getName()));
+        if (wikipediaClickListener != null) {
+            holder.wikipediaButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    wikipediaClickListener.onItemClick(position, liquor);
+                }
+            });
+        }
+    }
+
+    private void bindDrinkHolder(DrinkViewHolder holder, final int position) {
+        Context context = holder.itemView.getContext();
+
+        final Drink drink = drinks.get(position - 1);
+        holder.nameView.setText(drink.getName());
+        if (drinkClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drinkClickListener.onItemClick(position, drink);
+                }
+            });
+        }
+        Picasso.with(context).load(drink.getImageUrl()).into(holder.imageView);
     }
 
     @Override
