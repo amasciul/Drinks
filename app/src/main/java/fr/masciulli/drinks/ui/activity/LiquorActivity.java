@@ -34,6 +34,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     private Liquor liquor;
     private DataProvider provider = new DataProvider();
     private Call<List<Drink>> call;
+    private boolean drinksLoaded = false;
     private LiquorRelatedAdapter adapter;
 
     private RecyclerView recyclerView;
@@ -95,8 +96,22 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     @Override
     protected void onStart() {
         super.onStart();
+        if (!drinksLoaded) {
+            loadDrinks();
+        }
+
+    }
+
+    private void loadDrinks() {
+        cancelPreviousCall();
         call = provider.getDrinks();
         call.enqueue(this);
+    }
+
+    private void cancelPreviousCall() {
+        if (call != null) {
+            call.cancel();
+        }
     }
 
     @Override
@@ -136,5 +151,11 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
             }
         }
         return related;
+    }
+
+    @Override
+    protected void onStop() {
+        cancelPreviousCall();
+        super.onStop();
     }
 }
