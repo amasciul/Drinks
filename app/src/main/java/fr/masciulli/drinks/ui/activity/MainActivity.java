@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.ui.fragment.DrinksFragment;
@@ -58,5 +61,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         tabLayout.setupWithViewPager(pager);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_about) {
+            openAbout();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openAbout() {
+        startActivity(new Intent(this, AboutActivity.class));
     }
 }

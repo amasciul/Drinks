@@ -12,4 +12,5 @@
     <string name="title_drinks">Cocktails</string>
     <string name="title_liquors">Liquors</string>
     <string name="action_share">Share</string>
+    <string name="action_about">About</string>
 </resources>
