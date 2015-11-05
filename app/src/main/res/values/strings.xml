@@ -13,4 +13,6 @@
     <string name="title_liquors">Liquors</string>
     <string name="action_share">Share</string>
     <string name="action_about">About</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="credits">Alexandre Masciulli - Paris, France</string>
 </resources>
