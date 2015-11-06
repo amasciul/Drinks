@@ -1,6 +1,7 @@
 package fr.masciulli.drinks.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -71,13 +72,29 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_about) {
-            openAbout();
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                openAbout();
+                return true;
+            case R.id.action_feedback:
+                sendFeedback();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void openAbout() {
         startActivity(new Intent(this, AboutActivity.class));
+    }
+
+
+    private void sendFeedback() {
+        Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+        String uriText = "mailto:" + Uri.encode(getString(R.string.feedback_mail)) +
+                "?subject=" + Uri.encode(getString(R.string.feedback_default_subject));
+        Uri uri = Uri.parse(uriText);
+        sendIntent.setData(uri);
+        startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.action_feedback)));
     }
 }
