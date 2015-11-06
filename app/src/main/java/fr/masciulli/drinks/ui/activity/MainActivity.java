@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendFeedback() {
         Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-        String uriText = "mailto:" + Uri.encode(getString(R.string.feedback_mail)) +
-                "?subject=" + Uri.encode(getString(R.string.feedback_default_subject));
+        String uriText = "mailto:" + Uri.encode(getString(R.string.feedback_mail))
+                + "?subject=" + Uri.encode(getString(R.string.feedback_default_subject));
         Uri uri = Uri.parse(uriText);
         sendIntent.setData(uri);
         startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.action_feedback)));
