@@ -95,6 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 + "?subject=" + Uri.encode(getString(R.string.feedback_default_subject));
         Uri uri = Uri.parse(uriText);
         sendIntent.setData(uri);
-        startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.action_feedback)));
+        startActivity(Intent.createChooser(sendIntent, getString(R.string.action_feedback)));
     }
 }
