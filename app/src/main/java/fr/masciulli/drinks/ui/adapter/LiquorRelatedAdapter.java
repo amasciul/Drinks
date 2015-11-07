@@ -64,6 +64,8 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
         holder.historyView.setText(liquor.getHistory());
         holder.wikipediaButton
                 .setText(context.getString(R.string.wikipedia, liquor.getName()));
+        holder.relatedDrinksTitle
+                .setText(context.getString(R.string.related_drinks, liquor.getName()));
         if (wikipediaClickListener != null) {
             holder.wikipediaButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -128,11 +130,13 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
     private class HeaderViewHolder extends ViewHolder {
         private final TextView historyView;
         private final Button wikipediaButton;
+        private final TextView relatedDrinksTitle;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
             historyView = (TextView) itemView.findViewById(R.id.history);
             wikipediaButton = (Button) itemView.findViewById(R.id.wikipedia);
+            relatedDrinksTitle = (TextView) itemView.findViewById(R.id.related_drinks_title);
         }
     }
 

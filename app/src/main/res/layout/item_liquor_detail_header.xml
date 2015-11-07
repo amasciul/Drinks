@@ -19,4 +19,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp" />
 
+    <TextView
+        android:id="@+id/related_drinks_title"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
 </LinearLayout>
