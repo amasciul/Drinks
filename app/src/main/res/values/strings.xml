@@ -19,4 +19,6 @@
     <string name="feedback_mail">alexandre.masciulli@gmail.com</string>
     <string name="feedback_default_subject">[Drinks] Feedback</string>
     <string name="related_drinks">Those cocktails contain %1$s :</string>
+    <string name="action_licenses">Open source licenses</string>
+    <string name="title_licenses">Open source licenses</string>
 </resources>

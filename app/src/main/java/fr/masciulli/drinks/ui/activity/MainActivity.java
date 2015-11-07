@@ -79,9 +79,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_feedback:
                 sendFeedback();
                 return true;
+            case R.id.action_licenses:
+                openLicenses();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void openLicenses() {
+        startActivity(new Intent(this, LicensesActivity.class));
     }
 
     private void openAbout() {
