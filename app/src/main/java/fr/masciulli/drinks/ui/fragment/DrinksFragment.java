@@ -37,10 +37,16 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private View emptyView;
     private View errorView;
 
-    private DataProvider provider = new DataProvider();
+    private DataProvider provider;
     private DrinksAdapter adapter;
     private Call<List<Drink>> call;
     private boolean drinksLoaded = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        provider = new DataProvider(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

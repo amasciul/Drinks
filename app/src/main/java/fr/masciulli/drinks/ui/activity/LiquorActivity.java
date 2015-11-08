@@ -32,7 +32,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     public static final String EXTRA_LIQUOR = "extra_liquor";
 
     private Liquor liquor;
-    private DataProvider provider = new DataProvider();
+    private DataProvider provider;
     private Call<List<Drink>> call;
     private boolean drinksLoaded = false;
     private LiquorRelatedAdapter adapter;
@@ -43,6 +43,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         liquor = getIntent().getParcelableExtra(EXTRA_LIQUOR);
+        provider = new DataProvider(this);
 
         setContentView(R.layout.activity_liquor);
 
