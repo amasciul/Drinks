@@ -28,8 +28,7 @@ android {
         }
     }
     lintOptions {
-        disable 'InvalidPackage'
-        disable 'PrivateResource'
+        lintConfig file('../gradle/lint.xml')
     }
 }
 

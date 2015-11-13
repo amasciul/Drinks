@@ -1,0 +1,10 @@
+<lint>
+    <issue id="InvalidPackage">
+        <ignore regexp=".*okio.*" />
+        <ignore regexp=".*retrofit.*" />
+    </issue>
+
+    <issue id="PrivateResource">
+        <ignore regexp=".*com.android.support.*" />
+    </issue>
+</lint>
