@@ -2,21 +2,20 @@ package fr.masciulli.drinks.net;
 
 import android.content.Context;
 
-import com.squareup.okhttp.Cache;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
-import retrofit.Call;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.Cache;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Retrofit;
 
 public class DataProvider {
 
@@ -36,21 +35,22 @@ public class DataProvider {
         File httpCacheDirectory = new File(context.getCacheDir(), CACHE_RESPONSES_DIR);
         Cache cache = new Cache(httpCacheDirectory, CACHE_MAX_SIZE);
 
-        OkHttpClient client = new OkHttpClient();
-        client.interceptors().add(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request.Builder builder = chain.request().newBuilder();
-                if (new ConnectivityChecker(context).isConnectedOrConnecting()) {
-                    builder.addHeader(HEADER_CACHE_CONTROL, HEADER_CACHE_CONTROL_PUBLIC);
-                } else {
-                    builder.addHeader(HEADER_CACHE_CONTROL,
-                            HEADER_CACHE_CONTROL_ONLY_IF_CACHED + HEADER_CACHE_CONTROL_MAX_STATE);
-                }
-                return chain.proceed(builder.build());
-            }
-        });
-        client.setCache(cache);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .cache(cache)
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request.Builder builder = chain.request().newBuilder();
+                        if (new ConnectivityChecker(context).isConnectedOrConnecting()) {
+                            builder.addHeader(HEADER_CACHE_CONTROL, HEADER_CACHE_CONTROL_PUBLIC);
+                        } else {
+                            builder.addHeader(HEADER_CACHE_CONTROL,
+                                    HEADER_CACHE_CONTROL_ONLY_IF_CACHED + HEADER_CACHE_CONTROL_MAX_STATE);
+                        }
+                        return chain.proceed(builder.build());
+                    }
+                })
+                .build();
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(SERVER_BASE_URL)

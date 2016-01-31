@@ -4,8 +4,8 @@ import java.util.List;
 
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
-import retrofit.Call;
-import retrofit.http.GET;
+import retrofit2.Call;
+import retrofit2.http.GET;
 
 public interface WebApi {
     @GET("/api/Drinks")

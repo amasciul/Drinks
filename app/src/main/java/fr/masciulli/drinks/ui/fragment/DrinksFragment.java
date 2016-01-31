@@ -24,10 +24,9 @@ import fr.masciulli.drinks.net.DataProvider;
 import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DrinksFragment extends Fragment implements Callback<List<Drink>>, SearchView.OnQueryTextListener, ItemClickListener<Drink> {
     private static final String TAG = DrinksFragment.class.getSimpleName();
@@ -97,7 +96,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     }
 
     @Override
-    public void onResponse(Response<List<Drink>> response, Retrofit retrofit) {
+    public void onResponse(Response<List<Drink>> response) {
         if (response.isSuccess()) {
             drinksLoaded = true;
             adapter.setDrinks(response.body());

@@ -21,10 +21,9 @@ import fr.masciulli.drinks.net.DataProvider;
 import fr.masciulli.drinks.ui.activity.LiquorActivity;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorsAdapter;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
         ItemClickListener<Liquor> {
@@ -92,7 +91,7 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     }
 
     @Override
-    public void onResponse(Response<List<Liquor>> response, Retrofit retrofit) {
+    public void onResponse(Response<List<Liquor>> response) {
         Log.d(TAG, response.body().toString());
         if (response.isSuccess()) {
             liquorsLoaded = true;

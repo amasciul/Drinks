@@ -22,10 +22,9 @@ import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.DataProvider;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LiquorActivity extends AppCompatActivity implements Callback<List<Drink>> {
     private static final String TAG = LiquorActivity.class.getSimpleName();
@@ -131,7 +130,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     }
 
     @Override
-    public void onResponse(Response<List<Drink>> response, Retrofit retrofit) {
+    public void onResponse(Response<List<Drink>> response) {
         if (response.isSuccess()) {
             adapter.setRelatedDrinks(filterRelatedDrinks(response.body()));
         } else {
