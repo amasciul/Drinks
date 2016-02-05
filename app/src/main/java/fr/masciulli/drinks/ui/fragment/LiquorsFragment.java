@@ -91,7 +91,7 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     }
 
     @Override
-    public void onResponse(Response<List<Liquor>> response) {
+    public void onResponse(Call<List<Liquor>> call, Response<List<Liquor>> response) {
         Log.d(TAG, response.body().toString());
         if (response.isSuccess()) {
             liquorsLoaded = true;
@@ -104,7 +104,7 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call<List<Liquor>> call, Throwable t) {
         Log.e(TAG, "Couldn't retrieve liquors", t);
         displayErrorState();
     }

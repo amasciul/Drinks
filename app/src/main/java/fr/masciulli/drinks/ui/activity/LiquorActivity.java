@@ -130,7 +130,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     }
 
     @Override
-    public void onResponse(Response<List<Drink>> response) {
+    public void onResponse(Call<List<Drink>> call, Response<List<Drink>> response) {
         if (response.isSuccess()) {
             adapter.setRelatedDrinks(filterRelatedDrinks(response.body()));
         } else {
@@ -139,7 +139,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call<List<Drink>> call, Throwable t) {
         Log.d(TAG, "Couldn't load related drinks", t);
     }
 
