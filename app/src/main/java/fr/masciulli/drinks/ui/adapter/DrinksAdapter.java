@@ -32,7 +32,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final Drink drink = filteredDrinks.get(position);
         holder.nameView.setText(drink.getName());
         holder.imageView.setRatio(drink.getRatio());
@@ -44,7 +44,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onItemClick(position, drink);
+                    listener.onItemClick(holder.getAdapterPosition(), drink);
                 }
             }
         });

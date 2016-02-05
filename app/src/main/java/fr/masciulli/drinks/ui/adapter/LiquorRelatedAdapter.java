@@ -48,7 +48,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_HEADER:
-                bindHeaderHolder((HeaderViewHolder) holder, position);
+                bindHeaderHolder((HeaderViewHolder) holder);
                 return;
             case TYPE_DRINK:
                 bindDrinkHolder((DrinkViewHolder) holder, position);
@@ -58,7 +58,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
         }
     }
 
-    private void bindHeaderHolder(HeaderViewHolder holder, final int position) {
+    private void bindHeaderHolder(final HeaderViewHolder holder) {
         Context context = holder.itemView.getContext();
 
         holder.historyView.setText(liquor.getHistory());
@@ -70,13 +70,13 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
             holder.wikipediaButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    wikipediaClickListener.onItemClick(position, liquor);
+                    wikipediaClickListener.onItemClick(holder.getAdapterPosition(), liquor);
                 }
             });
         }
     }
 
-    private void bindDrinkHolder(DrinkViewHolder holder, final int position) {
+    private void bindDrinkHolder(final DrinkViewHolder holder, final int position) {
         Context context = holder.itemView.getContext();
 
         final Drink drink = drinks.get(position - 1);
@@ -85,7 +85,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    drinkClickListener.onItemClick(position, drink);
+                    drinkClickListener.onItemClick(holder.getAdapterPosition(), drink);
                 }
             });
         }
