@@ -1,0 +1,19 @@
+language: android
+
+android:
+    components:
+      - tools
+      - platform-tools
+      - build-tools-23.0.2
+      - android-23
+      - extra-android-support
+      - extra-android-m2repository
+    licenses:
+      - android-sdk-license-.+
+
+script:
+  - ./gradlew lintDebug testDebug checkstyle
+
+after_script:
+  - cat app/build/outputs/lint-*debug.xml
+  - cat app/build/reports/checkstyle/*.xml
