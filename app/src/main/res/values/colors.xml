@@ -2,7 +2,7 @@
 <resources>
     <color name="cyan">#00ACC1</color>
     <color name="cyan_dark">#0097A7</color>
-    <color name="green">#4CAF50</color>
+    <color name="orange">#FF9800</color>
     <color name="white_transparent">#77FFFFFF</color>
     <color name="black_transparent">#44000000</color>
 </resources>

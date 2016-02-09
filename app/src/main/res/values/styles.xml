@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/cyan</item>
         <item name="colorPrimaryDark">@color/cyan_dark</item>
-        <item name="colorAccent">@color/green</item>
+        <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
