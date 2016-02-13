@@ -89,7 +89,10 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter<LiquorRelatedAdap
                 }
             });
         }
-        Picasso.with(context).load(drink.getImageUrl()).into(holder.imageView);
+        Picasso.with(context).load(drink.getImageUrl())
+                .fit()
+                .centerCrop()
+                .into(holder.imageView);
     }
 
     @Override

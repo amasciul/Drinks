@@ -38,6 +38,8 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
         holder.imageView.setRatio(drink.getRatio());
         Picasso.with(holder.itemView.getContext())
                 .load(drink.getImageUrl())
+                .fit()
+                .centerCrop()
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

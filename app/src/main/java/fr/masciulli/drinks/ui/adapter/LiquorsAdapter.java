@@ -35,6 +35,8 @@ public class LiquorsAdapter extends RecyclerView.Adapter<LiquorsAdapter.ViewHold
         holder.imageView.setRatio(liquor.getRatio());
         Picasso.with(holder.itemView.getContext())
                 .load(liquor.getImageUrl())
+                .fit()
+                .centerCrop()
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
