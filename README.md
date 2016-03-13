@@ -1,14 +1,12 @@
 Drinks
 ======
 
-![Logo](website/drinks-full-192.png)
-
 An ultra simple app for making cocktails.
 
-To try Drinks latest beta, join the ["Drinks Android beta testers" Google+ community](https://plus.google.com/communities/117756751911042042036). Alternatively, you can join the [Drinks beta testers Google group](https://groups.google.com/forum/?hl=en#!forum/drinks-beta-testers).
-Feedbacks are more than welcome !
+![Screenshot](website/screenshot.png)
 
-[![Drinks on Play Store](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=fr.masciulli.drinks)
+[![Drinks on Play Store](website/badge_googleplay.png)](https://play.google.com/store/apps/details?id=fr.masciulli.drinks)
+[![Drinks on F-Droid](website/badge_fdroid.png)](https://f-droid.org/repository/browse/?fdfilter=drinks&fdid=fr.masciulli.drinks)
 
 License
 =======
