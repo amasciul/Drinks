@@ -131,7 +131,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
 
     @Override
     public void onResponse(Call<List<Drink>> call, Response<List<Drink>> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             adapter.setRelatedDrinks(filterRelatedDrinks(response.body()));
         } else {
             Log.e(TAG, "Couldn't retrieve liquors : " + response.message());

@@ -97,7 +97,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
 
     @Override
     public void onResponse(Call<List<Drink>> call, Response<List<Drink>> response) {
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             drinksLoaded = true;
             adapter.setDrinks(response.body());
             displayNormalState();
