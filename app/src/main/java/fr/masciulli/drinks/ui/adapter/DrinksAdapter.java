@@ -17,7 +17,12 @@ import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.ui.view.RatioImageView;
 
 public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder> {
-    private static float[] ratios = new float[]{0.75f, 4.0f / 3.0f};
+    private static final int TYPE_34 = 0;
+    private static final int TYPE_43 = 1;
+    private static final float RATIO_34 = 3.0f / 4.0f;
+    private static final float RATIO_43 = 4.0f / 3.0f;
+
+    private static int[] ratios = new int[]{TYPE_34, TYPE_43};
 
     private ArrayList<Drink> drinks = new ArrayList<>();
     private ArrayList<Drink> filteredDrinks = new ArrayList<>();
@@ -35,7 +40,16 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Drink drink = filteredDrinks.get(position);
         holder.nameView.setText(drink.getName());
-        holder.imageView.setRatio(drink.getRatio());
+
+        switch (getItemViewType(position)) {
+            case TYPE_34:
+                holder.imageView.setRatio(RATIO_34);
+                break;
+            case TYPE_43:
+                holder.imageView.setRatio(RATIO_43);
+                break;
+        }
+
         Picasso.with(holder.itemView.getContext())
                 .load(drink.getImageUrl())
                 .fit()
@@ -57,6 +71,12 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
         return filteredDrinks.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        Drink drink = drinks.get(position);
+        return drink.getRatio();
+    }
+
     public void setItemClickListener(ItemClickListener<Drink> listener) {
         this.listener = listener;
     }
@@ -76,7 +96,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
         // TODO remove this and use ratios given by server
         for (int i = 0, size = drinks.size(); i < size; i++) {
             Drink drink = drinks.get(i);
-            drink.setRatio(ratios[i % ratios.length]);
+            drink.setRatioType(ratios[i % ratios.length]);
         }
     }
 

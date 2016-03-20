@@ -11,7 +11,7 @@ public class Drink implements Parcelable {
 
     private String imageUrl;
     private String history;
-    private float ratio;
+    private int ratio;
     private String wikipedia;
     private String instructions;
     private List<String> ingredients = new ArrayList<>();
@@ -52,7 +52,7 @@ public class Drink implements Parcelable {
         return history;
     }
 
-    public float getRatio() {
+    public int getRatio() {
         return ratio;
     }
 
@@ -80,7 +80,7 @@ public class Drink implements Parcelable {
         }
     };
 
-    public void setRatio(float ratio) {
+    public void setRatioType(int ratio) {
         this.ratio = ratio;
     }
 }
