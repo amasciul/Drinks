@@ -13,8 +13,6 @@ public class Liquor implements Parcelable {
     private String history;
     private List<String> otherNames = new ArrayList<>();
 
-    private float ratio;
-
     public Liquor(Parcel source) {
         name = source.readString();
         imageUrl = source.readString();
@@ -41,14 +39,6 @@ public class Liquor implements Parcelable {
 
     public List<String> getOtherNames() {
         return otherNames;
-    }
-
-    public void setRatio(float ratio) {
-        this.ratio = ratio;
-    }
-
-    public float getRatio() {
-        return ratio;
     }
 
     @Override
