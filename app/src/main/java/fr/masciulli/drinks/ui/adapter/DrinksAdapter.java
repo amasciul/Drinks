@@ -51,6 +51,8 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
             case TYPE_43:
                 holder.imageView.setRatio(RATIO_43);
                 break;
+            default:
+                throw new IllegalArgumentException("Unknown ratio type");
         }
 
         Picasso.with(holder.itemView.getContext())
