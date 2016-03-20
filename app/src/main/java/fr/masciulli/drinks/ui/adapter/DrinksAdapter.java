@@ -9,8 +9,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
@@ -26,6 +28,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
 
     private ArrayList<Drink> drinks = new ArrayList<>();
     private ArrayList<Drink> filteredDrinks = new ArrayList<>();
+    private Map<Drink, Integer> ratioMap = new HashMap<>();
 
     private ItemClickListener<Drink> listener;
 
@@ -74,7 +77,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     @Override
     public int getItemViewType(int position) {
         Drink drink = drinks.get(position);
-        return drink.getRatio();
+        return ratioMap.get(drink);
     }
 
     public void setItemClickListener(ItemClickListener<Drink> listener) {
@@ -93,10 +96,10 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     }
 
     private void fakeRatios() {
-        // TODO remove this and use ratios given by server
+        ratioMap.clear();
         for (int i = 0, size = drinks.size(); i < size; i++) {
             Drink drink = drinks.get(i);
-            drink.setRatioType(ratios[i % ratios.length]);
+            ratioMap.put(drink, ratios[i % ratios.length]);
         }
     }
 
