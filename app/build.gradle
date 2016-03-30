@@ -53,6 +53,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 }
