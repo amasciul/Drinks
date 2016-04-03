@@ -92,7 +92,6 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
 
     @Override
     public void onResponse(Call<List<Liquor>> call, Response<List<Liquor>> response) {
-        Log.d(TAG, response.body().toString());
         if (response.isSuccessful()) {
             liquorsLoaded = true;
             adapter.setLiquors(response.body());
