@@ -14,16 +14,17 @@ public class CustomCacheControlInterceptor implements Interceptor {
     private static final String HEADER_CACHE_CONTROL_ONLY_IF_CACHED = "public, only-if-cached, max-stale=";
     private static final int HEADER_CACHE_CONTROL_MAX_STATE = 60 * 60 * 24 * 28;
 
-    private final Context context;
+    private final ConnectivityChecker connectivityChecker;
 
     public CustomCacheControlInterceptor(Context context) {
-        this.context = context;
+        connectivityChecker = new ConnectivityChecker(context.getApplicationContext());
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request.Builder builder = chain.request().newBuilder();
-        if (new ConnectivityChecker(context).isConnectedOrConnecting()) {
+        // using application context to avoid activity leak https://github.com/square/leakcanary/issues/393
+        if (connectivityChecker.isConnectedOrConnecting()) {
             builder.addHeader(HEADER_CACHE_CONTROL, HEADER_CACHE_CONTROL_PUBLIC);
         } else {
             builder.addHeader(HEADER_CACHE_CONTROL,
