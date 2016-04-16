@@ -1,7 +1,10 @@
 package fr.masciulli.drinks.ui.activity;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,22 +12,21 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.DataProvider;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
+import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class LiquorActivity extends AppCompatActivity implements Callback<List<Drink>> {
     private static final String TAG = LiquorActivity.class.getSimpleName();
@@ -71,7 +73,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
         adapter.setDrinkClickListener(new ItemClickListener<Drink>() {
             @Override
             public void onItemClick(int position, Drink drink) {
-                onDrinkClick(drink);
+                onDrinkClick(position, drink);
             }
         });
 
@@ -102,10 +104,19 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
         startActivity(intent);
     }
 
-    private void onDrinkClick(Drink drink) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void onDrinkClick(int position, Drink drink) {
         Intent intent = new Intent(this, DrinkActivity.class);
         intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+            String transition = getString(R.string.transition_image);
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(this, holder.getImageView(), transition);
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     @Override
