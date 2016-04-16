@@ -13,9 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 
@@ -52,7 +50,11 @@ public class DrinkActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        Picasso.with(this).load(drink.getImageUrl()).into(imageView);
+        Picasso.with(this)
+                .load(drink.getImageUrl())
+                .noFade()
+                .into(imageView);
+
         historyView.setText(drink.getHistory());
         instructionsView.setText(drink.getInstructions());
         ingredientsView.setText(parseIngredients());

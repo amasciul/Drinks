@@ -130,6 +130,8 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        //TODO extract this class
+
         private final RatioImageView imageView;
         private final TextView nameView;
 
@@ -137,6 +139,14 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
             super(itemView);
             imageView = (RatioImageView) itemView.findViewById(R.id.image);
             nameView = (TextView) itemView.findViewById(R.id.name);
+        }
+
+        public RatioImageView getImageView() {
+            return imageView;
+        }
+
+        public TextView getNameView() {
+            return nameView;
         }
     }
 }

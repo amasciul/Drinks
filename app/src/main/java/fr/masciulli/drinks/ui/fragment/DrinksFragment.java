@@ -1,6 +1,9 @@
 package fr.masciulli.drinks.ui.fragment;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -131,11 +134,20 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         recyclerView.setVisibility(View.VISIBLE);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onItemClick(int position, Drink drink) {
         Intent intent = new Intent(getActivity(), DrinkActivity.class);
         intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            DrinksAdapter.ViewHolder holder = (DrinksAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+            String transition = getString(R.string.transition_image);
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(getActivity(), holder.getImageView(), transition);
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     @Override
