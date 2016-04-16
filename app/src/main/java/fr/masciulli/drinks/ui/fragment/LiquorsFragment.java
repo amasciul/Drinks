@@ -1,6 +1,8 @@
 package fr.masciulli.drinks.ui.fragment;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -9,21 +11,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.List;
-
 import android.widget.Button;
 import android.widget.ProgressBar;
-
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.DataProvider;
 import fr.masciulli.drinks.ui.activity.LiquorActivity;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorsAdapter;
+import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.List;
 
 public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
         ItemClickListener<Liquor> {
@@ -130,6 +131,14 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     public void onItemClick(int position, Liquor liquor) {
         Intent intent = new Intent(getActivity(), LiquorActivity.class);
         intent.putExtra(LiquorActivity.EXTRA_LIQUOR, liquor);
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+            String transition = getString(R.string.transition_liquor);
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(getActivity(), holder.getImageView(), transition);
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 }

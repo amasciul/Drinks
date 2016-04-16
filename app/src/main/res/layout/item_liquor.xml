@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        app:priority="width" />
+        android:transitionName="@string/transition_liquor"
+        app:priority="width"
+        tools:targetApi="lollipop" />
 
     <View
         android:layout_width="match_parent"

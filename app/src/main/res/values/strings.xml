@@ -23,5 +23,6 @@
     <string name="title_licenses">Open source licenses</string>
     <string name="credits_icon">App icon by Christophe Vielet</string>
     <string name="content_description_icon">Drinks icon</string>
-    <string name="transition_image" translatable="false">transition_image</string>
+    <string name="transition_drink" translatable="false">transition_drink</string>
+    <string name="transition_liquor" translatable="false">transition_liquor</string>
 </resources>

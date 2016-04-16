@@ -110,7 +110,7 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
         intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
-            String transition = getString(R.string.transition_image);
+            String transition = getString(R.string.transition_drink);
             ActivityOptions options = ActivityOptions
                     .makeSceneTransitionAnimation(this, holder.getImageView(), transition);
             startActivity(intent, options.toBundle());
