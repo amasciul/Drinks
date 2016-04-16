@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
+import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
+import fr.masciulli.drinks.ui.view.RatioImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
-import fr.masciulli.drinks.ui.view.RatioImageView;
-
-public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder> {
+public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
     private static final int TYPE_34 = 0;
     private static final int TYPE_43 = 1;
     private static final float RATIO_34 = 3.0f / 4.0f;
@@ -33,23 +31,24 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
     private ItemClickListener<Drink> listener;
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_drink, parent, false);
-        return new ViewHolder(root);
+        return new TileViewHolder(root);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final TileViewHolder holder, int position) {
         final Drink drink = filteredDrinks.get(position);
-        holder.nameView.setText(drink.getName());
+        holder.getNameView().setText(drink.getName());
 
+        RatioImageView imageView = holder.getImageView();
         switch (getItemViewType(position)) {
             case TYPE_34:
-                holder.imageView.setRatio(RATIO_34);
+                imageView.setRatio(RATIO_34);
                 break;
             case TYPE_43:
-                holder.imageView.setRatio(RATIO_43);
+                imageView.setRatio(RATIO_43);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown ratio type");
@@ -59,7 +58,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
                 .load(drink.getImageUrl())
                 .fit()
                 .centerCrop()
-                .into(holder.imageView);
+                .into(imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,26 +126,5 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.ViewHolder
         filteredDrinks.clear();
         filteredDrinks.addAll(drinks);
         notifyDataSetChanged();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        //TODO extract this class
-
-        private final RatioImageView imageView;
-        private final TextView nameView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imageView = (RatioImageView) itemView.findViewById(R.id.image);
-            nameView = (TextView) itemView.findViewById(R.id.name);
-        }
-
-        public RatioImageView getImageView() {
-            return imageView;
-        }
-
-        public TextView getNameView() {
-            return nameView;
-        }
     }
 }

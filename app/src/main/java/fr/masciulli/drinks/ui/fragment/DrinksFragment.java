@@ -18,18 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-
-import java.util.List;
-
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.net.DataProvider;
 import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
+import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.List;
 
 public class DrinksFragment extends Fragment implements Callback<List<Drink>>, SearchView.OnQueryTextListener, ItemClickListener<Drink> {
     private static final String TAG = DrinksFragment.class.getSimpleName();
@@ -140,7 +140,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         Intent intent = new Intent(getActivity(), DrinkActivity.class);
         intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            DrinksAdapter.ViewHolder holder = (DrinksAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+            TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
             String transition = getString(R.string.transition_image);
             ActivityOptions options = ActivityOptions
                     .makeSceneTransitionAnimation(getActivity(), holder.getImageView(), transition);
