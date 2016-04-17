@@ -54,7 +54,10 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
         setTitle(liquor.getName());
 
         ImageView imageView = (ImageView) findViewById(R.id.image);
-        Picasso.with(this).load(liquor.getImageUrl()).into(imageView);
+        Picasso.with(this)
+                .load(liquor.getImageUrl())
+                .noFade()
+                .into(imageView);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         setupRecyclerView();
