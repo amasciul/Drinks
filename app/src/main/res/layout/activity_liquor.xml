@@ -27,14 +27,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/top_scrim_height"
-                android:background="@drawable/scrim_top"
+                android:background="@drawable/gradient_top"
                 app:layout_collapseMode="pin" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
                 android:layout_gravity="bottom"
-                android:background="@drawable/gradient" />
+                android:background="@drawable/gradient_bottom" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
