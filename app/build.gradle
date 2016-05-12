@@ -14,21 +14,13 @@ android {
         versionCode 26
         versionName "2.0.2"
     }
-    signingConfigs {
-        release {
-            storeFile file("release.keystore")
-            storePassword "***"
-            keyAlias "release"
-            keyPassword "***"
-        }
-    }
 
     buildTypes {
         release {
             shrinkResources true
-            signingConfig signingConfigs.release
         }
     }
+
     lintOptions {
         lintConfig file('../gradle/lint.xml')
     }
