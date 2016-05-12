@@ -12,7 +12,7 @@ android:
       - android-sdk-license-.+
 
 script:
-  - ./gradlew lintDebug testDebug checkstyle
+  - ./gradlew build
 
 after_script:
   - cat app/build/outputs/lint-*debug.xml
