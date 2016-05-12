@@ -8,6 +8,15 @@ An ultra simple app for making cocktails.
 [![Drinks on Play Store](website/badge_googleplay.png)](https://play.google.com/store/apps/details?id=fr.masciulli.drinks)
 [![Drinks on F-Droid](website/badge_fdroid.png)](https://f-droid.org/repository/browse/?fdfilter=drinks&fdid=fr.masciulli.drinks)
 
+# How to build
+```
+./gradlew build
+```
+
+# Where's the data from ?
+All text content is taken (and sometimes adapted) from [Wikipedia](https://en.wikipedia.org), in compliance with the CC BY-SA 3.0 license.
+The data is exposed by an [App Engine](https://cloud.google.com/appengine/) server which code is not open source.
+
 License
 =======
 
