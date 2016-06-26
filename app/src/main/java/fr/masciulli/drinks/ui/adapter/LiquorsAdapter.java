@@ -24,7 +24,7 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
     private static int[] ratios = new int[]{TYPE_34, TYPE_43};
 
     private ItemClickListener<Liquor> listener;
-    private ArrayList<Liquor> liquors = new ArrayList<>();
+    private List<Liquor> liquors = new ArrayList<>();
     private Map<Liquor, Integer> ratioMap = new HashMap<>();
 
     @Override
@@ -94,5 +94,9 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
             Liquor liquor = liquors.get(i);
             ratioMap.put(liquor, ratios[i % ratios.length]);
         }
+    }
+
+    public ArrayList<Liquor> getLiquors() {
+        return new ArrayList<>(liquors);
     }
 }

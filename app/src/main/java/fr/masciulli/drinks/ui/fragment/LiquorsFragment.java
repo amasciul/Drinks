@@ -29,6 +29,7 @@ import java.util.List;
 public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
         ItemClickListener<Liquor> {
     private static final String TAG = LiquorsFragment.class.getSimpleName();
+    private static final String STATE_LIQUORS = "state_liquors";
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -37,7 +38,6 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     private DataProvider provider;
     private LiquorsAdapter adapter;
     private Call<List<Liquor>> call;
-    private boolean liquorsLoaded = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,21 +66,19 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
         adapter.setItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!liquorsLoaded) {
+        if (savedInstanceState == null) {
             loadLiquors();
+        } else {
+            List<Liquor> liquors = savedInstanceState.getParcelableArrayList(STATE_LIQUORS);
+            onLiquorsRetrieved(liquors);
         }
+
+        return rootView;
     }
 
     private void loadLiquors() {
         displayLoadingState();
         cancelPreviousCall();
-        liquorsLoaded = false;
         call = provider.getLiquors();
         call.enqueue(this);
     }
@@ -94,13 +92,16 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
     @Override
     public void onResponse(Call<List<Liquor>> call, Response<List<Liquor>> response) {
         if (response.isSuccessful()) {
-            liquorsLoaded = true;
-            adapter.setLiquors(response.body());
-            displayNormalState();
+            onLiquorsRetrieved(response.body());
         } else {
             displayErrorState();
             Log.e(TAG, "Couldn't retrieve liquors : " + response.message());
         }
+    }
+
+    private void onLiquorsRetrieved(List<Liquor> liquors) {
+        adapter.setLiquors(liquors);
+        displayNormalState();
     }
 
     @Override
@@ -140,5 +141,11 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
         } else {
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STATE_LIQUORS, adapter.getLiquors());
     }
 }
