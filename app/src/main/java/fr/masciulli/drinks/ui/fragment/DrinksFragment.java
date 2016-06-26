@@ -116,19 +116,19 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         displayErrorState();
     }
 
-    void displayLoadingState() {
+    private void displayLoadingState() {
         errorView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
     }
 
-    void displayErrorState() {
+    private void displayErrorState() {
         errorView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
     }
 
-    void displayNormalState() {
+    private void displayNormalState() {
         errorView.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
