@@ -1,10 +1,6 @@
 package fr.masciulli.drinks.net;
 
 import android.content.Context;
-
-import java.io.File;
-import java.util.List;
-
 import fr.masciulli.drinks.BuildConfig;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
@@ -14,6 +10,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.io.File;
+import java.util.List;
 
 public class DataProvider {
 
@@ -28,14 +27,13 @@ public class DataProvider {
         File httpCacheDirectory = new File(context.getCacheDir(), CACHE_RESPONSES_DIR);
         Cache cache = new Cache(httpCacheDirectory, CACHE_MAX_SIZE);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
                 .cache(cache)
                 .addInterceptor(new CustomCacheControlInterceptor(context));
 
         if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor()
+                    .setLevel(HttpLoggingInterceptor.Level.BODY);
             clientBuilder.addInterceptor(loggingInterceptor);
         }
 
