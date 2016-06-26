@@ -120,4 +120,8 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
     public void setDrinkClickListener(ItemClickListener<Drink> listener) {
         drinkClickListener = listener;
     }
+
+    public ArrayList<Drink> getDrinks() {
+        return new ArrayList<>(drinks);
+    }
 }

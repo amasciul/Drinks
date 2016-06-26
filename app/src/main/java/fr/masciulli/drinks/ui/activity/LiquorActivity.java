@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,12 +31,13 @@ import java.util.Locale;
 
 public class LiquorActivity extends AppCompatActivity implements Callback<List<Drink>> {
     private static final String TAG = LiquorActivity.class.getSimpleName();
+
     public static final String EXTRA_LIQUOR = "extra_liquor";
+    private static final String STATE_DRINKS = "state_drinks";
 
     private Liquor liquor;
     private DataProvider provider;
     private Call<List<Drink>> call;
-    private boolean drinksLoaded = false;
     private LiquorRelatedAdapter adapter;
 
     private RecyclerView recyclerView;
@@ -61,6 +63,13 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         setupRecyclerView();
+
+        if (savedInstanceState == null) {
+            loadDrinks();
+        } else {
+            List<Drink> drinks = savedInstanceState.getParcelableArrayList(STATE_DRINKS);
+            onDrinksRetrieved(drinks);
+        }
     }
 
     private void setupRecyclerView() {
@@ -122,15 +131,6 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (!drinksLoaded) {
-            loadDrinks();
-        }
-
-    }
-
     private void loadDrinks() {
         cancelPreviousCall();
         call = provider.getDrinks();
@@ -146,10 +146,14 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     @Override
     public void onResponse(Call<List<Drink>> call, Response<List<Drink>> response) {
         if (response.isSuccessful()) {
-            adapter.setRelatedDrinks(filterRelatedDrinks(response.body()));
+            onDrinksRetrieved(filterRelatedDrinks(response.body()));
         } else {
             Log.e(TAG, "Couldn't retrieve liquors : " + response.message());
         }
+    }
+
+    private void onDrinksRetrieved(List<Drink> drinks) {
+        adapter.setRelatedDrinks(drinks);
     }
 
     @Override
@@ -180,6 +184,12 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
             }
         }
         return related;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelableArrayList(STATE_DRINKS, adapter.getDrinks());
     }
 
     @Override
