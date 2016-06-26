@@ -24,8 +24,8 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
 
     private static int[] ratios = new int[]{TYPE_34, TYPE_43};
 
-    private ArrayList<Drink> drinks = new ArrayList<>();
-    private ArrayList<Drink> filteredDrinks = new ArrayList<>();
+    private List<Drink> drinks = new ArrayList<>();
+    private List<Drink> filteredDrinks = new ArrayList<>();
     private Map<Drink, Integer> ratioMap = new HashMap<>();
 
     private ItemClickListener<Drink> listener;
@@ -126,5 +126,9 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
         filteredDrinks.clear();
         filteredDrinks.addAll(drinks);
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Drink> getDrinks() {
+        return new ArrayList<>(drinks);
     }
 }

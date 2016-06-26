@@ -34,6 +34,8 @@ import java.util.List;
 public class DrinksFragment extends Fragment implements Callback<List<Drink>>, SearchView.OnQueryTextListener, ItemClickListener<Drink> {
     private static final String TAG = DrinksFragment.class.getSimpleName();
 
+    private static final String STATE_DRINKS = "state_drinks";
+
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private View emptyView;
@@ -42,7 +44,6 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     private DataProvider provider;
     private DrinksAdapter adapter;
     private Call<List<Drink>> call;
-    private boolean drinksLoaded = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,21 +74,20 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         adapter = new DrinksAdapter();
         adapter.setItemClickListener(this);
         recyclerView.setAdapter(adapter);
-        return rootView;
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!drinksLoaded) {
+        if (savedInstanceState == null) {
             loadDrinks();
+        } else {
+            List<Drink> drinks = savedInstanceState.getParcelableArrayList(STATE_DRINKS);
+            onDrinksRetrieved(drinks);
         }
+
+        return rootView;
     }
 
     private void loadDrinks() {
         displayLoadingState();
         cancelPreviousCall();
-        drinksLoaded = false;
         call = provider.getDrinks();
         call.enqueue(this);
     }
@@ -101,13 +101,16 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     @Override
     public void onResponse(Call<List<Drink>> call, Response<List<Drink>> response) {
         if (response.isSuccessful()) {
-            drinksLoaded = true;
-            adapter.setDrinks(response.body());
-            displayNormalState();
+            onDrinksRetrieved(response.body());
         } else {
             displayErrorState();
             Log.e(TAG, "Couldn't retrieve drinks : " + response.message());
         }
+    }
+
+    private void onDrinksRetrieved(List<Drink> drinks) {
+        adapter.setDrinks(drinks);
+        displayNormalState();
     }
 
     @Override
@@ -190,6 +193,12 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         adapter.clearFilter();
         hideEmptyView();
         super.onDestroyOptionsMenu();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STATE_DRINKS, adapter.getDrinks());
     }
 
     @Override
