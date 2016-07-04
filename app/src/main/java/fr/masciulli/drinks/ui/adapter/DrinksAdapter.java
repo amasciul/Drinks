@@ -60,12 +60,9 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
                 .centerCrop()
                 .into(imageView);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onItemClick(holder.getAdapterPosition(), drink);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(holder.getAdapterPosition(), drink);
             }
         });
     }

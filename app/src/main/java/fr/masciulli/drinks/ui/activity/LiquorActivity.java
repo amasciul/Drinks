@@ -75,19 +75,9 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     private void setupRecyclerView() {
         adapter = new LiquorRelatedAdapter();
         adapter.setLiquor(liquor);
-        adapter.setWikipediaClickListener(new ItemClickListener<Liquor>() {
-            @Override
-            public void onItemClick(int position, Liquor liquor) {
-                onWikipediaClick();
-            }
-        });
+        adapter.setWikipediaClickListener((position, liquor) -> onWikipediaClick());
 
-        adapter.setDrinkClickListener(new ItemClickListener<Drink>() {
-            @Override
-            public void onItemClick(int position, Drink drink) {
-                onDrinkClick(position, drink);
-            }
-        });
+        adapter.setDrinkClickListener(this::onDrinkClick);
 
         final int columnCount = getResources().getInteger(R.integer.column_count);
         GridLayoutManager layoutManager = new GridLayoutManager(this, columnCount);

@@ -64,12 +64,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
         holder.getRelatedDrinksTitle()
                 .setText(context.getString(R.string.related_drinks, liquor.getName()));
         if (wikipediaClickListener != null) {
-            holder.getWikipediaButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    wikipediaClickListener.onItemClick(holder.getAdapterPosition(), liquor);
-                }
-            });
+            holder.getWikipediaButton().setOnClickListener(v -> wikipediaClickListener.onItemClick(holder.getAdapterPosition(), liquor));
         }
     }
 
@@ -79,12 +74,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
         final Drink drink = drinks.get(position - 1);
         holder.getNameView().setText(drink.getName());
         if (drinkClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    drinkClickListener.onItemClick(holder.getAdapterPosition(), drink);
-                }
-            });
+            holder.itemView.setOnClickListener(v -> drinkClickListener.onItemClick(holder.getAdapterPosition(), drink));
         }
         Picasso.with(context).load(drink.getImageUrl())
                 .fit()

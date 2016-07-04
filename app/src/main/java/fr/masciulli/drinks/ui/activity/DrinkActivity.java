@@ -59,13 +59,10 @@ public class DrinkActivity extends AppCompatActivity {
         instructionsView.setText(drink.getInstructions());
         ingredientsView.setText(parseIngredients());
         wikipediaButton.setText(getString(R.string.wikipedia, drink.getName()));
-        wikipediaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(drink.getWikipedia()));
-                startActivity(intent);
-            }
+        wikipediaButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(drink.getWikipedia()));
+            startActivity(intent);
         });
     }
 

@@ -62,12 +62,7 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         errorView = rootView.findViewById(R.id.error);
         Button refreshButton = (Button) rootView.findViewById(R.id.refresh);
 
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadDrinks();
-            }
-        });
+        refreshButton.setOnClickListener(v -> loadDrinks());
 
         int columnCount = getResources().getInteger(R.integer.column_count);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));

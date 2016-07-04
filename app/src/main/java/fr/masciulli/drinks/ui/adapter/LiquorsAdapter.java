@@ -56,12 +56,9 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
                 .centerCrop()
                 .into(imageView);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onItemClick(holder.getAdapterPosition(), liquor);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(holder.getAdapterPosition(), liquor);
             }
         });
     }
