@@ -20,14 +20,12 @@ import fr.masciulli.drinks.ui.activity.LiquorActivity;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorsAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import java.util.List;
 
-public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
-        ItemClickListener<Liquor> {
+public class LiquorsFragment extends Fragment implements ItemClickListener<Liquor> {
     private static final String TAG = LiquorsFragment.class.getSimpleName();
     private static final String STATE_LIQUORS = "state_liquors";
 
@@ -37,7 +35,6 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
 
     private DataProvider provider;
     private LiquorsAdapter adapter;
-    private Call<List<Liquor>> call;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,36 +70,20 @@ public class LiquorsFragment extends Fragment implements Callback<List<Liquor>>,
 
     private void loadLiquors() {
         displayLoadingState();
-        cancelPreviousCall();
-        call = provider.getLiquors();
-        call.enqueue(this);
+        provider.getLiquors()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onLiquorsRetrieved, this::onError);
     }
 
-    private void cancelPreviousCall() {
-        if (call != null) {
-            call.cancel();
-        }
-    }
-
-    @Override
-    public void onResponse(Call<List<Liquor>> call, Response<List<Liquor>> response) {
-        if (response.isSuccessful()) {
-            onLiquorsRetrieved(response.body());
-        } else {
-            displayErrorState();
-            Log.e(TAG, "Couldn't retrieve liquors : " + response.message());
-        }
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Couldn't retrieve liquors", throwable);
+        displayErrorState();
     }
 
     private void onLiquorsRetrieved(List<Liquor> liquors) {
         adapter.setLiquors(liquors);
         displayNormalState();
-    }
-
-    @Override
-    public void onFailure(Call<List<Liquor>> call, Throwable t) {
-        Log.e(TAG, "Couldn't retrieve liquors", t);
-        displayErrorState();
     }
 
     private void displayLoadingState() {

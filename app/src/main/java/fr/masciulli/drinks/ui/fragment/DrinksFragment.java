@@ -26,12 +26,13 @@ import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import java.util.List;
 
-public class DrinksFragment extends Fragment implements Callback<List<Drink>>, SearchView.OnQueryTextListener, ItemClickListener<Drink> {
+public class DrinksFragment extends Fragment implements SearchView.OnQueryTextListener, ItemClickListener<Drink> {
     private static final String TAG = DrinksFragment.class.getSimpleName();
 
     private static final String STATE_DRINKS = "state_drinks";
@@ -43,7 +44,6 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
 
     private DataProvider provider;
     private DrinksAdapter adapter;
-    private Call<List<Drink>> call;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,25 +82,10 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
 
     private void loadDrinks() {
         displayLoadingState();
-        cancelPreviousCall();
-        call = provider.getDrinks();
-        call.enqueue(this);
-    }
-
-    private void cancelPreviousCall() {
-        if (call != null) {
-            call.cancel();
-        }
-    }
-
-    @Override
-    public void onResponse(Call<List<Drink>> call, Response<List<Drink>> response) {
-        if (response.isSuccessful()) {
-            onDrinksRetrieved(response.body());
-        } else {
-            displayErrorState();
-            Log.e(TAG, "Couldn't retrieve drinks : " + response.message());
-        }
+        provider.getDrinks()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onDrinksRetrieved, this::onError);
     }
 
     private void onDrinksRetrieved(List<Drink> drinks) {
@@ -108,9 +93,9 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
         displayNormalState();
     }
 
-    @Override
-    public void onFailure(Call<List<Drink>> call, Throwable t) {
-        Log.e(TAG, "Couldn't retrieve drinks", t);
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Couldn't retrieve drinks", throwable);
         displayErrorState();
     }
 
@@ -194,11 +179,5 @@ public class DrinksFragment extends Fragment implements Callback<List<Drink>>, S
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(STATE_DRINKS, adapter.getDrinks());
-    }
-
-    @Override
-    public void onStop() {
-        cancelPreviousCall();
-        super.onStop();
     }
 }

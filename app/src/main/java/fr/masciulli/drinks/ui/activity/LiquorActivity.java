@@ -18,18 +18,16 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.DataProvider;
-import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class LiquorActivity extends AppCompatActivity implements Callback<List<Drink>> {
+public class LiquorActivity extends AppCompatActivity {
     private static final String TAG = LiquorActivity.class.getSimpleName();
 
     public static final String EXTRA_LIQUOR = "extra_liquor";
@@ -37,7 +35,6 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
 
     private Liquor liquor;
     private DataProvider provider;
-    private Call<List<Drink>> call;
     private LiquorRelatedAdapter adapter;
 
     private RecyclerView recyclerView;
@@ -122,69 +119,43 @@ public class LiquorActivity extends AppCompatActivity implements Callback<List<D
     }
 
     private void loadDrinks() {
-        cancelPreviousCall();
-        call = provider.getDrinks();
-        call.enqueue(this);
+        provider.getDrinks()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(this::onError)
+                .flatMap(Observable::from)
+                .filter(this::matches)
+                .toList()
+                .subscribe(this::onDrinksRetrieved);
     }
 
-    private void cancelPreviousCall() {
-        if (call != null) {
-            call.cancel();
-        }
-    }
-
-    @Override
-    public void onResponse(Call<List<Drink>> call, Response<List<Drink>> response) {
-        if (response.isSuccessful()) {
-            onDrinksRetrieved(filterRelatedDrinks(response.body()));
-        } else {
-            Log.e(TAG, "Couldn't retrieve liquors : " + response.message());
-        }
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Couldn't retrieve liquors", throwable);
     }
 
     private void onDrinksRetrieved(List<Drink> drinks) {
         adapter.setRelatedDrinks(drinks);
     }
 
-    @Override
-    public void onFailure(Call<List<Drink>> call, Throwable t) {
-        Log.d(TAG, "Couldn't load related drinks", t);
-    }
-
-    private List<Drink> filterRelatedDrinks(List<Drink> drinks) {
-        List<Drink> related = new ArrayList<>();
-        for (Drink drink : drinks) {
-            for (String ingredient : drink.getIngredients()) {
-                String lowerCaseIngredient = ingredient.toLowerCase(Locale.US);
-                if (lowerCaseIngredient.contains(liquor.getName().toLowerCase(Locale.US))) {
-                    related.add(drink);
-                    break;
-                }
-                boolean matches = false;
-                for (String name : liquor.getOtherNames()) {
-                    if (lowerCaseIngredient.contains(name.toLowerCase(Locale.US))) {
-                        related.add(drink);
-                        matches = true;
-                        break;
-                    }
-                }
-                if (matches) {
-                    break;
+    private boolean matches(Drink drink) {
+        for (String ingredient : drink.getIngredients()) {
+            String lowerCaseIngredient = ingredient.toLowerCase(Locale.US);
+            if (lowerCaseIngredient.contains(liquor.getName().toLowerCase(Locale.US))) {
+                return true;
+            }
+            for (String name : liquor.getOtherNames()) {
+                if (lowerCaseIngredient.contains(name.toLowerCase(Locale.US))) {
+                    return true;
                 }
             }
         }
-        return related;
+
+        return false;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putParcelableArrayList(STATE_DRINKS, adapter.getDrinks());
-    }
-
-    @Override
-    protected void onStop() {
-        cancelPreviousCall();
-        super.onStop();
     }
 }

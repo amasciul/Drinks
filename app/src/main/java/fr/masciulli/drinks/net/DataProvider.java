@@ -9,7 +9,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 
 import java.io.File;
 import java.util.List;
@@ -23,7 +25,6 @@ public class DataProvider {
     private WebApi retrofit;
 
     public DataProvider(final Context context) {
-
         File httpCacheDirectory = new File(context.getCacheDir(), CACHE_RESPONSES_DIR);
         Cache cache = new Cache(httpCacheDirectory, CACHE_MAX_SIZE);
 
@@ -40,16 +41,17 @@ public class DataProvider {
         retrofit = new Retrofit.Builder()
                 .baseUrl(SERVER_BASE_URL)
                 .client(clientBuilder.build())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(WebApi.class);
     }
 
-    public Call<List<Drink>> getDrinks() {
+    public Observable<List<Drink>> getDrinks() {
         return retrofit.getDrinks();
     }
 
-    public Call<List<Liquor>> getLiquors() {
+    public Observable<List<Liquor>> getLiquors() {
         return retrofit.getLiquors();
     }
 }
