@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Drink implements Parcelable {
     private String name;
-
     private String imageUrl;
     private String history;
     private String wikipedia;

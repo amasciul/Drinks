@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-
 import fr.masciulli.drinks.R;
 
 public class RatioImageView extends ImageView {

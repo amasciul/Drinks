@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.ui.fragment.DrinksFragment;
 import fr.masciulli.drinks.ui.fragment.LiquorsFragment;

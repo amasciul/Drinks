@@ -1,12 +1,11 @@
 package fr.masciulli.drinks.net;
 
 import android.content.Context;
-
-import java.io.IOException;
-
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import java.io.IOException;
 
 public class CustomCacheControlInterceptor implements Interceptor {
     private static final String HEADER_CACHE_CONTROL = "Cache-Control";
