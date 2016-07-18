@@ -5,7 +5,7 @@ check.dependsOn 'checkstyle'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         applicationId "fr.masciulli.drinks"
