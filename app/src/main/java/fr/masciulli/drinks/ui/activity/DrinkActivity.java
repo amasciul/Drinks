@@ -1,7 +1,9 @@
 package fr.masciulli.drinks.ui.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +14,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 
@@ -65,6 +69,7 @@ public class DrinkActivity extends AppCompatActivity {
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     private Spanned parseIngredients() {
         StringBuilder builder = new StringBuilder();
         int i = 0;
@@ -75,7 +80,12 @@ public class DrinkActivity extends AppCompatActivity {
                 builder.append("<br>");
             }
         }
-        return Html.fromHtml(builder.toString());
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return Html.fromHtml(builder.toString());
+        } else {
+            return Html.fromHtml(builder.toString(), 0);
+        }
     }
 
     @Override
