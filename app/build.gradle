@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
+apply plugin: 'me.tatarka.retrolambda'
 
 check.dependsOn 'checkstyle'
 
@@ -13,9 +14,6 @@ android {
         targetSdkVersion 24
         versionCode 27
         versionName "2.0.3"
-        jackOptions {
-            enabled true
-        }
     }
 
     compileOptions {
