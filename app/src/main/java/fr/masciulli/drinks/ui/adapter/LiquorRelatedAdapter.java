@@ -74,7 +74,12 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
         final Drink drink = drinks.get(position - 1);
         holder.getNameView().setText(drink.getName());
         if (drinkClickListener != null) {
-            holder.itemView.setOnClickListener(v -> drinkClickListener.onItemClick(holder.getAdapterPosition(), drink));
+            holder.itemView.setOnClickListener(v -> holder.getNameView().animate()
+                    .translationY(holder.getNameView().getHeight())
+                    .withEndAction(() -> {
+                        holder.getNameView().setTranslationY(0);
+                        drinkClickListener.onItemClick(holder.getAdapterPosition(), drink);
+                    }).start());
         }
         Picasso.with(context).load(drink.getImageUrl())
                 .fit()
