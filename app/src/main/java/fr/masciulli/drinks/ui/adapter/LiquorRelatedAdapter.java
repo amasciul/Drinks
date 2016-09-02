@@ -84,6 +84,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
         Picasso.with(context).load(drink.getImageUrl())
                 .fit()
                 .centerCrop()
+                .noFade()
                 .into(holder.getImageView());
     }
 

@@ -58,6 +58,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
                 .load(drink.getImageUrl())
                 .fit()
                 .centerCrop()
+                .noFade()
                 .into(imageView);
 
         if (listener != null) {
