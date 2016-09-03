@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
     private ItemClickListener<Liquor> listener;
     private List<Liquor> liquors = new ArrayList<>();
     private Map<Liquor, Integer> ratioMap = new HashMap<>();
+    private Placeholders placeHolders = new Placeholders();
 
     @Override
     public TileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,11 +52,14 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
             default:
                 throw new IllegalArgumentException("Unknown type");
         }
-        Picasso.with(holder.itemView.getContext())
+
+        Context context = holder.itemView.getContext();
+
+        Picasso.with(context)
                 .load(liquor.getImageUrl())
                 .fit()
+                .placeholder(placeHolders.get(context, position))
                 .centerCrop()
-                .noFade()
                 .into(imageView);
 
         if (listener != null) {

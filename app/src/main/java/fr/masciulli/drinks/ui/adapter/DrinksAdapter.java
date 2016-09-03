@@ -1,5 +1,6 @@
 package fr.masciulli.drinks.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
     private Map<Drink, Integer> ratioMap = new HashMap<>();
 
     private ItemClickListener<Drink> listener;
+    private Placeholders placeHolders = new Placeholders();
 
     @Override
     public TileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,11 +56,13 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
                 throw new IllegalArgumentException("Unknown ratio type");
         }
 
-        Picasso.with(holder.itemView.getContext())
+        Context context = holder.itemView.getContext();
+
+        Picasso.with(context)
                 .load(drink.getImageUrl())
                 .fit()
+                .placeholder(placeHolders.get(context, position))
                 .centerCrop()
-                .noFade()
                 .into(imageView);
 
         if (listener != null) {
@@ -87,11 +91,11 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
     }
 
     public void setDrinks(List<Drink> drinks) {
-        this.filteredDrinks.clear();
+        filteredDrinks.clear();
         this.drinks.clear();
 
         this.drinks.addAll(drinks);
-        this.filteredDrinks.addAll(drinks);
+        filteredDrinks.addAll(drinks);
 
         fakeRatios();
         notifyDataSetChanged();

@@ -25,6 +25,8 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
     private ItemClickListener<Liquor> wikipediaClickListener;
     private ItemClickListener<Drink> drinkClickListener;
 
+    Placeholders placeholders = new Placeholders();
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -83,8 +85,8 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
         }
         Picasso.with(context).load(drink.getImageUrl())
                 .fit()
+                .placeholder(placeholders.get(context, position))
                 .centerCrop()
-                .noFade()
                 .into(holder.getImageView());
     }
 
