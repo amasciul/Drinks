@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import fr.masciulli.drinks.R;
 
 public class Placeholders {
-    private static int[] COLORS = new int[]{
+    private static final int[] COLORS = new int[]{
             R.color.gray_light,
             R.color.gray,
             R.color.gray_dark

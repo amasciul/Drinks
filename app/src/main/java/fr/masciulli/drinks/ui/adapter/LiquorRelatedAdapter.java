@@ -25,7 +25,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
     private ItemClickListener<Liquor> wikipediaClickListener;
     private ItemClickListener<Drink> drinkClickListener;
 
-    Placeholders placeholders = new Placeholders();
+    private Placeholders placeholders = new Placeholders();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
