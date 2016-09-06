@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -62,10 +61,9 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
 
         refreshButton.setOnClickListener(v -> loadDrinks());
 
-        int columnCount = getResources().getInteger(R.integer.column_count);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));
         adapter = new DrinksAdapter();
         adapter.setItemClickListener(this);
+        recyclerView.setLayoutManager(adapter.craftLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
         if (savedInstanceState == null) {
@@ -90,7 +88,6 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
         adapter.setDrinks(drinks);
         displayNormalState();
     }
-
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Couldn't retrieve drinks", throwable);

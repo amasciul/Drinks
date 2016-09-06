@@ -1,6 +1,7 @@
 package fr.masciulli.drinks.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +19,13 @@ import java.util.Locale;
 import java.util.Map;
 
 public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
-    private static final int TYPE_34 = 0;
+    private static final int TYPE_HERO_169 = 0;
     private static final int TYPE_43 = 1;
-    private static final float RATIO_34 = 3.0f / 4.0f;
-    private static final float RATIO_43 = 4.0f / 3.0f;
 
-    private static int[] ratios = new int[]{TYPE_34, TYPE_43};
+    private static final float RATIO_34 = 3.0f / 4.0f;
+    private static final float RATIO_169 = 16.0f / 9.0f;
+
+    private static final int HERO_INTERVAL = 9;
 
     private List<Drink> drinks = new ArrayList<>();
     private List<Drink> filteredDrinks = new ArrayList<>();
@@ -46,11 +48,11 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
 
         RatioImageView imageView = holder.getImageView();
         switch (getItemViewType(position)) {
-            case TYPE_34:
-                imageView.setRatio(RATIO_34);
+            case TYPE_HERO_169:
+                imageView.setRatio(RATIO_169);
                 break;
             case TYPE_43:
-                imageView.setRatio(RATIO_43);
+                imageView.setRatio(RATIO_34);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown ratio type");
@@ -105,7 +107,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
         ratioMap.clear();
         for (int i = 0, size = drinks.size(); i < size; i++) {
             Drink drink = drinks.get(i);
-            ratioMap.put(drink, ratios[i % ratios.length]);
+            ratioMap.put(drink, i % HERO_INTERVAL == 0 ? TYPE_HERO_169 : TYPE_43);
         }
     }
 
@@ -135,5 +137,19 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
 
     public ArrayList<Drink> getDrinks() {
         return new ArrayList<>(drinks);
+    }
+
+    public GridLayoutManager craftLayoutManager(Context context) {
+        int columnCount = context.getResources().getInteger(R.integer.column_count);
+        GridLayoutManager layoutManager = new GridLayoutManager(context, columnCount);
+
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return getItemViewType(position) == DrinksAdapter.TYPE_HERO_169 ? columnCount : 1;
+            }
+        });
+
+        return layoutManager;
     }
 }
