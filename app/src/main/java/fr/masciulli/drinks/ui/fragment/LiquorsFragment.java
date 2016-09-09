@@ -6,13 +6,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.DataProvider;
@@ -52,10 +52,9 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
 
         refreshButton.setOnClickListener(v -> loadLiquors());
 
-        int columnCount = getResources().getInteger(R.integer.column_count);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));
         adapter = new LiquorsAdapter();
         adapter.setItemClickListener(this);
+        recyclerView.setLayoutManager(adapter.craftLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
         if (savedInstanceState == null) {
