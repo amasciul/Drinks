@@ -21,12 +21,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    buildTypes {
-        release {
-            shrinkResources true
-        }
-    }
-
     lintOptions {
         lintConfig file('../gradle/lint.xml')
     }
