@@ -1,11 +1,14 @@
 package fr.masciulli.drinks.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.squareup.picasso.Picasso;
+
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
@@ -121,5 +124,25 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
 
     public ArrayList<Drink> getDrinks() {
         return new ArrayList<>(drinks);
+    }
+
+    public RecyclerView.LayoutManager craftLayoutManager(Context context) {
+        final int columnCount = context.getResources().getInteger(R.integer.column_count);
+        GridLayoutManager layoutManager = new GridLayoutManager(context, columnCount);
+
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (getItemViewType(position)) {
+                    case LiquorRelatedAdapter.TYPE_HEADER:
+                        return columnCount;
+                    case LiquorRelatedAdapter.TYPE_DRINK:
+                        return 1;
+                    default:
+                        throw new IllegalArgumentException("Unknown view type");
+                }
+            }
+        });
+        return layoutManager;
     }
 }

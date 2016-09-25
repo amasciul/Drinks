@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -76,24 +75,7 @@ public class LiquorActivity extends AppCompatActivity {
 
         adapter.setDrinkClickListener(this::onDrinkClick);
 
-        final int columnCount = getResources().getInteger(R.integer.column_count);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, columnCount);
-
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                switch (adapter.getItemViewType(position)) {
-                    case LiquorRelatedAdapter.TYPE_HEADER:
-                        return columnCount;
-                    case LiquorRelatedAdapter.TYPE_DRINK:
-                        return 1;
-                    default:
-                        throw new IllegalArgumentException("Unknown view type");
-                }
-            }
-        });
-
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(adapter.craftLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 

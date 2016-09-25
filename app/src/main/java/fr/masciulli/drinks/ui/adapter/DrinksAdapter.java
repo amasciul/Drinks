@@ -6,7 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.squareup.picasso.Picasso;
+
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
@@ -139,7 +141,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
         return new ArrayList<>(drinks);
     }
 
-    public GridLayoutManager craftLayoutManager(Context context) {
+    public RecyclerView.LayoutManager craftLayoutManager(Context context) {
         int columnCount = context.getResources().getInteger(R.integer.column_count);
         GridLayoutManager layoutManager = new GridLayoutManager(context, columnCount);
 

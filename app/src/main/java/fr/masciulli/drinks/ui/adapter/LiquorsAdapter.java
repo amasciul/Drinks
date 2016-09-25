@@ -2,6 +2,7 @@ package fr.masciulli.drinks.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,5 +105,10 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
 
     public ArrayList<Liquor> getLiquors() {
         return new ArrayList<>(liquors);
+    }
+
+    public RecyclerView.LayoutManager craftLayoutManager(Context context) {
+        int columnCount = context.getResources().getInteger(R.integer.column_count);
+        return new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
     }
 }
