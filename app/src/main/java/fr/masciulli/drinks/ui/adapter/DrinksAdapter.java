@@ -1,18 +1,13 @@
 package fr.masciulli.drinks.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
-
-import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
-import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
-import fr.masciulli.drinks.ui.view.RatioImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,14 +15,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import fr.masciulli.drinks.R;
+import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
+import fr.masciulli.drinks.ui.view.RatioImageView;
+
 public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
-    private static final int TYPE_HERO_169 = 0;
+    private static final int TYPE_34 = 0;
     private static final int TYPE_43 = 1;
 
     private static final float RATIO_34 = 3.0f / 4.0f;
-    private static final float RATIO_169 = 16.0f / 9.0f;
-
-    private static final int HERO_INTERVAL = 9;
+    private static final float RATIO_43 = 4.0f / 3.0f;
 
     private List<Drink> drinks = new ArrayList<>();
     private List<Drink> filteredDrinks = new ArrayList<>();
@@ -50,11 +48,11 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
 
         RatioImageView imageView = holder.getImageView();
         switch (getItemViewType(position)) {
-            case TYPE_HERO_169:
-                imageView.setRatio(RATIO_169);
+            case TYPE_34:
+                imageView.setRatio(RATIO_34);
                 break;
             case TYPE_43:
-                imageView.setRatio(RATIO_34);
+                imageView.setRatio(RATIO_43);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown ratio type");
@@ -109,7 +107,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
         ratioMap.clear();
         for (int i = 0, size = drinks.size(); i < size; i++) {
             Drink drink = drinks.get(i);
-            ratioMap.put(drink, i % HERO_INTERVAL == 0 ? TYPE_HERO_169 : TYPE_43);
+            ratioMap.put(drink, i % 2 == 0 ? TYPE_34 : TYPE_43);
         }
     }
 
@@ -143,15 +141,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
 
     public RecyclerView.LayoutManager craftLayoutManager(Context context) {
         int columnCount = context.getResources().getInteger(R.integer.column_count);
-        GridLayoutManager layoutManager = new GridLayoutManager(context, columnCount);
 
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return getItemViewType(position) == DrinksAdapter.TYPE_HERO_169 ? columnCount : 1;
-            }
-        });
-
-        return layoutManager;
+        return new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
     }
 }
