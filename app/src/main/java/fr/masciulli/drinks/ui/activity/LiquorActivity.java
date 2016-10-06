@@ -17,6 +17,7 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.DataProvider;
+import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import rx.Observable;
@@ -29,6 +30,7 @@ import java.util.Locale;
 public class LiquorActivity extends AppCompatActivity {
     private static final String TAG = LiquorActivity.class.getSimpleName();
 
+    private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final String EXTRA_LIQUOR = "extra_liquor";
     private static final String STATE_DRINKS = "state_drinks";
 
@@ -38,9 +40,15 @@ public class LiquorActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (TRANSITIONS_AVAILABLE) {
+            postponeEnterTransition();
+        }
+
         liquor = getIntent().getParcelableExtra(EXTRA_LIQUOR);
         provider = new DataProvider(this);
 
@@ -55,7 +63,7 @@ public class LiquorActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(liquor.getImageUrl())
                 .noFade()
-                .into(imageView);
+                .into(imageView, new EnterPostponeTransitionCallback(this));
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         setupRecyclerView();
@@ -89,7 +97,7 @@ public class LiquorActivity extends AppCompatActivity {
     private void onDrinkClick(int position, Drink drink) {
         Intent intent = new Intent(this, DrinkActivity.class);
         intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (TRANSITIONS_AVAILABLE) {
             TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
             String transition = getString(R.string.transition_drink);
             ActivityOptions options = ActivityOptions

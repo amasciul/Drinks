@@ -19,11 +19,14 @@ import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 
 public class DrinkActivity extends AppCompatActivity {
     private static final String TAG = DrinkActivity.class.getSimpleName();
 
     public static final String EXTRA_DRINK = "extra_drink";
+    private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+
     private Drink drink;
 
     private ImageView imageView;
@@ -32,9 +35,15 @@ public class DrinkActivity extends AppCompatActivity {
     private TextView ingredientsView;
     private Button wikipediaButton;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (TRANSITIONS_AVAILABLE) {
+            postponeEnterTransition();
+        }
+
         drink = getIntent().getParcelableExtra(EXTRA_DRINK);
         setContentView(R.layout.activity_drink);
 
@@ -52,11 +61,12 @@ public class DrinkActivity extends AppCompatActivity {
         setupViews();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupViews() {
         Picasso.with(this)
                 .load(drink.getImageUrl())
                 .noFade()
-                .into(imageView);
+                .into(imageView, new EnterPostponeTransitionCallback(this));
 
         historyView.setText(drink.getHistory());
         instructionsView.setText(drink.getInstructions());
