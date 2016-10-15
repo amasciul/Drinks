@@ -13,10 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
+import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
-import fr.masciulli.drinks.net.DataProvider;
+import fr.masciulli.drinks.net.Client;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
@@ -35,7 +36,7 @@ public class LiquorActivity extends AppCompatActivity {
     private static final String STATE_DRINKS = "state_drinks";
 
     private Liquor liquor;
-    private DataProvider provider;
+    private Client client;
     private LiquorRelatedAdapter adapter;
 
     private RecyclerView recyclerView;
@@ -50,7 +51,7 @@ public class LiquorActivity extends AppCompatActivity {
         }
 
         liquor = getIntent().getParcelableExtra(EXTRA_LIQUOR);
-        provider = new DataProvider(this);
+        client = DrinksApplication.get(this).getClient();
 
         setContentView(R.layout.activity_liquor);
 
@@ -109,7 +110,7 @@ public class LiquorActivity extends AppCompatActivity {
     }
 
     private void loadDrinks() {
-        provider.getDrinks()
+        client.getDrinks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::onError)

@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.model.Liquor;
-import fr.masciulli.drinks.net.DataProvider;
+import fr.masciulli.drinks.net.Client;
 import fr.masciulli.drinks.ui.activity.LiquorActivity;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorsAdapter;
@@ -33,13 +34,13 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
     private ProgressBar progressBar;
     private View errorView;
 
-    private DataProvider provider;
+    private Client client;
     private LiquorsAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        provider = new DataProvider(getActivity());
+        client = DrinksApplication.get(getActivity()).getClient();
     }
 
     @Override
@@ -69,7 +70,7 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
 
     private void loadLiquors() {
         displayLoadingState();
-        provider.getLiquors()
+        client.getLiquors()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onLiquorsRetrieved, this::onError);

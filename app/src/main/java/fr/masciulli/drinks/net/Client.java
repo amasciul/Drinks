@@ -1,6 +1,7 @@
 package fr.masciulli.drinks.net;
 
 import android.content.Context;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import fr.masciulli.drinks.BuildConfig;
 import fr.masciulli.drinks.model.Drink;
 import fr.masciulli.drinks.model.Liquor;
@@ -15,7 +16,7 @@ import rx.Observable;
 import java.io.File;
 import java.util.List;
 
-public class DataProvider {
+public class Client {
 
     private static final String CACHE_RESPONSES_DIR = "responses";
     private static final String SERVER_BASE_URL = "http://drinks-api.appspot.com";
@@ -23,12 +24,13 @@ public class DataProvider {
 
     private WebApi retrofit;
 
-    public DataProvider(final Context context) {
+    public Client(final Context context) {
         File httpCacheDirectory = new File(context.getCacheDir(), CACHE_RESPONSES_DIR);
         Cache cache = new Cache(httpCacheDirectory, CACHE_MAX_SIZE);
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
                 .cache(cache)
+                .addNetworkInterceptor(new StethoInterceptor())
                 .addInterceptor(new CustomCacheControlInterceptor(context));
 
         if (BuildConfig.DEBUG) {
