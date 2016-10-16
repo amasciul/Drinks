@@ -39,7 +39,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
                 root = inflater.inflate(R.layout.item_liquor_detail_header, parent, false);
                 return new RelatedHeaderViewHolder(root);
             case TYPE_DRINK:
-                root = inflater.inflate(R.layout.item_liquor_detail_drink, parent, false);
+                root = inflater.inflate(R.layout.item_tile, parent, false);
                 return new TileViewHolder(root);
             default:
                 throw new IllegalArgumentException("Unknown view type");

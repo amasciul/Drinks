@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground">
 
     <fr.masciulli.drinks.ui.view.RatioImageView
         android:id="@+id/image"
@@ -14,21 +15,19 @@
         app:priority="width"
         tools:targetApi="lollipop" />
 
+
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
-        android:gravity="center_vertical|bottom"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
+        android:background="@drawable/gradient_bottom"
+        android:gravity="bottom"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         tools:text="Mint Julep" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackground" />
 
 </FrameLayout>

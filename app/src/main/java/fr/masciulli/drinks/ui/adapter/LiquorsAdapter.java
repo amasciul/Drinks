@@ -33,7 +33,7 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
     @Override
     public TileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_liquor, parent, false);
+                .inflate(R.layout.item_tile, parent, false);
         return new TileViewHolder(rootView);
     }
 
