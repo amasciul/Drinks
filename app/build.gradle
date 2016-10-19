@@ -64,4 +64,6 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:9.6.1'
 }
 
-apply plugin: 'com.google.gms.google-services'
+if (firebaseEnabled.toBoolean()) {
+    apply plugin: 'com.google.gms.google-services'
+}
