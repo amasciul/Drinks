@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.model.Liquor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okio.Buffer;
@@ -24,7 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(RobolectricTestRunner.class)
 public class ClientTest {
     private static final String FILE_DRINKS = "mock-drinks.json";
+    private static final String FILE_LIQUORS = "mock-liquors.json";
     private static final int SIZE_DRINKS = 29;
+    private static final int SIZE_LIQUORS = 12;
 
     private MockWebServer server;
     private Client client;
@@ -48,6 +51,19 @@ public class ClientTest {
 
         List<Drink> drinks = subscriber.getOnNextEvents().get(0);
         assertThat(drinks.size()).isEqualTo(SIZE_DRINKS);
+    }
+
+    @Test
+    public void testThatLiquorsAreRetrievedCorrectly() throws IOException {
+        enqueueServerResponse(FILE_LIQUORS);
+
+        TestSubscriber<List<Liquor>> subscriber = new TestSubscriber<>();
+        client.getLiquors().subscribe(subscriber);
+
+        subscriber.assertNoErrors();
+
+        List<Liquor> liquors = subscriber.getOnNextEvents().get(0);
+        assertThat(liquors.size()).isEqualTo(SIZE_LIQUORS);
     }
 
     private void enqueueServerResponse(String bodyFile) throws IOException {
