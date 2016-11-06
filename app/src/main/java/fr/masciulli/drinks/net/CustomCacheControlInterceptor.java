@@ -16,13 +16,17 @@ public class CustomCacheControlInterceptor implements Interceptor {
     private final ConnectivityChecker connectivityChecker;
 
     public CustomCacheControlInterceptor(Context context) {
-        connectivityChecker = new ConnectivityChecker(context.getApplicationContext());
+        // using application context to avoid activity leak https://github.com/square/leakcanary/issues/393
+        this(new ConnectivityChecker(context.getApplicationContext()));
+    }
+
+    CustomCacheControlInterceptor(ConnectivityChecker connectivityChecker) {
+        this.connectivityChecker = connectivityChecker;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request.Builder builder = chain.request().newBuilder();
-        // using application context to avoid activity leak https://github.com/square/leakcanary/issues/393
         if (connectivityChecker.isConnectedOrConnecting()) {
             builder.addHeader(HEADER_CACHE_CONTROL, HEADER_CACHE_CONTROL_PUBLIC);
         } else {
