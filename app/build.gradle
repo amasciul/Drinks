@@ -72,5 +72,8 @@ dependencies {
 }
 
 if (firebaseEnabled.toBoolean()) {
+    System.out.println('Firebase is enabled')
     apply plugin: 'com.google.gms.google-services'
+} else {
+    System.out.println('Firebase is disabled')
 }
