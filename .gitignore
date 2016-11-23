@@ -6,4 +6,4 @@
 .DS_Store
 /build
 /captures
-app/google-services.json
+app/src/firebase/res/values/firebase.xml
