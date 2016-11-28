@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'checkstyle'
 apply plugin: 'me.tatarka.retrolambda'
 
@@ -67,6 +68,9 @@ dependencies {
 
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
+
+    compile 'me.tatarka:auto-parcel-gson:0.1'
+    apt 'me.tatarka:auto-parcel-gson-processor:0.1'
 
     firebaseCompile 'com.google.firebase:firebase-core:9.6.1'
     firebaseCompile 'com.google.firebase:firebase-crash:9.6.1'

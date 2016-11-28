@@ -50,7 +50,7 @@ public class DrinkActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(drink.getName());
+        setTitle(drink.name());
 
         imageView = (ImageView) findViewById(R.id.image);
         historyView = (TextView) findViewById(R.id.history);
@@ -64,17 +64,17 @@ public class DrinkActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupViews() {
         Picasso.with(this)
-                .load(drink.getImageUrl())
+                .load(drink.imageUrl())
                 .noFade()
                 .into(imageView, new EnterPostponeTransitionCallback(this));
 
-        historyView.setText(drink.getHistory());
-        instructionsView.setText(drink.getInstructions());
+        historyView.setText(drink.history());
+        instructionsView.setText(drink.instructions());
         ingredientsView.setText(parseIngredients());
-        wikipediaButton.setText(getString(R.string.wikipedia, drink.getName()));
+        wikipediaButton.setText(getString(R.string.wikipedia, drink.name()));
         wikipediaButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(drink.getWikipedia()));
+            intent.setData(Uri.parse(drink.wikipedia()));
             startActivity(intent);
         });
     }
@@ -83,10 +83,10 @@ public class DrinkActivity extends AppCompatActivity {
     private Spanned parseIngredients() {
         StringBuilder builder = new StringBuilder();
         int i = 0;
-        for (String ingredient : drink.getIngredients()) {
+        for (String ingredient : drink.ingredients()) {
             builder.append("&#8226; ");
             builder.append(ingredient);
-            if (++i < drink.getIngredients().size()) {
+            if (++i < drink.ingredients().size()) {
                 builder.append("<br>");
             }
         }
@@ -116,7 +116,7 @@ public class DrinkActivity extends AppCompatActivity {
     private void shareDrink() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.getName());
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.name());
         sendIntent.putExtra(Intent.EXTRA_TEXT, parseIngredients());
         sendIntent.setType("text/plain");
         startActivity(sendIntent);

@@ -1,69 +1,19 @@
 package fr.masciulli.drinks.model;
 
-import android.os.Parcel;
 import android.os.Parcelable;
+import auto.parcelgson.AutoParcelGson;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Liquor implements Parcelable {
-    private String name;
-    private String imageUrl;
-    private String wikipedia;
-    private String history;
-    private List<String> otherNames = new ArrayList<>();
+@AutoParcelGson
+public abstract class Liquor implements Parcelable {
+    public abstract String name();
 
-    public Liquor(Parcel source) {
-        name = source.readString();
-        imageUrl = source.readString();
-        wikipedia = source.readString();
-        history = source.readString();
-        source.readStringList(otherNames);
-    }
+    public abstract String imageUrl();
 
-    public String getName() {
-        return name;
-    }
+    public abstract String wikipedia();
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+    public abstract String history();
 
-    public String getWikipedia() {
-        return wikipedia;
-    }
-
-    public String getHistory() {
-        return history;
-    }
-
-    public List<String> getOtherNames() {
-        return otherNames;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(imageUrl);
-        dest.writeString(wikipedia);
-        dest.writeString(history);
-        dest.writeStringList(otherNames);
-    }
-
-    public static final Creator<Liquor> CREATOR = new Creator<Liquor>() {
-        @Override
-        public Liquor createFromParcel(Parcel source) {
-            return new Liquor(source);
-        }
-
-        @Override
-        public Liquor[] newArray(int size) {
-            return new Liquor[size];
-        }
-    };
+    public abstract List<String> otherNames();
 }
