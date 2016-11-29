@@ -44,7 +44,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
     @Override
     public void onBindViewHolder(final TileViewHolder holder, int position) {
         final Drink drink = filteredDrinks.get(position);
-        holder.getNameView().setText(drink.getName());
+        holder.getNameView().setText(drink.name());
 
         RatioImageView imageView = holder.getImageView();
         switch (getItemViewType(position)) {
@@ -61,7 +61,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
         Context context = holder.itemView.getContext();
 
         Picasso.with(context)
-                .load(drink.getImageUrl())
+                .load(drink.imageUrl())
                 .fit()
                 .placeholder(placeHolders.get(context, position))
                 .centerCrop()
@@ -110,10 +110,10 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
         filteredDrinks.clear();
         text = text.toLowerCase(Locale.US);
         for (Drink drink : drinks) {
-            if (drink.getName().toLowerCase(Locale.US).contains(text)) {
+            if (drink.name().toLowerCase(Locale.US).contains(text)) {
                 filteredDrinks.add(drink);
             } else {
-                for (String ingredient : drink.getIngredients()) {
+                for (String ingredient : drink.ingredients()) {
                     if (ingredient.toLowerCase(Locale.US).contains(text)) {
                         filteredDrinks.add(drink);
                         break;

@@ -2,7 +2,10 @@ package fr.masciulli.drinks.net;
 
 import android.content.Context;
 
+import auto.parcelgson.gson.AutoParcelGsonTypeAdapterFactory;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.util.List;
@@ -45,11 +48,15 @@ public class Client {
             clientBuilder.addInterceptor(loggingInterceptor);
         }
 
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new AutoParcelGsonTypeAdapterFactory())
+                .create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(clientBuilder.build())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
                 .create(WebApi.class);
     }

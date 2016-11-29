@@ -59,11 +59,11 @@ public class LiquorActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(liquor.getName());
+        setTitle(liquor.name());
 
         ImageView imageView = (ImageView) findViewById(R.id.image);
         Picasso.with(this)
-                .load(liquor.getImageUrl())
+                .load(liquor.imageUrl())
                 .noFade()
                 .into(imageView, new EnterPostponeTransitionCallback(this));
 
@@ -91,7 +91,7 @@ public class LiquorActivity extends AppCompatActivity {
 
     private void onWikipediaClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(liquor.getWikipedia()));
+        intent.setData(Uri.parse(liquor.wikipedia()));
         startActivity(intent);
     }
 
@@ -130,12 +130,12 @@ public class LiquorActivity extends AppCompatActivity {
     }
 
     private boolean matches(Drink drink) {
-        for (String ingredient : drink.getIngredients()) {
+        for (String ingredient : drink.ingredients()) {
             String lowerCaseIngredient = ingredient.toLowerCase(Locale.US);
-            if (lowerCaseIngredient.contains(liquor.getName().toLowerCase(Locale.US))) {
+            if (lowerCaseIngredient.contains(liquor.name().toLowerCase(Locale.US))) {
                 return true;
             }
-            for (String name : liquor.getOtherNames()) {
+            for (String name : liquor.otherNames()) {
                 if (lowerCaseIngredient.contains(name.toLowerCase(Locale.US))) {
                     return true;
                 }
