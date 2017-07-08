@@ -17,10 +17,13 @@ android {
         versionName '2.0.8'
     }
 
+    flavorDimensions "analytics"
     productFlavors {
         vanilla {
+            dimension "analytics"
         }
         firebase {
+            dimension "analytics"
         }
     }
 
