@@ -1,18 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'checkstyle'
-apply plugin: 'me.tatarka.retrolambda'
-
-check.dependsOn 'checkstyle'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
 
     defaultConfig {
         applicationId 'fr.masciulli.drinks'
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 32
         versionName '2.0.8'
     }
@@ -37,50 +32,42 @@ android {
     }
 }
 
-task checkstyle(type: Checkstyle) {
-    configFile file('../config/checkstyle/checkstyle.xml')
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-    classpath = files()
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    testCompile 'com.android.support:support-annotations:25.1.0'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:recyclerview-v7:26.0.2'
+    compile 'com.android.support:design:26.0.2'
+    testCompile 'com.android.support:support-annotations:26.0.2'
 
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
 
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex:rxjava:1.3.0'
 
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
 
     compile 'me.tatarka:auto-parcel-gson:0.1'
-    apt 'me.tatarka:auto-parcel-gson-processor:0.1'
+    annotationProcessor 'me.tatarka:auto-parcel-gson-processor:0.1'
 
-    firebaseCompile 'com.google.firebase:firebase-core:9.6.1'
-    firebaseCompile 'com.google.firebase:firebase-crash:9.6.1'
+    firebaseCompile 'com.google.firebase:firebase-core:11.2.2'
+    firebaseCompile 'com.google.firebase:firebase-crash:11.2.2'
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.1.4'
-    testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile 'com.squareup.okhttp3:mockwebserver:3.4.1'
+    testCompile 'org.robolectric:robolectric:3.2.2'
+    testCompile 'org.mockito:mockito-core:2.7.22'
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }

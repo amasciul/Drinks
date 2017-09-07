@@ -1,14 +1,13 @@
 package fr.masciulli.drinks.ui.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+
 import fr.masciulli.drinks.R;
 
-public class RatioImageView extends ImageView {
+public class RatioImageView extends AppCompatImageView {
     private static final float DEFAULT_RATIO = 1.0f;
     public static final int PRIORITY_WIDTH = 0;
     public static final int PRIORITY_HEIGHT = 1;
@@ -37,11 +36,6 @@ public class RatioImageView extends ImageView {
 
     public RatioImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public RatioImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
