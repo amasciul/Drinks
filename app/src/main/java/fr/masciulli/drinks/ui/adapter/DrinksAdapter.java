@@ -16,7 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.core.Drink;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import fr.masciulli.drinks.ui.view.RatioImageView;
 
@@ -44,7 +44,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
     @Override
     public void onBindViewHolder(final TileViewHolder holder, int position) {
         final Drink drink = filteredDrinks.get(position);
-        holder.getNameView().setText(drink.name());
+        holder.getNameView().setText(drink.getName());
 
         RatioImageView imageView = holder.getImageView();
         switch (getItemViewType(position)) {
@@ -61,7 +61,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
         Context context = holder.itemView.getContext();
 
         Picasso.with(context)
-                .load(drink.imageUrl())
+                .load(drink.getImageUrl())
                 .fit()
                 .placeholder(placeHolders.get(context, position))
                 .centerCrop()
@@ -110,10 +110,10 @@ public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
         filteredDrinks.clear();
         text = text.toLowerCase(Locale.US);
         for (Drink drink : drinks) {
-            if (drink.name().toLowerCase(Locale.US).contains(text)) {
+            if (drink.getName().toLowerCase(Locale.US).contains(text)) {
                 filteredDrinks.add(drink);
             } else {
-                for (String ingredient : drink.ingredients()) {
+                for (String ingredient : drink.getIngredients()) {
                     if (ingredient.toLowerCase(Locale.US).contains(text)) {
                         filteredDrinks.add(drink);
                         break;

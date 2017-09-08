@@ -18,12 +18,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.core.Drink;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 
 public class DrinkActivity extends AppCompatActivity {
-    private static final String TAG = DrinkActivity.class.getSimpleName();
-
     public static final String EXTRA_DRINK = "extra_drink";
     private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
@@ -47,16 +45,16 @@ public class DrinkActivity extends AppCompatActivity {
         drink = getIntent().getParcelableExtra(EXTRA_DRINK);
         setContentView(R.layout.activity_drink);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(drink.name());
+        setTitle(drink.getName());
 
-        imageView = (ImageView) findViewById(R.id.image);
-        historyView = (TextView) findViewById(R.id.history);
-        instructionsView = (TextView) findViewById(R.id.instructions);
-        ingredientsView = (TextView) findViewById(R.id.ingredients);
-        wikipediaButton = (Button) findViewById(R.id.wikipedia);
+        imageView = findViewById(R.id.image);
+        historyView = findViewById(R.id.history);
+        instructionsView = findViewById(R.id.instructions);
+        ingredientsView = findViewById(R.id.ingredients);
+        wikipediaButton = findViewById(R.id.wikipedia);
 
         setupViews();
     }
@@ -64,17 +62,17 @@ public class DrinkActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupViews() {
         Picasso.with(this)
-                .load(drink.imageUrl())
+                .load(drink.getImageUrl())
                 .noFade()
                 .into(imageView, new EnterPostponeTransitionCallback(this));
 
-        historyView.setText(drink.history());
-        instructionsView.setText(drink.instructions());
+        historyView.setText(drink.getHistory());
+        instructionsView.setText(drink.getInstructions());
         ingredientsView.setText(parseIngredients());
-        wikipediaButton.setText(getString(R.string.wikipedia, drink.name()));
+        wikipediaButton.setText(getString(R.string.wikipedia, drink.getName()));
         wikipediaButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(drink.wikipedia()));
+            intent.setData(Uri.parse(drink.getWikipedia()));
             startActivity(intent);
         });
     }
@@ -83,10 +81,10 @@ public class DrinkActivity extends AppCompatActivity {
     private Spanned parseIngredients() {
         StringBuilder builder = new StringBuilder();
         int i = 0;
-        for (String ingredient : drink.ingredients()) {
+        for (String ingredient : drink.getIngredients()) {
             builder.append("&#8226; ");
             builder.append(ingredient);
-            if (++i < drink.ingredients().size()) {
+            if (++i < drink.getIngredients().size()) {
                 builder.append("<br>");
             }
         }
@@ -116,7 +114,7 @@ public class DrinkActivity extends AppCompatActivity {
     private void shareDrink() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.name());
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.getName());
         sendIntent.putExtra(Intent.EXTRA_TEXT, parseIngredients());
         sendIntent.setType("text/plain");
         startActivity(sendIntent);

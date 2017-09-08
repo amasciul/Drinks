@@ -70,6 +70,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.7.22'
     testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    compile project(path: ':core')
 }
 
 apply from: "$project.rootDir/config/android-checkstyle.gradle"

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.core.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.ui.adapter.holder.RelatedHeaderViewHolder;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
@@ -77,7 +77,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
         Context context = holder.itemView.getContext();
 
         final Drink drink = drinks.get(position - 1);
-        holder.getNameView().setText(drink.name());
+        holder.getNameView().setText(drink.getName());
         if (drinkClickListener != null) {
             holder.itemView.setOnClickListener(v -> holder.getNameView().animate()
                     .translationY(holder.getNameView().getHeight())
@@ -86,7 +86,7 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
                         drinkClickListener.onItemClick(holder.getAdapterPosition(), drink);
                     }).start());
         }
-        Picasso.with(context).load(drink.imageUrl())
+        Picasso.with(context).load(drink.getImageUrl())
                 .fit()
                 .placeholder(placeholders.get(context, position))
                 .centerCrop()

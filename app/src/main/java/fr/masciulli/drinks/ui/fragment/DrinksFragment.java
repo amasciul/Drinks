@@ -17,9 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.core.Drink;
 import fr.masciulli.drinks.net.Client;
 import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
@@ -32,8 +33,6 @@ import java.util.List;
 
 public class DrinksFragment extends Fragment implements SearchView.OnQueryTextListener, ItemClickListener<Drink> {
     private static final String TAG = DrinksFragment.class.getSimpleName();
-
-    private static final String STATE_DRINKS = "state_drinks";
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -54,11 +53,11 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
         setHasOptionsMenu(true);
 
         View rootView = inflater.inflate(R.layout.fragment_drinks, container, false);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        recyclerView = rootView.findViewById(R.id.recycler);
+        progressBar = rootView.findViewById(R.id.progress_bar);
         emptyView = rootView.findViewById(R.id.empty);
         errorView = rootView.findViewById(R.id.error);
-        Button refreshButton = (Button) rootView.findViewById(R.id.refresh);
+        Button refreshButton = rootView.findViewById(R.id.refresh);
 
         refreshButton.setOnClickListener(v -> loadDrinks());
 
@@ -67,12 +66,8 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
         recyclerView.setLayoutManager(adapter.craftLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
-        if (savedInstanceState == null) {
-            loadDrinks();
-        } else {
-            List<Drink> drinks = savedInstanceState.getParcelableArrayList(STATE_DRINKS);
-            onDrinksRetrieved(drinks);
-        }
+        loadDrinks();
+
 
         return rootView;
     }
@@ -117,7 +112,7 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void onItemClick(int position, Drink drink) {
         Intent intent = new Intent(getActivity(), DrinkActivity.class);
-        intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
+        //TODO add drink id to intent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
             String transition = getString(R.string.transition_drink);
@@ -169,11 +164,5 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
         adapter.clearFilter();
         hideEmptyView();
         super.onDestroyOptionsMenu();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(STATE_DRINKS, adapter.getDrinks());
     }
 }

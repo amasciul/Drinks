@@ -12,7 +12,7 @@ import org.robolectric.annotation.Config;
 import java.io.IOException;
 import java.util.List;
 
-import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.core.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;

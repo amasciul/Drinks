@@ -1,8 +1,10 @@
 package fr.masciulli.drinks.net;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import auto.parcelgson.gson.AutoParcelGsonTypeAdapterFactory;
+
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,7 +13,8 @@ import java.io.File;
 import java.util.List;
 
 import fr.masciulli.drinks.BuildConfig;
-import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.core.Drink;
+import fr.masciulli.drinks.core.DrinksSource;
 import fr.masciulli.drinks.model.Liquor;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -21,7 +24,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
-public class Client {
+public class Client implements DrinksSource {
 
     private static final String CACHE_RESPONSES_DIR = "responses";
     private static final String SERVER_BASE_URL = "http://drinks-api.appspot.com";
@@ -61,6 +64,8 @@ public class Client {
                 .create(WebApi.class);
     }
 
+    @Override
+    @NonNull
     public Observable<List<Drink>> getDrinks() {
         return retrofit.getDrinks();
     }

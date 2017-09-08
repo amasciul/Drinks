@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Drink;
+import fr.masciulli.drinks.core.Drink;
 import fr.masciulli.drinks.model.Liquor;
 import fr.masciulli.drinks.net.Client;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
@@ -34,7 +34,6 @@ public class LiquorActivity extends AppCompatActivity {
 
     private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final String EXTRA_LIQUOR = "extra_liquor";
-    private static final String STATE_DRINKS = "state_drinks";
 
     private Liquor liquor;
     private Client client;
@@ -56,26 +55,21 @@ public class LiquorActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_liquor);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(liquor.name());
 
-        ImageView imageView = (ImageView) findViewById(R.id.image);
+        ImageView imageView = findViewById(R.id.image);
         Picasso.with(this)
                 .load(liquor.imageUrl())
                 .noFade()
                 .into(imageView, new EnterPostponeTransitionCallback(this));
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView = findViewById(R.id.recycler);
         setupRecyclerView();
 
-        if (savedInstanceState == null) {
-            loadDrinks();
-        } else {
-            List<Drink> drinks = savedInstanceState.getParcelableArrayList(STATE_DRINKS);
-            onDrinksRetrieved(drinks);
-        }
+        loadDrinks();
     }
 
     private void setupRecyclerView() {
@@ -98,7 +92,7 @@ public class LiquorActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void onDrinkClick(int position, Drink drink) {
         Intent intent = new Intent(this, DrinkActivity.class);
-        intent.putExtra(DrinkActivity.EXTRA_DRINK, drink);
+        //TODO add drink id to intent
         if (TRANSITIONS_AVAILABLE) {
             TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
             String transition = getString(R.string.transition_drink);
@@ -130,7 +124,7 @@ public class LiquorActivity extends AppCompatActivity {
     }
 
     private boolean matches(Drink drink) {
-        for (String ingredient : drink.ingredients()) {
+        for (String ingredient : drink.getIngredients()) {
             String lowerCaseIngredient = ingredient.toLowerCase(Locale.US);
             if (lowerCaseIngredient.contains(liquor.name().toLowerCase(Locale.US))) {
                 return true;
@@ -143,11 +137,5 @@ public class LiquorActivity extends AppCompatActivity {
         }
 
         return false;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(STATE_DRINKS, adapter.getDrinks());
     }
 }
