@@ -17,6 +17,7 @@ import fr.masciulli.drinks.core.Drink;
 import fr.masciulli.drinks.core.DrinksSource;
 import fr.masciulli.drinks.core.Liquor;
 import fr.masciulli.drinks.core.LiquorsSource;
+import fr.masciulli.drinks.core.WebApi;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
