@@ -1,7 +1,7 @@
 package fr.masciulli.drinks.net;
 
 import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.core.Liquor;
 import retrofit2.http.GET;
 import rx.Observable;
 

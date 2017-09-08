@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.core.Liquor;
 import fr.masciulli.drinks.net.Client;
 import fr.masciulli.drinks.ui.activity.LiquorActivity;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
@@ -28,7 +28,6 @@ import java.util.List;
 
 public class LiquorsFragment extends Fragment implements ItemClickListener<Liquor> {
     private static final String TAG = LiquorsFragment.class.getSimpleName();
-    private static final String STATE_LIQUORS = "state_liquors";
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -46,10 +45,10 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_liquors, container, false);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        recyclerView = rootView.findViewById(R.id.recycler);
+        progressBar = rootView.findViewById(R.id.progress_bar);
         errorView = rootView.findViewById(R.id.error);
-        Button refreshButton = (Button) rootView.findViewById(R.id.refresh);
+        Button refreshButton = rootView.findViewById(R.id.refresh);
 
         refreshButton.setOnClickListener(v -> loadLiquors());
 
@@ -58,12 +57,7 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
         recyclerView.setLayoutManager(adapter.craftLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
-        if (savedInstanceState == null) {
-            loadLiquors();
-        } else {
-            List<Liquor> liquors = savedInstanceState.getParcelableArrayList(STATE_LIQUORS);
-            onLiquorsRetrieved(liquors);
-        }
+        loadLiquors();
 
         return rootView;
     }
@@ -107,7 +101,7 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
     @Override
     public void onItemClick(int position, Liquor liquor) {
         Intent intent = new Intent(getActivity(), LiquorActivity.class);
-        intent.putExtra(LiquorActivity.EXTRA_LIQUOR, liquor);
+        //TODO put liquor id
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
             String transition = getString(R.string.transition_liquor);
@@ -117,11 +111,5 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
         } else {
             startActivity(intent);
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(STATE_LIQUORS, adapter.getLiquors());
     }
 }

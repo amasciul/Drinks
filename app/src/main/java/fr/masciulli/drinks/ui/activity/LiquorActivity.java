@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.core.Liquor;
 import fr.masciulli.drinks.net.Client;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
@@ -58,11 +58,11 @@ public class LiquorActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(liquor.name());
+        setTitle(liquor.getName());
 
         ImageView imageView = findViewById(R.id.image);
         Picasso.with(this)
-                .load(liquor.imageUrl())
+                .load(liquor.getImageUrl())
                 .noFade()
                 .into(imageView, new EnterPostponeTransitionCallback(this));
 
@@ -85,7 +85,7 @@ public class LiquorActivity extends AppCompatActivity {
 
     private void onWikipediaClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(liquor.wikipedia()));
+        intent.setData(Uri.parse(liquor.getWikipedia()));
         startActivity(intent);
     }
 
@@ -126,10 +126,10 @@ public class LiquorActivity extends AppCompatActivity {
     private boolean matches(Drink drink) {
         for (String ingredient : drink.getIngredients()) {
             String lowerCaseIngredient = ingredient.toLowerCase(Locale.US);
-            if (lowerCaseIngredient.contains(liquor.name().toLowerCase(Locale.US))) {
+            if (lowerCaseIngredient.contains(liquor.getName().toLowerCase(Locale.US))) {
                 return true;
             }
-            for (String name : liquor.otherNames()) {
+            for (String name : liquor.getOtherNames()) {
                 if (lowerCaseIngredient.contains(name.toLowerCase(Locale.US))) {
                     return true;
                 }

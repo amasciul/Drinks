@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.core.Liquor;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import fr.masciulli.drinks.ui.view.RatioImageView;
 
@@ -40,7 +40,7 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
     @Override
     public void onBindViewHolder(final TileViewHolder holder, int position) {
         final Liquor liquor = liquors.get(position);
-        holder.getNameView().setText(liquor.name());
+        holder.getNameView().setText(liquor.getName());
 
         RatioImageView imageView = holder.getImageView();
         switch (getItemViewType(position)) {
@@ -57,7 +57,7 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
         Context context = holder.itemView.getContext();
 
         Picasso.with(context)
-                .load(liquor.imageUrl())
+                .load(liquor.getImageUrl())
                 .fit()
                 .placeholder(placeHolders.get(context, position))
                 .centerCrop()

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.core.Liquor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okio.Buffer;

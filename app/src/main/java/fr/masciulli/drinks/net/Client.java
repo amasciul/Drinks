@@ -15,7 +15,8 @@ import java.util.List;
 import fr.masciulli.drinks.BuildConfig;
 import fr.masciulli.drinks.core.Drink;
 import fr.masciulli.drinks.core.DrinksSource;
-import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.core.Liquor;
+import fr.masciulli.drinks.core.LiquorsSource;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -24,7 +25,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
-public class Client implements DrinksSource {
+public class Client implements DrinksSource, LiquorsSource {
 
     private static final String CACHE_RESPONSES_DIR = "responses";
     private static final String SERVER_BASE_URL = "http://drinks-api.appspot.com";
@@ -70,6 +71,8 @@ public class Client implements DrinksSource {
         return retrofit.getDrinks();
     }
 
+    @Override
+    @NonNull
     public Observable<List<Liquor>> getLiquors() {
         return retrofit.getLiquors();
     }

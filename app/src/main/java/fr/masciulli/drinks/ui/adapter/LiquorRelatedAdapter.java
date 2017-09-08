@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.model.Liquor;
+import fr.masciulli.drinks.core.Liquor;
 import fr.masciulli.drinks.ui.adapter.holder.RelatedHeaderViewHolder;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 
@@ -63,11 +63,11 @@ public class LiquorRelatedAdapter extends RecyclerView.Adapter {
     private void bindHeaderHolder(final RelatedHeaderViewHolder holder) {
         Context context = holder.itemView.getContext();
 
-        holder.getHistoryView().setText(liquor.history());
+        holder.getHistoryView().setText(liquor.getHistory());
         holder.getWikipediaButton()
-                .setText(context.getString(R.string.wikipedia, liquor.name()));
+                .setText(context.getString(R.string.wikipedia, liquor.getName()));
         holder.getRelatedDrinksTitle()
-                .setText(context.getString(R.string.related_drinks, liquor.name()));
+                .setText(context.getString(R.string.related_drinks, liquor.getName()));
         if (wikipediaClickListener != null) {
             holder.getWikipediaButton().setOnClickListener(v -> wikipediaClickListener.onItemClick(holder.getAdapterPosition(), liquor));
         }
