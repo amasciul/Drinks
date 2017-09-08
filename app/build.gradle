@@ -59,9 +59,6 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
 
-    compile 'me.tatarka:auto-parcel-gson:0.1'
-    annotationProcessor 'me.tatarka:auto-parcel-gson-processor:0.1'
-
     firebaseCompile 'com.google.firebase:firebase-core:11.2.2'
     firebaseCompile 'com.google.firebase:firebase-crash:11.2.2'
 
