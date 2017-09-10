@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.net;
+package fr.masciulli.drinks.core;
 
 import org.junit.After;
 import org.junit.Before;
@@ -7,8 +7,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.core.Liquor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okio.Buffer;

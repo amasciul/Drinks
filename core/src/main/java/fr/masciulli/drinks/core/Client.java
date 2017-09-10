@@ -1,17 +1,9 @@
-package fr.masciulli.drinks.net;
+package fr.masciulli.drinks.core;
 
-import android.support.annotation.NonNull;
-
-import com.facebook.stetho.okhttp3.StethoInterceptor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import fr.masciulli.drinks.BuildConfig;
-import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.core.DrinksSource;
-import fr.masciulli.drinks.core.Liquor;
-import fr.masciulli.drinks.core.LiquorsSource;
-import fr.masciulli.drinks.core.WebApi;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -29,14 +21,11 @@ public class Client implements DrinksSource, LiquorsSource {
     }
 
     Client(String baseUrl) {
-        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
-                .addNetworkInterceptor(new StethoInterceptor());
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor()
-                    .setLevel(HttpLoggingInterceptor.Level.BODY);
-            clientBuilder.addInterceptor(loggingInterceptor);
-        }
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -47,14 +36,14 @@ public class Client implements DrinksSource, LiquorsSource {
                 .create(WebApi.class);
     }
 
+    @NotNull
     @Override
-    @NonNull
     public Observable<List<Drink>> getDrinks() {
         return retrofit.getDrinks();
     }
 
     @Override
-    @NonNull
+    @NotNull
     public Observable<List<Liquor>> getLiquors() {
         return retrofit.getLiquors();
     }
