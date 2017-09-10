@@ -1,13 +1,8 @@
 package fr.masciulli.drinks.net;
 
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,8 +16,6 @@ import rx.observers.TestSubscriber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Config(sdk = 23)
-@RunWith(RobolectricTestRunner.class)
 public class ClientTest {
     private static final String FILE_DRINKS = "mock-drinks.json";
     private static final String FILE_LIQUORS = "mock-liquors.json";
@@ -37,7 +30,7 @@ public class ClientTest {
         server = new MockWebServer();
         server.start();
 
-        client = new Client(RuntimeEnvironment.application, server.url("/").toString());
+        client = new Client(server.url("/").toString());
     }
 
     @Test

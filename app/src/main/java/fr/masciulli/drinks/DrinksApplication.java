@@ -2,8 +2,10 @@ package fr.masciulli.drinks;
 
 import android.app.Application;
 import android.content.Context;
+
 import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
+
 import fr.masciulli.drinks.net.Client;
 
 public class DrinksApplication extends Application {
@@ -18,7 +20,7 @@ public class DrinksApplication extends Application {
 
         Stetho.initializeWithDefaults(this);
 
-        client = new Client(this);
+        client = new Client();
     }
 
     public Client getClient() {
