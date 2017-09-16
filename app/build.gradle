@@ -10,6 +10,8 @@ android {
         targetSdkVersion sdkVersion
         versionCode 32
         versionName '2.0.8'
+
+        buildConfigField "String", "SERVER_URL", "\"http://drinks-api.appspot.com\""
     }
 
     flavorDimensions "analytics"

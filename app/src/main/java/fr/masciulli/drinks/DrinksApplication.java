@@ -17,7 +17,7 @@ public class DrinksApplication extends Application {
             LeakCanary.install(this);
         }
 
-        client = new Client();
+        client = new Client(BuildConfig.SERVER_URL);
     }
 
     public Client getClient() {
