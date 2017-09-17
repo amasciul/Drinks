@@ -13,7 +13,7 @@ public class LicensesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_licenses);
-        WebView webView = (WebView) findViewById(R.id.webview);
+        WebView webView = findViewById(R.id.webview);
         webView.loadUrl(HTML_LICENSE);
     }
 }

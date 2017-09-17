@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LiquorRelatedAdapter extends RecyclerView.Adapter {
-    public static final int TYPE_HEADER = 0;
-    public static final int TYPE_DRINK = 1;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_DRINK = 1;
 
     private Liquor liquor;
     private List<Drink> drinks = new ArrayList<>();

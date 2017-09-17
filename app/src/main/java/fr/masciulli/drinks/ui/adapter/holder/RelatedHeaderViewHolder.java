@@ -13,9 +13,9 @@ public class RelatedHeaderViewHolder extends RecyclerView.ViewHolder {
 
     public RelatedHeaderViewHolder(View itemView) {
         super(itemView);
-        historyView = (TextView) itemView.findViewById(R.id.history);
-        wikipediaButton = (Button) itemView.findViewById(R.id.wikipedia);
-        relatedDrinksTitle = (TextView) itemView.findViewById(R.id.related_drinks_title);
+        historyView = itemView.findViewById(R.id.history);
+        wikipediaButton = itemView.findViewById(R.id.wikipedia);
+        relatedDrinksTitle = itemView.findViewById(R.id.related_drinks_title);
     }
 
     public TextView getHistoryView() {

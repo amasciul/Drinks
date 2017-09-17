@@ -12,8 +12,8 @@ public class TileViewHolder extends RecyclerView.ViewHolder {
 
     public TileViewHolder(View itemView) {
         super(itemView);
-        imageView = (RatioImageView) itemView.findViewById(R.id.image);
-        nameView = (TextView) itemView.findViewById(R.id.name);
+        imageView = itemView.findViewById(R.id.image);
+        nameView = itemView.findViewById(R.id.name);
     }
 
     public RatioImageView getImageView() {

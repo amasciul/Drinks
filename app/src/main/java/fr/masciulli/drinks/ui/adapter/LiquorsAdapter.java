@@ -98,10 +98,6 @@ public class LiquorsAdapter extends RecyclerView.Adapter<TileViewHolder> {
         }
     }
 
-    public ArrayList<Liquor> getLiquors() {
-        return new ArrayList<>(liquors);
-    }
-
     public RecyclerView.LayoutManager craftLayoutManager(Context context) {
         int columnCount = context.getResources().getInteger(R.integer.column_count);
         return new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
