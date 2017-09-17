@@ -17,8 +17,8 @@ import com.squareup.picasso.Picasso;
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.Drink;
+import fr.masciulli.drinks.core.DrinksSource;
 import fr.masciulli.drinks.core.Liquor;
-import fr.masciulli.drinks.core.Client;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
@@ -36,7 +36,7 @@ public class LiquorActivity extends AppCompatActivity {
     public static final String EXTRA_LIQUOR = "extra_liquor";
 
     private Liquor liquor;
-    private Client client;
+    private DrinksSource drinksSource;
     private LiquorRelatedAdapter adapter;
 
     private RecyclerView recyclerView;
@@ -51,7 +51,7 @@ public class LiquorActivity extends AppCompatActivity {
         }
 
         liquor = getIntent().getParcelableExtra(EXTRA_LIQUOR);
-        client = DrinksApplication.get(this).getClient();
+        drinksSource = DrinksApplication.get(this).getDrinksSource();
 
         setContentView(R.layout.activity_liquor);
 
@@ -105,7 +105,7 @@ public class LiquorActivity extends AppCompatActivity {
     }
 
     private void loadDrinks() {
-        client.getDrinks()
+        drinksSource.getDrinks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::onError)

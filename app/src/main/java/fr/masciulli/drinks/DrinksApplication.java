@@ -6,9 +6,12 @@ import android.content.Context;
 import com.squareup.leakcanary.LeakCanary;
 
 import fr.masciulli.drinks.core.Client;
+import fr.masciulli.drinks.core.DrinksSource;
+import fr.masciulli.drinks.core.LiquorsSource;
 
 public class DrinksApplication extends Application {
-    private Client client;
+    private DrinksSource drinksSource;
+    private LiquorsSource liquorsSource;
 
     @Override
     public void onCreate() {
@@ -17,11 +20,17 @@ public class DrinksApplication extends Application {
             LeakCanary.install(this);
         }
 
-        client = new Client(BuildConfig.SERVER_URL);
+        Client client = new Client(BuildConfig.SERVER_URL);
+        drinksSource = client;
+        liquorsSource = client;
     }
 
-    public Client getClient() {
-        return client;
+    public DrinksSource getDrinksSource() {
+        return drinksSource;
+    }
+
+    public LiquorsSource getLiquorsSource() {
+        return liquorsSource;
     }
 
     public static DrinksApplication get(Context context) {

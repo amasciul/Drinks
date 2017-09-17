@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.core.Client;
+import fr.masciulli.drinks.core.DrinksSource;
 import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
@@ -39,13 +39,13 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
     private View emptyView;
     private View errorView;
 
-    private Client client;
+    private DrinksSource drinksSource;
     private DrinksAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        client = DrinksApplication.get(getActivity()).getClient();
+        drinksSource = DrinksApplication.get(getActivity()).getDrinksSource();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private void loadDrinks() {
         displayLoadingState();
-        client.getDrinks()
+        drinksSource.getDrinks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onDrinksRetrieved, this::onError);
