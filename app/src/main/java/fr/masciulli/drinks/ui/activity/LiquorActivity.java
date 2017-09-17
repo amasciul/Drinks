@@ -16,9 +16,9 @@ import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.core.DrinksSource;
-import fr.masciulli.drinks.core.Liquor;
+import fr.masciulli.drinks.core.drinks.Drink;
+import fr.masciulli.drinks.core.drinks.DrinksSource;
+import fr.masciulli.drinks.core.liquors.Liquor;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;

@@ -16,7 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.core.Drink;
+import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import fr.masciulli.drinks.ui.view.RatioImageView;
 

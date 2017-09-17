@@ -1,5 +1,7 @@
-package fr.masciulli.drinks.core
+package fr.masciulli.drinks.core.net
 
+import fr.masciulli.drinks.core.liquors.Liquor
+import fr.masciulli.drinks.core.drinks.Drink
 import retrofit2.http.GET
 import rx.Observable
 

@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.core
+package fr.masciulli.drinks.core.liquors
 data class Liquor(
         val name: String,
         val imageUrl: String,

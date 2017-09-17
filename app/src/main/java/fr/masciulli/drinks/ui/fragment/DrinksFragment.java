@@ -20,8 +20,8 @@ import android.widget.ProgressBar;
 
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.core.DrinksSource;
+import fr.masciulli.drinks.core.drinks.Drink;
+import fr.masciulli.drinks.core.drinks.DrinksSource;
 import fr.masciulli.drinks.ui.activity.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;

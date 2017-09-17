@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.core.Drink;
-import fr.masciulli.drinks.core.Liquor;
+import fr.masciulli.drinks.core.drinks.Drink;
+import fr.masciulli.drinks.core.liquors.Liquor;
 import fr.masciulli.drinks.ui.adapter.holder.RelatedHeaderViewHolder;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 

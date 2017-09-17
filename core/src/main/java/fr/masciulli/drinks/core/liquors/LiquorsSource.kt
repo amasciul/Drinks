@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.core
+package fr.masciulli.drinks.core.liquors
 
 import rx.Observable
 

@@ -1,5 +1,9 @@
-package fr.masciulli.drinks.core
+package fr.masciulli.drinks.core.net
 
+import fr.masciulli.drinks.core.drinks.Drink
+import fr.masciulli.drinks.core.drinks.DrinksSource
+import fr.masciulli.drinks.core.liquors.Liquor
+import fr.masciulli.drinks.core.liquors.LiquorsSource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

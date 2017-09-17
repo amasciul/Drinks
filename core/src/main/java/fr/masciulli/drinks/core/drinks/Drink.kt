@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.core
+package fr.masciulli.drinks.core.drinks
 
 data class Drink(
         val name: String,

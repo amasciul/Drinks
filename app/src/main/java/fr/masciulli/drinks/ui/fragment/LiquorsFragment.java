@@ -15,8 +15,8 @@ import android.widget.ProgressBar;
 
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.core.Liquor;
-import fr.masciulli.drinks.core.LiquorsSource;
+import fr.masciulli.drinks.core.liquors.Liquor;
+import fr.masciulli.drinks.core.liquors.LiquorsSource;
 import fr.masciulli.drinks.ui.activity.LiquorActivity;
 import fr.masciulli.drinks.ui.adapter.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorsAdapter;

@@ -5,9 +5,9 @@ import android.content.Context;
 
 import com.squareup.leakcanary.LeakCanary;
 
-import fr.masciulli.drinks.core.Client;
-import fr.masciulli.drinks.core.DrinksSource;
-import fr.masciulli.drinks.core.LiquorsSource;
+import fr.masciulli.drinks.core.net.Client;
+import fr.masciulli.drinks.core.drinks.DrinksSource;
+import fr.masciulli.drinks.core.liquors.LiquorsSource;
 
 public class DrinksApplication extends Application {
     private DrinksSource drinksSource;

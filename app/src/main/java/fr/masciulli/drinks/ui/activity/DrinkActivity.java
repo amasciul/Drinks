@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.core.Drink;
+import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 
 public class DrinkActivity extends AppCompatActivity {
