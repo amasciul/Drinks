@@ -11,7 +11,10 @@
     <style name="AppTheme" parent="BaseTheme" />
 
     <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="About" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="windowNoTitle">true</item>
     </style>
 
