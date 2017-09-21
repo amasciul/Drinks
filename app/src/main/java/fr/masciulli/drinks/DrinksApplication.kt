@@ -4,9 +4,11 @@ import android.app.Application
 import android.content.Context
 
 import com.squareup.leakcanary.LeakCanary
+import fr.masciulli.drinks.core.drinks.DrinksRepository
 
 import fr.masciulli.drinks.core.net.Client
 import fr.masciulli.drinks.core.drinks.DrinksSource
+import fr.masciulli.drinks.core.liquors.LiquorsRepository
 import fr.masciulli.drinks.core.liquors.LiquorsSource
 
 class DrinksApplication : Application() {
@@ -21,9 +23,10 @@ class DrinksApplication : Application() {
             LeakCanary.install(this)
         }
 
+        //TODO Daggerify
         val client = Client(BuildConfig.SERVER_URL)
-        drinksSource = client
-        liquorsSource = client
+        drinksSource = DrinksRepository(client)
+        liquorsSource = LiquorsRepository(client)
     }
 
     companion object {
