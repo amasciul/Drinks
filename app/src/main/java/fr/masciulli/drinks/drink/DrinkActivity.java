@@ -1,10 +1,11 @@
-package fr.masciulli.drinks.ui.activity;
+package fr.masciulli.drinks.drink;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -21,13 +22,14 @@ import com.squareup.picasso.Picasso;
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.drinks.Drink;
+import fr.masciulli.drinks.core.drinks.DrinksSource;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-public class DrinkActivity extends AppCompatActivity {
+public class DrinkActivity extends AppCompatActivity implements DrinkContract.View {
     public static final String EXTRA_DRINK_ID = "extra_drink_id";
     private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+
+    private DrinkContract.Presenter presenter;
 
     private ImageView imageView;
     private TextView historyView;
@@ -52,7 +54,9 @@ public class DrinkActivity extends AppCompatActivity {
 
         setupViews();
 
-        loadDrink(getIntent().getStringExtra(EXTRA_DRINK_ID));
+        DrinksSource drinksSource = DrinksApplication.get(this).getDrinksSource();
+        presenter = new DrinkPresenter(drinksSource, this, getIntent().getStringExtra(EXTRA_DRINK_ID));
+        presenter.start();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -64,19 +68,8 @@ public class DrinkActivity extends AppCompatActivity {
         wikipediaButton = findViewById(R.id.wikipedia);
     }
 
-    private void loadDrink(String drinkId) {
-        DrinksApplication.get(this)
-                .getDrinksSource()
-                .getDrink(drinkId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        this::showDrink,
-                        this::showError
-                );
-    }
-
-    private void showDrink(Drink drink) {
+    @Override
+    public void showDrink(@NonNull Drink drink) {
         this.drink = drink;
         setTitle(drink.getName());
         Picasso.with(this)
@@ -95,7 +88,8 @@ public class DrinkActivity extends AppCompatActivity {
         });
     }
 
-    private void showError(Throwable throwable) {
+    @Override
+    public void showError() {
         //TODO show error
         Toast.makeText(this, "Error loading drink", Toast.LENGTH_LONG).show();
     }
@@ -141,5 +135,11 @@ public class DrinkActivity extends AppCompatActivity {
         sendIntent.putExtra(Intent.EXTRA_TEXT, parseIngredients(drink));
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.stop();
+        super.onDestroy();
     }
 }

@@ -19,6 +19,7 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.core.drinks.DrinksSource;
 import fr.masciulli.drinks.core.liquors.Liquor;
+import fr.masciulli.drinks.drink.DrinkActivity;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
