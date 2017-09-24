@@ -14,24 +14,27 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class DrinkActivity extends AppCompatActivity {
-    public static final String EXTRA_DRINK = "extra_drink";
+    public static final String EXTRA_DRINK_ID = "extra_drink_id";
     private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-
-    private Drink drink;
 
     private ImageView imageView;
     private TextView historyView;
     private TextView instructionsView;
     private TextView ingredientsView;
     private Button wikipediaButton;
+    private Drink drink;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -41,26 +44,41 @@ public class DrinkActivity extends AppCompatActivity {
         if (TRANSITIONS_AVAILABLE) {
             postponeEnterTransition();
         }
-
-        drink = getIntent().getParcelableExtra(EXTRA_DRINK);
         setContentView(R.layout.activity_drink);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(drink.getName());
 
+        setupViews();
+
+        loadDrink(getIntent().getStringExtra(EXTRA_DRINK_ID));
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupViews() {
         imageView = findViewById(R.id.image);
         historyView = findViewById(R.id.history);
         instructionsView = findViewById(R.id.instructions);
         ingredientsView = findViewById(R.id.ingredients);
         wikipediaButton = findViewById(R.id.wikipedia);
-
-        setupViews();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setupViews() {
+    private void loadDrink(String drinkId) {
+        DrinksApplication.get(this)
+                .getDrinksSource()
+                .getDrink(drinkId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        this::showDrink,
+                        this::showError
+                );
+    }
+
+    private void showDrink(Drink drink) {
+        this.drink = drink;
+        setTitle(drink.getName());
         Picasso.with(this)
                 .load(drink.getImageUrl())
                 .noFade()
@@ -68,7 +86,7 @@ public class DrinkActivity extends AppCompatActivity {
 
         historyView.setText(drink.getHistory());
         instructionsView.setText(drink.getInstructions());
-        ingredientsView.setText(parseIngredients());
+        ingredientsView.setText(parseIngredients(drink));
         wikipediaButton.setText(getString(R.string.wikipedia, drink.getName()));
         wikipediaButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -77,8 +95,13 @@ public class DrinkActivity extends AppCompatActivity {
         });
     }
 
+    private void showError(Throwable throwable) {
+        //TODO show error
+        Toast.makeText(this, "Error loading drink", Toast.LENGTH_LONG).show();
+    }
+
     @TargetApi(Build.VERSION_CODES.N)
-    private Spanned parseIngredients() {
+    private Spanned parseIngredients(Drink drink) {
         StringBuilder builder = new StringBuilder();
         int i = 0;
         for (String ingredient : drink.getIngredients()) {
@@ -115,7 +138,7 @@ public class DrinkActivity extends AppCompatActivity {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.getName());
-        sendIntent.putExtra(Intent.EXTRA_TEXT, parseIngredients());
+        sendIntent.putExtra(Intent.EXTRA_TEXT, parseIngredients(drink));
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }

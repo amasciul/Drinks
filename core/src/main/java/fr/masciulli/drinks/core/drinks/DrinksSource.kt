@@ -3,6 +3,7 @@ package fr.masciulli.drinks.core.drinks
 import rx.Observable
 
 interface DrinksSource {
-    val drinks: Observable<List<Drink>>
+    fun getDrinks(): Observable<List<Drink>>
+    fun getDrink(id: String): Observable<Drink>
 }
 

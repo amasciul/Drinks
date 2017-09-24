@@ -12,7 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observable
 
 class Client(baseUrl: String) : DrinksSource, LiquorsSource {
-
     private val retrofit: WebApi
 
     init {
@@ -31,7 +30,12 @@ class Client(baseUrl: String) : DrinksSource, LiquorsSource {
                 .create(WebApi::class.java)
     }
 
-    override val drinks: Observable<List<Drink>> = retrofit.drinks
+    override fun getDrinks() = retrofit.drinks
+
+    //TODO use dedicated endpoint
+    override fun getDrink(id: String): Observable<Drink> = getDrinks()
+            .flatMap({ Observable.from(it) })
+            .filter({ it.id == id })
 
     override val liquors: Observable<List<Liquor>> = retrofit.liquors
 }
