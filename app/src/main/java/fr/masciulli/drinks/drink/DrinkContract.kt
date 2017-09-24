@@ -8,7 +8,10 @@ interface DrinkContract {
     interface View : BaseView {
         fun showDrink(drink: Drink)
         fun showError()
+        fun showShareDrink(drink: Drink)
     }
 
-    interface Presenter : BasePresenter
+    interface Presenter : BasePresenter {
+        fun openShareDrink()
+    }
 }

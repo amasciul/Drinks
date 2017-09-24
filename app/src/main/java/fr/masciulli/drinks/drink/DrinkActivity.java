@@ -36,7 +36,6 @@ public class DrinkActivity extends AppCompatActivity implements DrinkContract.Vi
     private TextView instructionsView;
     private TextView ingredientsView;
     private Button wikipediaButton;
-    private Drink drink;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -70,7 +69,6 @@ public class DrinkActivity extends AppCompatActivity implements DrinkContract.Vi
 
     @Override
     public void showDrink(@NonNull Drink drink) {
-        this.drink = drink;
         setTitle(drink.getName());
         Picasso.with(this)
                 .load(drink.getImageUrl())
@@ -122,13 +120,14 @@ public class DrinkActivity extends AppCompatActivity implements DrinkContract.Vi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share) {
-            shareDrink();
+            presenter.openShareDrink();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void shareDrink() {
+    @Override
+    public void showShareDrink(@NonNull Drink drink) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.getName());

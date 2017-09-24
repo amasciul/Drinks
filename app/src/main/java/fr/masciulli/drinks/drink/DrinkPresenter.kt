@@ -12,6 +12,7 @@ class DrinkPresenter(
         private val drinkId: String
 ) : DrinkContract.Presenter {
     private var drinkSubscription: Subscription? = null
+    private var drink: Drink? = null
 
     override fun start() {
         drinkSubscription = drinksSource.getDrink(drinkId)
@@ -24,11 +25,16 @@ class DrinkPresenter(
     }
 
     private fun drinkLoaded(drink: Drink) {
+        this.drink = drink
         view.showDrink(drink)
     }
 
     private fun errorLoadingDrink(throwable: Throwable) {
         view.showError()
+    }
+
+    override fun openShareDrink() {
+        drink?.let { view.showShareDrink(it) }
     }
 
     override fun stop() {
