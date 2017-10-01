@@ -34,8 +34,15 @@ class Client(baseUrl: String) : DrinksSource, LiquorsSource {
 
     //TODO use dedicated endpoint
     override fun getDrink(id: String): Observable<Drink> = getDrinks()
-            .flatMap({ Observable.from(it) })
-            .filter({ it.id == id })
+            .flatMap { Observable.from(it) }
+            .filter { it.id == id }
 
-    override val liquors: Observable<List<Liquor>> = retrofit.liquors
+    override fun getLiquors() = retrofit.liquors
+
+    //TODO use dedicated endpoint
+    override fun getLiquor(id: String): Observable<Liquor> {
+        return getLiquors()
+                .flatMap { Observable.from(it) }
+                .filter { it.id == id }
+    }
 }

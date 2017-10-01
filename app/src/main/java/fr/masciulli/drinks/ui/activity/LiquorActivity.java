@@ -14,10 +14,12 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+import java.util.Locale;
+
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.drinks.Drink;
-import fr.masciulli.drinks.core.drinks.DrinksSource;
 import fr.masciulli.drinks.core.liquors.Liquor;
 import fr.masciulli.drinks.drink.DrinkActivity;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
@@ -27,17 +29,13 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import java.util.List;
-import java.util.Locale;
-
 public class LiquorActivity extends AppCompatActivity {
     private static final String TAG = LiquorActivity.class.getSimpleName();
 
     private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    public static final String EXTRA_LIQUOR = "extra_liquor";
+    public static final String EXTRA_LIQUOR_ID = "extra_liquor_id";
 
     private Liquor liquor;
-    private DrinksSource drinksSource;
     private LiquorRelatedAdapter adapter;
 
     private RecyclerView recyclerView;
@@ -46,19 +44,40 @@ public class LiquorActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_liquor);
 
         if (TRANSITIONS_AVAILABLE) {
             postponeEnterTransition();
         }
 
-        liquor = getIntent().getParcelableExtra(EXTRA_LIQUOR);
-        drinksSource = DrinksApplication.get(this).getDrinksSource();
-
-        setContentView(R.layout.activity_liquor);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String liquorId = getIntent().getStringExtra(EXTRA_LIQUOR_ID);
+        loadLiquor(liquorId);
+    }
+
+    private void loadLiquor(String liquorId) {
+        DrinksApplication.get(this).getLiquorsSource()
+                .getLiquor(liquorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::liquorRetrieved, this::errorRetrievingLiquor);
+    }
+
+    private void errorRetrievingLiquor(Throwable throwable) {
+        //TODO handle
+        Log.e(TAG, "Error retrieving liquor", throwable);
+    }
+
+    private void liquorRetrieved(Liquor liquor) {
+        this.liquor = liquor;
+        setupViews();
+        loadDrinks();
+    }
+
+    private void setupViews() {
         setTitle(liquor.getName());
 
         ImageView imageView = findViewById(R.id.image);
@@ -69,8 +88,6 @@ public class LiquorActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler);
         setupRecyclerView();
-
-        loadDrinks();
     }
 
     private void setupRecyclerView() {
@@ -106,22 +123,22 @@ public class LiquorActivity extends AppCompatActivity {
     }
 
     private void loadDrinks() {
-        drinksSource.getDrinks()
-                .subscribeOn(Schedulers.newThread())
+        DrinksApplication.get(this).getDrinksSource()
+                .getDrinks()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(this::onError)
                 .flatMap(Observable::from)
                 .filter(this::matches)
                 .toList()
-                .subscribe(this::onDrinksRetrieved);
+                .subscribe(this::drinksRetrieved, this::errorRetrievingDrinks);
     }
 
-    private void onError(Throwable throwable) {
-        Log.e(TAG, "Couldn't retrieve liquors", throwable);
-    }
-
-    private void onDrinksRetrieved(List<Drink> drinks) {
+    private void drinksRetrieved(List<Drink> drinks) {
         adapter.setRelatedDrinks(drinks);
+    }
+
+    private void errorRetrievingDrinks(Throwable throwable) {
+        Log.e(TAG, "Couldn't retrieve liquors", throwable);
     }
 
     private boolean matches(Drink drink) {

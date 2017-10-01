@@ -100,8 +100,8 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
 
     @Override
     public void onItemClick(int position, Liquor liquor) {
-        Intent intent = new Intent(getActivity(), LiquorActivity.class);
-        //TODO put liquor id
+        Intent intent = new Intent(getActivity(), LiquorActivity.class)
+                .putExtra(LiquorActivity.EXTRA_LIQUOR_ID, liquor.getId());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TileViewHolder holder = (TileViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
             String transition = getString(R.string.transition_liquor);
