@@ -22,8 +22,6 @@ class DrinksRepository(private val remoteSource: DrinksSource) : DrinksSource {
     }
 
     private fun cacheDrinks(drinks: List<Drink>) {
-        cachedDrinks.clear()
-
         drinks.forEach {
             cachedDrinks[it.id] = it
         }
