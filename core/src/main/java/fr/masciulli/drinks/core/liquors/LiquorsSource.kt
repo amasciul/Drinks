@@ -1,9 +1,9 @@
 package fr.masciulli.drinks.core.liquors
 
-import rx.Observable
+import io.reactivex.Single
 
 interface LiquorsSource {
-    fun getLiquors(): Observable<List<Liquor>>
-    fun getLiquor(id: String): Observable<Liquor>
+    fun getLiquors(): Single<List<Liquor>>
+    fun getLiquor(id: String): Single<Liquor>
 }
 

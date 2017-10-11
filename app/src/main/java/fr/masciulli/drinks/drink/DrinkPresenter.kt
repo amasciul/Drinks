@@ -2,20 +2,20 @@ package fr.masciulli.drinks.drink
 
 import fr.masciulli.drinks.core.drinks.Drink
 import fr.masciulli.drinks.core.drinks.DrinksSource
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class DrinkPresenter(
         private val drinksSource: DrinksSource,
         private val view: DrinkContract.View,
         private val drinkId: String
 ) : DrinkContract.Presenter {
-    private var drinkSubscription: Subscription? = null
+    private var drinkDisposable: Disposable? = null
     private var drink: Drink? = null
 
     override fun start() {
-        drinkSubscription = drinksSource.getDrink(drinkId)
+        drinkDisposable = drinksSource.getDrink(drinkId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -38,6 +38,6 @@ class DrinkPresenter(
     }
 
     override fun stop() {
-        drinkSubscription?.unsubscribe()
+        drinkDisposable?.dispose()
     }
 }

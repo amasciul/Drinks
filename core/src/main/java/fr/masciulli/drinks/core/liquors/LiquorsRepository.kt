@@ -1,26 +1,26 @@
 package fr.masciulli.drinks.core.liquors
 
-import rx.Observable
+import io.reactivex.Single
 
 class LiquorsRepository(private val remoteSource: LiquorsSource) : LiquorsSource {
     private val cachedLiquors: MutableMap<String, Liquor> = LinkedHashMap()
     private var cached = false
 
-    override fun getLiquors(): Observable<List<Liquor>> {
+    override fun getLiquors(): Single<List<Liquor>> {
         if (cached) {
-            return Observable.just(cachedLiquors.values.toList())
+            return Single.just(cachedLiquors.values.toList())
         }
 
-        return remoteSource.getLiquors().doOnNext { cacheLiquors(it) }
+        return remoteSource.getLiquors().doOnSuccess { cacheLiquors(it) }
     }
 
-    override fun getLiquor(id: String): Observable<Liquor> {
+    override fun getLiquor(id: String): Single<Liquor> {
         val cachedLiquor = cachedLiquors[id]
         if (cachedLiquor != null) {
-            return Observable.just(cachedLiquor)
+            return Single.just(cachedLiquor)
         }
 
-        return remoteSource.getLiquor(id).doOnNext { cacheLiquors(listOf(it)) }
+        return remoteSource.getLiquor(id).doOnSuccess { cacheLiquors(listOf(it)) }
     }
 
     private fun cacheLiquors(liquors: List<Liquor>) {

@@ -25,9 +25,9 @@ import fr.masciulli.drinks.drink.DrinkActivity;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 import fr.masciulli.drinks.ui.adapter.LiquorRelatedAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class LiquorActivity extends AppCompatActivity {
     private static final String TAG = LiquorActivity.class.getSimpleName();
@@ -125,11 +125,12 @@ public class LiquorActivity extends AppCompatActivity {
     private void loadDrinks() {
         DrinksApplication.get(this).getDrinksSource()
                 .getDrinks()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(Observable::from)
+                .toObservable()
+                .flatMap(Observable::fromIterable)
                 .filter(this::matches)
                 .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::drinksRetrieved, this::errorRetrievingDrinks);
     }
 
