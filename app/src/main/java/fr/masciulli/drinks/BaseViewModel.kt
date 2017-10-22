@@ -1,6 +1,6 @@
 package fr.masciulli.drinks
 
-interface BasePresenter {
+interface BaseViewModel {
     fun start()
     fun stop()
 }

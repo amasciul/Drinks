@@ -1,18 +1,22 @@
 package fr.masciulli.drinks.drink
 
+import fr.masciulli.drinks.BaseViewModel
 import fr.masciulli.drinks.core.drinks.Drink
 import fr.masciulli.drinks.core.drinks.DrinksSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 
-class DrinkPresenter(
+class DrinkViewModel(
         private val drinksSource: DrinksSource,
-        private val view: DrinkContract.View,
         private val drinkId: String
-) : DrinkContract.Presenter {
+) : BaseViewModel {
     private var drinkDisposable: Disposable? = null
-    private var drink: Drink? = null
+
+    var drink: BehaviorSubject<Drink> = BehaviorSubject.create()
+    var error: BehaviorSubject<Throwable> = BehaviorSubject.create()
+    val shareDrink: BehaviorSubject<Drink> = BehaviorSubject.create()
 
     override fun start() {
         drinkDisposable = drinksSource.getDrink(drinkId)
@@ -25,16 +29,15 @@ class DrinkPresenter(
     }
 
     private fun drinkLoaded(drink: Drink) {
-        this.drink = drink
-        view.showDrink(drink)
+        this.drink.onNext(drink)
     }
 
     private fun errorLoadingDrink(throwable: Throwable) {
-        view.showError()
+        error.onNext(throwable)
     }
 
-    override fun openShareDrink() {
-        drink?.let { view.showShareDrink(it) }
+    fun openShareDrink() {
+        drink.value?.let { shareDrink.onNext(it) }
     }
 
     override fun stop() {

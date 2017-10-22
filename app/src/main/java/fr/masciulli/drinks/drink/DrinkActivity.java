@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -24,18 +25,25 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.core.drinks.DrinksSource;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
+import io.reactivex.disposables.Disposable;
 
-public class DrinkActivity extends AppCompatActivity implements DrinkContract.View {
+public class DrinkActivity extends AppCompatActivity {
+    private static final String TAG = DrinkActivity.class.getSimpleName();
+
     public static final String EXTRA_DRINK_ID = "extra_drink_id";
     private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-
-    private DrinkContract.Presenter presenter;
 
     private ImageView imageView;
     private TextView historyView;
     private TextView instructionsView;
     private TextView ingredientsView;
     private Button wikipediaButton;
+
+    private DrinkViewModel viewModel;
+
+    private Disposable drinkDisposable;
+    private Disposable errorDisposable;
+    private Disposable shareDrinkDisposable;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -54,8 +62,12 @@ public class DrinkActivity extends AppCompatActivity implements DrinkContract.Vi
         setupViews();
 
         DrinksSource drinksSource = DrinksApplication.get(this).getDrinksSource();
-        presenter = new DrinkPresenter(drinksSource, this, getIntent().getStringExtra(EXTRA_DRINK_ID));
-        presenter.start();
+        viewModel = new DrinkViewModel(drinksSource, getIntent().getStringExtra(EXTRA_DRINK_ID));
+        viewModel.start();
+
+        drinkDisposable = viewModel.getDrink().subscribe(this::showDrink);
+        errorDisposable = viewModel.getError().subscribe(this::showError);
+        shareDrinkDisposable = viewModel.getShareDrink().subscribe(this::showShareDrink);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -67,8 +79,7 @@ public class DrinkActivity extends AppCompatActivity implements DrinkContract.Vi
         wikipediaButton = findViewById(R.id.wikipedia);
     }
 
-    @Override
-    public void showDrink(@NonNull Drink drink) {
+    private void showDrink(@NonNull Drink drink) {
         setTitle(drink.getName());
         Picasso.with(this)
                 .load(drink.getImageUrl())
@@ -86,9 +97,9 @@ public class DrinkActivity extends AppCompatActivity implements DrinkContract.Vi
         });
     }
 
-    @Override
-    public void showError() {
+    public void showError(Throwable throwable) {
         //TODO show error
+        Log.d(TAG, "Error loading drink", throwable);
         Toast.makeText(this, "Error loading drink", Toast.LENGTH_LONG).show();
     }
 
@@ -120,14 +131,13 @@ public class DrinkActivity extends AppCompatActivity implements DrinkContract.Vi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share) {
-            presenter.openShareDrink();
+            viewModel.openShareDrink();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void showShareDrink(@NonNull Drink drink) {
+    private void showShareDrink(@NonNull Drink drink) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, drink.getName());
@@ -138,7 +148,12 @@ public class DrinkActivity extends AppCompatActivity implements DrinkContract.Vi
 
     @Override
     protected void onDestroy() {
-        presenter.stop();
+        viewModel.stop();
+
+        drinkDisposable.dispose();
+        errorDisposable.dispose();
+        shareDrinkDisposable.dispose();
+
         super.onDestroy();
     }
 }
