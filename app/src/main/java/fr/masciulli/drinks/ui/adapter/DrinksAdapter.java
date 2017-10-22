@@ -18,7 +18,8 @@ import java.util.Map;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
-import fr.masciulli.drinks.ui.view.RatioImageView;
+import fr.masciulli.drinks.view.ItemClickListener;
+import fr.masciulli.drinks.view.RatioImageView;
 
 public class DrinksAdapter extends RecyclerView.Adapter<TileViewHolder> {
     private static final int TYPE_34 = 0;

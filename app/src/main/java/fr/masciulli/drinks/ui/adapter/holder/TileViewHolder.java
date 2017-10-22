@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import fr.masciulli.drinks.R;
-import fr.masciulli.drinks.ui.view.RatioImageView;
+import fr.masciulli.drinks.view.RatioImageView;
 
 public class TileViewHolder extends RecyclerView.ViewHolder {
     private final RatioImageView imageView;

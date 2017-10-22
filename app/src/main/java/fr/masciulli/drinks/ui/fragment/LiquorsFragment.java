@@ -18,7 +18,7 @@ import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.liquors.Liquor;
 import fr.masciulli.drinks.core.liquors.LiquorsSource;
 import fr.masciulli.drinks.ui.activity.LiquorActivity;
-import fr.masciulli.drinks.ui.adapter.ItemClickListener;
+import fr.masciulli.drinks.view.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorsAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import io.reactivex.android.schedulers.AndroidSchedulers;

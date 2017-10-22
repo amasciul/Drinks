@@ -14,6 +14,7 @@ import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.core.liquors.Liquor;
 import fr.masciulli.drinks.ui.adapter.holder.RelatedHeaderViewHolder;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
+import fr.masciulli.drinks.view.ItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

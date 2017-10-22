@@ -1,4 +1,4 @@
-package fr.masciulli.drinks.ui.view;
+package fr.masciulli.drinks.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

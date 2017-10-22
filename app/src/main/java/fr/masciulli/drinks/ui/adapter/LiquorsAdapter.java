@@ -10,7 +10,8 @@ import com.squareup.picasso.Picasso;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.liquors.Liquor;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
-import fr.masciulli.drinks.ui.view.RatioImageView;
+import fr.masciulli.drinks.view.ItemClickListener;
+import fr.masciulli.drinks.view.RatioImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

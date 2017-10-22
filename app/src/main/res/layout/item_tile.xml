@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground">
 
-    <fr.masciulli.drinks.ui.view.RatioImageView
+    <fr.masciulli.drinks.view.RatioImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
