@@ -14,8 +14,8 @@ class DrinkViewModel(
 ) : BaseViewModel {
     private var drinkDisposable: Disposable? = null
 
-    var drink: BehaviorSubject<Drink> = BehaviorSubject.create()
-    var error: BehaviorSubject<Throwable> = BehaviorSubject.create()
+    val drink: BehaviorSubject<Drink> = BehaviorSubject.create()
+    val error: BehaviorSubject<Throwable> = BehaviorSubject.create()
     val shareDrink: BehaviorSubject<Drink> = BehaviorSubject.create()
 
     override fun start() {
