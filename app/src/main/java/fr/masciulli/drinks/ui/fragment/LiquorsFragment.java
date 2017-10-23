@@ -6,29 +6,27 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import java.util.List;
+
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.liquors.Liquor;
 import fr.masciulli.drinks.core.liquors.LiquorsSource;
 import fr.masciulli.drinks.ui.activity.LiquorActivity;
-import fr.masciulli.drinks.view.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.LiquorsAdapter;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
+import fr.masciulli.drinks.view.ItemClickListener;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import java.util.List;
+import timber.log.Timber;
 
 public class LiquorsFragment extends Fragment implements ItemClickListener<Liquor> {
-    private static final String TAG = LiquorsFragment.class.getSimpleName();
-
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private View errorView;
@@ -71,7 +69,7 @@ public class LiquorsFragment extends Fragment implements ItemClickListener<Liquo
     }
 
     private void onError(Throwable throwable) {
-        Log.e(TAG, "Couldn't retrieve liquors", throwable);
+        Timber.e(throwable, "Couldn't retrieve liquors");
         displayErrorState();
     }
 

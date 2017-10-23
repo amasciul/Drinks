@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -26,10 +25,9 @@ import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.core.drinks.DrinksSource;
 import fr.masciulli.drinks.ui.EnterPostponeTransitionCallback;
 import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 public class DrinkActivity extends AppCompatActivity {
-    private static final String TAG = DrinkActivity.class.getSimpleName();
-
     public static final String EXTRA_DRINK_ID = "extra_drink_id";
     private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
@@ -99,7 +97,7 @@ public class DrinkActivity extends AppCompatActivity {
 
     public void showError(Throwable throwable) {
         //TODO show error
-        Log.d(TAG, "Error loading drink", throwable);
+        Timber.e(throwable, "Error loading drink");
         Toast.makeText(this, "Error loading drink", Toast.LENGTH_LONG).show();
     }
 

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -28,10 +27,9 @@ import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class LiquorActivity extends AppCompatActivity {
-    private static final String TAG = LiquorActivity.class.getSimpleName();
-
     private static final boolean TRANSITIONS_AVAILABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final String EXTRA_LIQUOR_ID = "extra_liquor_id";
 
@@ -68,7 +66,7 @@ public class LiquorActivity extends AppCompatActivity {
 
     private void errorRetrievingLiquor(Throwable throwable) {
         //TODO handle
-        Log.e(TAG, "Error retrieving liquor", throwable);
+        Timber.e(throwable, "Error retrieving liquor");
     }
 
     private void liquorRetrieved(Liquor liquor) {
@@ -139,7 +137,7 @@ public class LiquorActivity extends AppCompatActivity {
     }
 
     private void errorRetrievingDrinks(Throwable throwable) {
-        Log.e(TAG, "Couldn't retrieve liquors", throwable);
+        Timber.e(throwable, "Couldn't retrieve liquors");
     }
 
     private boolean matches(Drink drink) {

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,22 +17,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import java.util.List;
+
 import fr.masciulli.drinks.DrinksApplication;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.core.drinks.Drink;
 import fr.masciulli.drinks.core.drinks.DrinksSource;
 import fr.masciulli.drinks.drink.DrinkActivity;
 import fr.masciulli.drinks.ui.adapter.DrinksAdapter;
-import fr.masciulli.drinks.view.ItemClickListener;
 import fr.masciulli.drinks.ui.adapter.holder.TileViewHolder;
+import fr.masciulli.drinks.view.ItemClickListener;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import java.util.List;
+import timber.log.Timber;
 
 public class DrinksFragment extends Fragment implements SearchView.OnQueryTextListener, ItemClickListener<Drink> {
-    private static final String TAG = DrinksFragment.class.getSimpleName();
-
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private View emptyView;
@@ -86,7 +84,7 @@ public class DrinksFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     private void onError(Throwable throwable) {
-        Log.e(TAG, "Couldn't retrieve drinks", throwable);
+        Timber.e(throwable, "Couldn't retrieve drinks");
         displayErrorState();
     }
 
